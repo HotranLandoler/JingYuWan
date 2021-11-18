@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "0_\u8E51\u4E91"
+  m_EditorClassIdentifier: 
+  Id: 0
+  Icon: {fileID: 0}
+  Title: "\u8E51\u4E91\u9010\u6708"
+  Desc: "\u6C5F\u6E56\u8F7B\u529F\uFF0C\u524D\u51B220\u5C3A"
+  Cost: 0
+  Range: 0
+  Effects: []
