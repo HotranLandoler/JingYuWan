@@ -9,17 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
-  m_Name: 0
+  m_Script: {fileID: 11500000, guid: 3a39b3c4df4656b4b88b7a298ec13ded, type: 3}
+  m_Name: New Buff 1
   m_EditorClassIdentifier: 
-  Id: 0
-  Icon: {fileID: 0}
-  Title: 
-  Desc: 
-  Cost: 0
-  Range: 0
-  Effects:
-  - type: 0
-    value: 0
-  - type: 3
-    value: 0
+  Id: 1
+  Icon: {fileID: 21300000, guid: c481ee938e5b0334fbaeeeec5aa7cc2a, type: 3}
+  Name: "\u7684\u6492\u65E6"
+  Duration: 0
+  MaxLevel: 1

@@ -18,4 +18,10 @@ MonoBehaviour:
   Desc: "\u8FD0\u529F2\u56DE\u5408\uFF0C\u9020\u621015\u70B9\u4F24\u5BB3\uFF0C\u5BF970%\u6C14\u8840\u4EE5\u4E0A\u76EE\u6807\u4F24\u5BB3\u63D0\u9AD880%\u3002\r"
   Cost: 0
   Range: 0
-  Effects: []
+  type: 0
+  conditions: []
+  Effects:
+  - type: 0
+    value1: 0
+    value2: 0
+    conditions: []

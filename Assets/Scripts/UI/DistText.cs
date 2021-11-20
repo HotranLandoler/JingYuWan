@@ -12,14 +12,9 @@ namespace JYW.UI
 
         private Text text;
 
-        private int GetDistance(Transform a, Transform b)
-        {
-            return GameManager.ChiPerUnit * (int)Mathf.Abs(a.position.x - b.position.x);
-        }
-
         private void UpdateText()
         {
-            text.text = GetDistance(gameManager.Player.transform, gameManager.Enemy.transform).ToString();
+            text.text = Game.GetDistance(gameManager.Player.transform, gameManager.Enemy.transform).ToString();
         }
 
         private void Awake()

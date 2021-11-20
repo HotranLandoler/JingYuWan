@@ -8,6 +8,19 @@ public class Character : MonoBehaviour
     public event UnityAction HealthChanged;
     public event UnityAction EnergyChanged;
 
+    private BuffHolder buffHolder;
+    public BuffHolder Buffs
+    {
+        get
+        {
+            if (buffHolder == null)
+                buffHolder = new BuffHolder(this);
+            return buffHolder;
+        }
+    }
+
+    public BuffInfo[] test;
+
     [SerializeField]
     private float maxHealth = 100f;
     public float MaxHealth => maxHealth;
@@ -44,6 +57,23 @@ public class Character : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 浮空
+    /// </summary>
+    public bool IsInAir { get; }
+    /// <summary>
+    /// 未被缴械
+    /// </summary>
+    public bool HasWeapon { get; }
+    /// <summary>
+    /// 未被封内
+    /// </summary>
+    public bool CanUseMagic { get; }
+    /// <summary>
+    /// 未被锁足以上级别控制
+    /// </summary>
+    public bool CanMove { get; }
+
     private void Awake()
     {
         currentHealth = maxHealth;
@@ -53,7 +83,10 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach (var buff in test)
+        {
+            Buffs.AddBuff(buff, 3);
+        }
     }
 
     // Update is called once per frame

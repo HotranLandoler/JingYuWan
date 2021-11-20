@@ -30,11 +30,11 @@ public class BuffInfo : ScriptableObject
     /// </summary>
     public int MaxLevel = 1;
 
-    public void OnAdded() { }
+    public void OnAdded(Character character) { }
 
-    public void OnTick() { }
+    public void OnTick(Character character) { }
 
-    public void OnRemoved() { }
+    public void OnRemoved(Character character) { }
 
     public void OnBeHurt(DamageInfo info) { }
 }

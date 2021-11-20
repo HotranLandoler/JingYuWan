@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   Icon: {fileID: 0}
-  Name: 
+  Name: "\u7A7F\u5FC3"
   Duration: 0
   MaxLevel: 1

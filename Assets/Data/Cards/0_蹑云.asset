@@ -18,4 +18,14 @@ MonoBehaviour:
   Desc: "\u6C5F\u6E56\u8F7B\u529F\uFF0C\u524D\u51B220\u5C3A"
   Cost: 0
   Range: 0
-  Effects: []
+  type: 0
+  conditions: []
+  Effects:
+  - type: 0
+    value: 0
+    conditions:
+    - type: 0
+      val: 1.02
+  - type: 0
+    value: 0
+    conditions: []

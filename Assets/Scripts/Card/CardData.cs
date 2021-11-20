@@ -18,5 +18,28 @@ public class CardData : ScriptableObject
 
     public int Range;
 
+    public Type type;
+
+    public Condition[] conditions;
+
     public Effect[] Effects;
+
+    public void Play(Character attacker, Character defender)
+    { }
+
+    public enum Type
+    {
+        /// <summary>
+        /// 外功
+        /// </summary>
+        Phys,
+        /// <summary>
+        /// 内功
+        /// </summary>
+        Magic,
+        /// <summary>
+        /// 轻功
+        /// </summary>
+        Move,
+    }
 }
