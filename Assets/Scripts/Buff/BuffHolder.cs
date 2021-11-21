@@ -18,13 +18,24 @@ public class BuffHolder
         this.character = character;
     }
 
-    public bool AddBuff(BuffInfo buffInfo, int duration, int level = 1)
+    public bool AddBuff(BuffInfo buffInfo, int level = 1)
     {
-        Buff buff = new Buff(buffInfo, duration);
-        _buffs.AddLast(buff);
-        BuffAdded?.Invoke(buff);
-        buff.Data.OnAdded(character);
-        Debug.Log($"Add {buffInfo.Name}");
+        if (!CanAddBuff(buffInfo)) return false;
+        var find = FindBuff(buffInfo);
+        if (find == null)
+        {
+            //Ìí¼ÓÐÂBuff
+            Buff buff = new Buff(buffInfo, buffInfo.Duration, level);
+            _buffs.AddLast(buff);
+            BuffAdded?.Invoke(buff);
+            buff.Data.OnAdded(character);
+        }
+        else
+        {
+            find.AddLevel(level);
+            CheckBuffConverter(find);
+        }
+        //Debug.Log($"Add {buffInfo.Name}");
         return true;
     }
 
@@ -40,6 +51,34 @@ public class BuffHolder
                 RemoveBuffNode(node);
             }
             node = nextNode;
+        }
+    }
+
+    private bool CanAddBuff(BuffInfo data)
+    {
+        foreach (var converter in data.converters)
+        {
+            if (HasBuff(converter.convertTarget))
+                return false;
+        }
+        return true;
+    }
+
+    private void CheckBuffConverter(Buff buff)
+    {
+        bool removeBuff = false;
+        foreach (var converter in buff.Data.converters)
+        {
+            if (buff.Level >= converter.convertLevel)
+            {
+                AddBuff(converter.convertTarget);
+                removeBuff = true;
+            }
+        }
+        if (removeBuff)
+        {
+            _buffs.Remove(buff);
+            OnBuffRemoved(buff);
         }
     }
 
@@ -68,10 +107,23 @@ public class BuffHolder
         return FindBuff(buffId) != null;
     }
 
+    public bool HasBuff(BuffInfo info) =>
+        FindBuff(info) != null;
+
     public bool RemoveBuff(int id)
     {
         OnBuffRemoved(FindBuff(id));
         return _buffs.Remove(FindBuff(id));
+    }
+
+    private Buff FindBuff(BuffInfo info)
+    {
+        foreach (var buff in _buffs)
+        {
+            if (buff.Data == info)
+                return buff;
+        }
+        return null;
     }
 
     private Buff FindBuff(int id)

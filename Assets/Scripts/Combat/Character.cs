@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using DG.Tweening;
+using System.Text;
 
 public class Character : MonoBehaviour
 {
@@ -18,8 +21,6 @@ public class Character : MonoBehaviour
             return buffHolder;
         }
     }
-
-    public BuffInfo[] test;
 
     [SerializeField]
     private float maxHealth = 100f;
@@ -57,22 +58,31 @@ public class Character : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private Canvas canvas;
+
+    [SerializeField]
+    private Text damageTextPrefab;
+
+    [SerializeField]
+    private RectTransform damageTextStartPos;
+
     /// <summary>
     /// 浮空
     /// </summary>
-    public bool IsInAir { get; }
+    public bool IsInAir { get; } = false;
     /// <summary>
     /// 未被缴械
     /// </summary>
-    public bool HasWeapon { get; }
+    public bool HasWeapon { get; } = true;
     /// <summary>
     /// 未被封内
     /// </summary>
-    public bool CanUseMagic { get; }
+    public bool CanUseMagic { get; } = true;
     /// <summary>
     /// 未被锁足以上级别控制
     /// </summary>
-    public bool CanMove { get; }
+    public bool CanMove { get; } = true;
 
     private void Awake()
     {
@@ -80,20 +90,27 @@ public class Character : MonoBehaviour
         currentEnergy = maxEnergy;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void TakeDamage(DamageInfo damage)
     {
-        foreach (var buff in test)
-        {
-            Buffs.AddBuff(buff, 3);
-        }
+        CurrentHealth -= damage.Damage;
+        StringBuilder sb = new StringBuilder();
+        if (damage.IsCritical) sb.Append("会心 ");
+        sb.Append(damage.Damage.ToString());
+        var text = Instantiate(damageTextPrefab, canvas.transform);
+        text.rectTransform.anchoredPosition = damageTextStartPos.anchoredPosition;
+        text.text = sb.ToString();
+        text.rectTransform.DOAnchorPosY(damageTextStartPos.anchoredPosition.y + 100, 1f);
+        text.DOFade(0f, 1f);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Start is called before the first frame update
+    //void Start()
+    //{
+    //    foreach (var buff in test)
+    //    {
+    //        Buffs.AddBuff(buff, 3);
+    //    }
+    //}
 }
 
 /// <summary>

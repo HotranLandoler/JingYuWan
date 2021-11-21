@@ -9,6 +9,11 @@ public static class Game
     /// </summary>
     public static readonly int ChiPerUnit = 3;
 
+    /// <summary>
+    ///  ÷≈∆»›¡ø
+    /// </summary>
+    public const int HandCardsCapacity = 8;
+
     public static int GetDistance(Transform a, Transform b)
     {
         return ChiPerUnit * (int)Mathf.Abs(a.position.x - b.position.x);

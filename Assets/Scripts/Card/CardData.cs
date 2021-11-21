@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
-public class CardData : ScriptableObject
+public partial class CardData : ScriptableObject
 {
     public int Id;
 
@@ -22,10 +22,10 @@ public class CardData : ScriptableObject
 
     public Condition[] conditions;
 
-    public Effect[] Effects;
+    [SerializeReference]
+    public List<Effect> Effects;
 
-    public void Play(Character attacker, Character defender)
-    { }
+    public AudioClip performSound;
 
     public enum Type
     {

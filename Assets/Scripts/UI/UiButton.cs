@@ -21,10 +21,12 @@ namespace JYW.UI
         {
             animator.ResetTrigger("FadeOut");
             animator.SetTrigger("FadeIn");
+            button.enabled = true;
         }
 
         public void FadeOut()
         {
+            button.enabled = false;
             animator.ResetTrigger("FadeIn");
             animator.SetTrigger("FadeOut");
         }

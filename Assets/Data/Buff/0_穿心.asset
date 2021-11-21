@@ -10,10 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a39b3c4df4656b4b88b7a298ec13ded, type: 3}
-  m_Name: New Buff
+  m_Name: "0_\u7A7F\u5FC3"
   m_EditorClassIdentifier: 
   Id: 0
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: c18697192fb12984f93fe306c9b5eb9d, type: 3}
   Name: "\u7A7F\u5FC3"
-  Duration: 0
-  MaxLevel: 1
+  Duration: 4
+  MaxLevel: 3
+  controlType: 0
+  buffEffects:
+  - type: 0
+    val1: 2
+  converters: []

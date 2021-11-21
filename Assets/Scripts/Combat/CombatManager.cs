@@ -25,10 +25,10 @@ public class CombatManager
     {
         foreach (var effect in card.Effects)
         {
-            if (effect.conditions.Length > 0)
+            if (effect.Conditions.Length > 0)
             {
                 bool canPerform = true;
-                foreach (var condition in effect.conditions)
+                foreach (var condition in effect.Conditions)
                 {
                     if (!condition.IsSatisfied(attacker, defender))
                     {
@@ -38,7 +38,7 @@ public class CombatManager
                 }
                 if (!canPerform) continue;
             }
-            
+
             effect.Perform(attacker, defender);
         }
     }

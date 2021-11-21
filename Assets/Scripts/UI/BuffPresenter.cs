@@ -36,8 +36,11 @@ namespace JYW.UI
         private void RemoveBuffUi(Buff buff)
         {
             //Debug.Log(buffUis.Count);
-            Destroy(buffUis[buff].gameObject);
+
+            buffUis[buff].Remove();
+            //Destroy(buffUis[buff].gameObject);
             buffUis.Remove(buff);
+            
             //foreach (var item in buffUis)
             //{
             //    Debug.Log(item.Value.ToString());

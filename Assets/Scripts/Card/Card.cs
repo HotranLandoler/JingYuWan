@@ -26,7 +26,13 @@ public class Card : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private Text descText;
 
-    public bool Clickable { get; set; } = false;
+    [SerializeField]
+    private Text costText;
+
+    [SerializeField]
+    private Text rangeText;
+
+    //public bool Clickable { get; set; } = false;
 
     private Tweener moveTween;
 
@@ -41,27 +47,32 @@ public class Card : MonoBehaviour, IPointerDownHandler
         iconImage.sprite = data.Icon;
         titleText.text = data.Title;
         descText.text = data.Desc;
-        Clickable = false;
+        costText.text = data.Cost.ToString();
+        rangeText.text = data.Range.ToString();
+        //Clickable = false;
         if (!rectTransform) rectTransform = GetComponent<RectTransform>();
         rectTransform.localScale = Vector3.one;
     }
 
-    public void MoveTo(Vector2 pos, float duration)
+    public Tweener MoveTo(Vector2 pos, float duration)
     {
         moveTween?.Kill();
         moveTween = rectTransform.DOAnchorPos(pos, duration).SetEase(Ease.OutCubic);
+        return moveTween;
     }
 
-    public void ScaleTo(float endScale, float duration)
+    public Tweener ScaleTo(float endScale, float duration)
     {
         scaleTween?.Kill();
         scaleTween = rectTransform.DOScale(endScale, duration);
+        return scaleTween;
     }
 
-    public void RotateTo(Vector3 endRotate, float duration)
+    public Tweener RotateTo(Vector3 endRotate, float duration)
     {
         rotateTween?.Kill();
         rotateTween = rectTransform.DORotate(endRotate, duration);
+        return rotateTween;
     }
 
     //private void Start()
@@ -83,7 +94,7 @@ public class Card : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!Clickable) return;
+        //if (!Clickable) return;
         _cardsManager.OnCardTouched(this);
     }
 }

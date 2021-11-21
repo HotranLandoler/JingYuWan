@@ -14,24 +14,36 @@ public struct DamageInfo
     /// </summary>
     public Character Defender;
 
-    public EffectType Tag;
+    public float Damage { get; }
 
-    public DamageType Type;
+    public bool IsCritical { get; }
 
-    /// <summary>
-    /// 一般来自子弹飞行方向或aoe中心指向角色位置
-    /// </summary>
-    public Direction DamageDir;
+    //public EffectType Tag;
 
-    /// <summary>
-    /// 最终会心几率，经历所有流程后决定是否会心
-    /// </summary>
-    public float CriticalRate;
+    //public DamageType Type;
 
-    /// <summary>
-    /// 最终命中率
-    /// </summary>
-    public float HitRate;
+    ///// <summary>
+    ///// 一般来自子弹飞行方向或aoe中心指向角色位置
+    ///// </summary>
+    //public Direction DamageDir;
+
+    ///// <summary>
+    ///// 最终会心几率，经历所有流程后决定是否会心
+    ///// </summary>
+    //public float CriticalRate;
+
+    ///// <summary>
+    ///// 最终命中率
+    ///// </summary>
+    //public float HitRate;
+
+    public DamageInfo(float damage, bool critic)
+    {
+        Attacker = null;
+        Defender = null;
+        Damage = damage;
+        IsCritical = critic;
+    }
 
     /// <summary>
     /// 伤害类型

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "3_\u593A\u9B44"
+  m_EditorClassIdentifier: 
+  Id: 3
+  Icon: {fileID: 21300000, guid: 853869cfefcf06544b95877f5da48ee9, type: 3}
+  Title: "\u593A\u9B44\u7BAD"
+  Desc: "\u8FD0\u529F2\u56DE\u5408\uFF0C\u9020\u621015\u70B9\u4F24\u5BB3\uFF0C\u5BF970%\u6C14\u8840\u4EE5\u4E0A\u76EE\u6807\u4F24\u5BB3\u63D0\u9AD880%\u3002"
+  Cost: 25
+  Range: 25
+  type: 0
+  conditions: []
+  Effects:
+  - rid: 4098022160463298579
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022160463298579
+      type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToSelf: {fileID: 11400000, guid: b0bd2b0bba21d57449f51af971357fd0, type: 2}

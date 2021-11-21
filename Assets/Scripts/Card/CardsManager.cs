@@ -7,11 +7,6 @@ using UnityEngine.Pool;
 
 public class CardsManager : MonoBehaviour
 {
-    /// <summary>
-    /// 手牌容量
-    /// </summary>
-    private const int handCardsCapacity = 8;
-
     [SerializeField]
     private CardData[] cardDataSet;
 
@@ -55,7 +50,9 @@ public class CardsManager : MonoBehaviour
     [SerializeField]
     private RectTransform cardDiscardPos;
 
-    public List<Card> Cards { get; } = new List<Card>(handCardsCapacity);
+    public List<Card> Cards { get; } = new List<Card>(Game.HandCardsCapacity);
+
+    public List<CardData> AiCards { get; } = new List<CardData>(Game.HandCardsCapacity);
 
     private Card _selectedCard;
     /// <summary>
@@ -70,6 +67,8 @@ public class CardsManager : MonoBehaviour
         }
     }
 
+    public bool HandCardsInteractable { get; set; } = false;
+
     public UnityEvent CardSelected;
     public UnityEvent CardDeselected;
 
@@ -82,8 +81,13 @@ public class CardsManager : MonoBehaviour
             actionOnGet: OnCardTakenFromPool, 
             actionOnRelease: OnCardReturnedToPool, 
             actionOnDestroy: OnDestroyPooledCard,
-            defaultCapacity: handCardsCapacity, 
+            defaultCapacity: Game.HandCardsCapacity, 
             maxSize: 20);
+    }
+
+    private void OnDestroy()
+    {
+        cardPool.Clear();
     }
 
     public IEnumerator ShowCards()
@@ -107,6 +111,7 @@ public class CardsManager : MonoBehaviour
 
     public IEnumerator ClearCards()
     {
+        if (Cards.Count == 0) yield break;
         foreach (var card in Cards)
         {
             card.RotateTo(new Vector3(0f, 0f, -90f), cardPlaceTime);
@@ -120,6 +125,27 @@ public class CardsManager : MonoBehaviour
         Cards.Clear();
     }
 
+    public IEnumerator DropSelectedCard()
+    {
+        HandCardsInteractable = false;
+        //SelectedCard.Clickable = false;
+        var time = cardPlaceTime;
+        SelectedCard.ScaleTo(1f, time);
+        SelectedCard.RotateTo(new Vector3(0f, 0f, 90f), time);
+        SelectedCard.MoveTo(cardDiscardPos.anchoredPosition, time);
+        yield return new WaitForSeconds(time);
+        cardPool.Release(SelectedCard);
+        Cards.Remove(SelectedCard);
+        SelectedCard = null;
+        //CardDeselected?.Invoke();
+        yield return PlaceCards();
+    }
+
+    public void DropAiCard(CardData card)
+    {
+        AiCards.Remove(card);
+    }
+
     private IEnumerator PlaceCards()
     {
         Vector2[] pos = CalcuCardPositions();
@@ -130,11 +156,24 @@ public class CardsManager : MonoBehaviour
             Cards[i].AssignedPos = pos[i];
             yield return new WaitForSeconds(cardPlaceInterval);
         }
-        foreach (var c in Cards)
+        HandCardsInteractable = true;
+        //foreach (var c in Cards)
+        //{
+        //    c.Clickable = true;
+        //}
+    }
+
+    public void GenerateAiCards()
+    {
+        AiCards.Clear();
+        for (int i = 0; i < handCardsNum; i++)
         {
-            c.Clickable = true;
+            //从牌库随机选取
+            CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
+            AiCards.Add(data);
         }
     }
+
 
     //public void OnCardClicked(Card card)
     //{
@@ -152,6 +191,7 @@ public class CardsManager : MonoBehaviour
 
     public void OnCardTouched(Card card)
     {
+        if (!HandCardsInteractable) return;
         if (SelectedCard == card)
         {
             DeselectCard();
@@ -159,17 +199,12 @@ public class CardsManager : MonoBehaviour
         }
         else SelectCard(card);
     }
-
-    public void DropSelectedCard()
-    {
-        SelectedCard = null;
-        CardDeselected?.Invoke();
-    }
+    
 
     //计算手牌位置
     private Vector2[] CalcuCardPositions()
     {
-        Debug.Log(Screen.width);
+        //Debug.Log(Screen.width);
         if (Cards.Count == 0)
             return null;
         if (Cards.Count == 1)
