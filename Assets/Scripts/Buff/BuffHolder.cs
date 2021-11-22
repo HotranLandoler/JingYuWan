@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 public class BuffHolder
 {
@@ -21,6 +22,11 @@ public class BuffHolder
     public bool AddBuff(BuffInfo buffInfo, int level = 1)
     {
         if (!CanAddBuff(buffInfo)) return false;
+        if (buffInfo.controlType != ControlType.None)
+        {
+            //移除低级控制
+            RemoveBuff(buff => buff.Data.controlType != ControlType.None);
+        }
         var find = FindBuff(buffInfo);
         if (find == null)
         {
@@ -56,6 +62,9 @@ public class BuffHolder
 
     private bool CanAddBuff(BuffInfo data)
     {
+        //低级控制无法覆盖
+        if (data.controlType != ControlType.None && data.controlType < character.ControlledType)
+            return false;
         foreach (var converter in data.converters)
         {
             if (HasBuff(converter.convertTarget))
@@ -110,11 +119,26 @@ public class BuffHolder
     public bool HasBuff(BuffInfo info) =>
         FindBuff(info) != null;
 
-    public bool RemoveBuff(int id)
+    //public bool RemoveBuff(int id)
+    //{
+    //    OnBuffRemoved(FindBuff(id));
+    //    return _buffs.Remove(FindBuff(id));
+    //}
+    public bool RemoveBuff(Predicate<Buff> match)
     {
-        OnBuffRemoved(FindBuff(id));
-        return _buffs.Remove(FindBuff(id));
+        var node = _buffs.First;
+        while (node != null)
+        {
+            var nextNode = node.Next;
+            if (match(node.Value))
+            {
+                RemoveBuffNode(node);
+            }
+            node = nextNode;
+        }
+        return true;
     }
+
 
     private Buff FindBuff(BuffInfo info)
     {

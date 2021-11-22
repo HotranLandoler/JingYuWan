@@ -50,9 +50,11 @@ public class CardsManager : MonoBehaviour
     [SerializeField]
     private RectTransform cardDiscardPos;
 
-    public List<Card> Cards { get; } = new List<Card>(Game.HandCardsCapacity);
+    private List<Card> cards = new List<Card>(Game.HandCardsCapacity);
 
-    public List<CardData> AiCards { get; } = new List<CardData>(Game.HandCardsCapacity);
+    private List<CardData> aiCards = new List<CardData>(Game.HandCardsCapacity);
+
+    private AIEngine aiEngine;
 
     private Card _selectedCard;
     /// <summary>
@@ -76,6 +78,7 @@ public class CardsManager : MonoBehaviour
 
     private void Awake()
     {
+        aiEngine = new AIEngine();
         cardPool = new ObjectPool<Card>(
             createFunc: CreatePooledCard, 
             actionOnGet: OnCardTakenFromPool, 
@@ -104,25 +107,25 @@ public class CardsManager : MonoBehaviour
             //设置位置等
             card.rectTransform.rotation = Quaternion.Euler(0f, 0f, -90f);
             card.rectTransform.anchoredPosition = cardStartPos.anchoredPosition;
-            Cards.Add(card);
+            cards.Add(card);
         }
         yield return PlaceCards();
     }
 
     public IEnumerator ClearCards()
     {
-        if (Cards.Count == 0) yield break;
-        foreach (var card in Cards)
+        if (cards.Count == 0) yield break;
+        foreach (var card in cards)
         {
             card.RotateTo(new Vector3(0f, 0f, -90f), cardPlaceTime);
             card.MoveTo(cardStartPos.anchoredPosition, cardPlaceTime);
             yield return new WaitForSeconds(cardPlaceInterval);
         }
-        foreach (var card in Cards)
+        foreach (var card in cards)
         {
             cardPool.Release(card);
         }
-        Cards.Clear();
+        cards.Clear();
     }
 
     public IEnumerator DropSelectedCard()
@@ -135,7 +138,7 @@ public class CardsManager : MonoBehaviour
         SelectedCard.MoveTo(cardDiscardPos.anchoredPosition, time);
         yield return new WaitForSeconds(time);
         cardPool.Release(SelectedCard);
-        Cards.Remove(SelectedCard);
+        cards.Remove(SelectedCard);
         SelectedCard = null;
         //CardDeselected?.Invoke();
         yield return PlaceCards();
@@ -143,17 +146,17 @@ public class CardsManager : MonoBehaviour
 
     public void DropAiCard(CardData card)
     {
-        AiCards.Remove(card);
+        aiCards.Remove(card);
     }
 
     private IEnumerator PlaceCards()
     {
         Vector2[] pos = CalcuCardPositions();
-        for (int i = 0; i < Cards.Count; i++)
+        for (int i = 0; i < cards.Count; i++)
         {
-            Cards[i].RotateTo(Vector3.zero, cardPlaceTime);
-            Cards[i].MoveTo(pos[i], cardPlaceTime);
-            Cards[i].AssignedPos = pos[i];
+            cards[i].RotateTo(Vector3.zero, cardPlaceTime);
+            cards[i].MoveTo(pos[i], cardPlaceTime);
+            cards[i].AssignedPos = pos[i];
             yield return new WaitForSeconds(cardPlaceInterval);
         }
         HandCardsInteractable = true;
@@ -165,16 +168,17 @@ public class CardsManager : MonoBehaviour
 
     public void GenerateAiCards()
     {
-        AiCards.Clear();
+        aiCards.Clear();
         for (int i = 0; i < handCardsNum; i++)
         {
             //从牌库随机选取
             CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
-            AiCards.Add(data);
+            aiCards.Add(data);
         }
     }
 
-
+    public CardData GetAiDecision(Character agent, Character target)
+        => aiEngine.Decide(aiCards, agent, target);
     //public void OnCardClicked(Card card)
     //{
     //    if (SelectedCard == card)
@@ -205,19 +209,19 @@ public class CardsManager : MonoBehaviour
     private Vector2[] CalcuCardPositions()
     {
         //Debug.Log(Screen.width);
-        if (Cards.Count == 0)
+        if (cards.Count == 0)
             return null;
-        if (Cards.Count == 1)
+        if (cards.Count == 1)
             return new Vector2[] { new Vector2(Screen.width / 2f, 0f) };
-        Vector2[] pos = new Vector2[Cards.Count];
+        Vector2[] pos = new Vector2[cards.Count];
         //所有手牌共占宽度
-        float rangeWidth = Cards.Count * cardWidth - (Cards.Count - 1) * cardSpacing;
+        float rangeWidth = cards.Count * cardWidth - (cards.Count - 1) * cardSpacing;
         //左端点位置
         float startX = (Screen.width - rangeWidth) / 2f;
         //首张卡牌位置
         pos[0] = new Vector2(startX + cardWidth / 2f, 0f);
         //后续卡牌位置考虑间距
-        for (int i = 1; i < Cards.Count; i++)
+        for (int i = 1; i < cards.Count; i++)
         {
             pos[i] = new Vector2(pos[i - 1].x + cardWidth - cardSpacing, 0f);
         }

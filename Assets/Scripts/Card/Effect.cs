@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Effect
 {
-    public abstract void Perform(Character attacker, Character target);
+    public abstract void Perform(Character attacker, Character target, CardData data);
     //public enum Type
     //{
     //    Damage,
@@ -21,11 +21,19 @@ public abstract class Effect
     //public float value1;
     //public float value2;
 
+    //[ContextMenuItem("AddCondition/Buff", nameof(EffectAddBuffCondition))]
     [SerializeField]
-    private Condition[] conditions;
-    public Condition[] Conditions => conditions;
+    [SerializeReference]
+    [SerializeReferenceButton]
+    private List<Condition> conditions;
+    public ICollection<Condition> Conditions => conditions;
+ 
+    private void EffectAddBuffCondition() =>
+        conditions.Add(new ConditionTypes.BuffCondition());
 
-
+    [ContextMenu("AddCondition/Control")]
+    private void AddControlCondition() =>
+        conditions.Add(new ConditionTypes.ControlCondition());
     //public void Perform(Character attacker, Character target)
     //{
     //    if (type == Type.Damage)

@@ -12,9 +12,11 @@ namespace JYW.UI
 
         private Text text;
 
+        private int distance;
+
         private void UpdateText()
         {
-            text.text = Game.GetDistance(gameManager.Player.transform, gameManager.Enemy.transform).ToString();
+            text.text = distance.ToString();
         }
 
         private void Awake()
@@ -25,6 +27,16 @@ namespace JYW.UI
         private void Start()
         {
             UpdateText();
+        }
+
+        private void Update()
+        {
+            var dist = Game.GetDistance(gameManager.Player.transform, gameManager.Enemy.transform);
+            if (distance != dist)
+            {
+                distance = dist;
+                UpdateText();
+            }
         }
     }
 }

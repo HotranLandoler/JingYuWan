@@ -4,15 +4,40 @@ using UnityEngine;
 
 public class CombatManager
 {
-    public bool CanPlayCard(CardData card, Character attacker, Character defender)
+    public bool IsTargetInRange(CardData card, Character attacker, Character defender)
     {
-        if (card.Cost > attacker.CurrentEnergy)
+        if (card.Range == 0) return true;
+        if (card.type != CardData.Type.Move &&
+            Game.GetDistance(attacker.transform, defender.transform) > card.Range)
         {
-            //message = NoEnoughEnergy;
             return false;
         }
-        if (card.type == CardData.Type.Magic && !attacker.CanUseMagic) return false;
-        if (card.type == CardData.Type.Move && !attacker.CanMove) return false;
+        return true;
+    }
+
+    public bool CanPlayCard(CardData card, Character attacker, Character defender, out string message)
+    {
+        message = null;
+        if (card.Cost > attacker.CurrentEnergy)
+        {
+            message = Game.NoEnoughEnergy;
+            return false;
+        }
+        if (!IsTargetInRange(card, attacker, defender))
+        {
+            message = Game.OutOfRange;
+            return false;
+        }
+        if (card.type == CardData.Type.Magic && !attacker.CanUseMagic)
+        {
+            message = Game.CantUseMagic;
+            return false;
+        }
+        if (card.type == CardData.Type.Move && !attacker.CanMove)
+        {
+            message = Game.CantMove;
+            return false;
+        }
         foreach (var condition in card.conditions)
         {
             if (!condition.IsSatisfied(attacker, defender))
@@ -23,9 +48,15 @@ public class CombatManager
 
     public void PlayCard(CardData card, Character attacker, Character defender)
     {
-        foreach (var effect in card.Effects)
+        attacker.CurrentEnergy -= card.Cost;
+        PerformEffects(card.Effects, attacker, defender, card);
+    }
+
+    public void PerformEffects(IEnumerable<Effect> effects, Character attacker, Character defender, CardData card = null)
+    {
+        foreach (var effect in effects)
         {
-            if (effect.Conditions.Length > 0)
+            if (effect.Conditions.Count > 0)
             {
                 bool canPerform = true;
                 foreach (var condition in effect.Conditions)
@@ -39,7 +70,22 @@ public class CombatManager
                 if (!canPerform) continue;
             }
 
-            effect.Perform(attacker, defender);
+            effect.Perform(attacker, defender, card);
         }
+    }
+
+    public static DamageInfo CalcuDamage(float baseDamage, Character attacker, Character target)
+    {
+        if (attacker == null)
+            return new DamageInfo(baseDamage, false);
+        bool critic = false;
+        float damage = baseDamage;
+        float rand = Random.Range(0f, 1f);
+        if (rand <= attacker.Critic)
+        {
+            critic = true;
+            damage = baseDamage * attacker.CriticDamage;
+        }
+        return new DamageInfo(damage, critic);
     }
 }

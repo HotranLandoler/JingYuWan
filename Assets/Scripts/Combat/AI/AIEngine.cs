@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIEngine
 {
-    public CardData Decide(List<CardData> cards, Character agent, Character target)
+    public CardData Decide(IList<CardData> cards, Character agent, Character target)
     {
         return cards[0];
     }

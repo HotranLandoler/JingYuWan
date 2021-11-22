@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UiButton_MoveRight
+  m_Controller: {fileID: 9100000, guid: e77a4f645e47b704e9bdbeb34e71e87f, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 17c3e85faddf0b0499451278a4984f33, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 43c1b1e08f77c7f428f0c909b5d4425a, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f10431e892eeb854f9c8bfffbf24338a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2729ea8257fad5d47b75b254f1ca9114, type: 2}

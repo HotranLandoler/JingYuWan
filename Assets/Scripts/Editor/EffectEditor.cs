@@ -10,10 +10,13 @@ using UnityEditor;
 //    {
 //        public override void OnInspectorGUI()
 //        {
-//            GUILayout.Label(target.GetType().Name, EditorStyles.boldLabel);
-//            DrawDefaultInspector();
+            
+//            //DrawDefaultInspector();
+//            //GUILayout.Button("button");
 //            //Effect effect = target as Effect;
 //            //GUILayout.Button("button");
 //        }
+
+//        override gui
 //    }
 //}

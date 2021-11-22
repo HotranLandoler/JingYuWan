@@ -24,6 +24,8 @@ namespace JYW.UI
         [SerializeField]
         private Text energyText;
 
+        private readonly string format = "0.0";
+
         private void OnEnable()
         {
             binding.HealthChanged += UpdateHealth;
@@ -38,15 +40,15 @@ namespace JYW.UI
 
         private void UpdateHealth()
         {
-            Debug.Log(binding.CurrentHealth);
+            //Debug.Log(binding.CurrentHealth);
             healthImage.fillAmount = binding.CurrentHealth / binding.MaxHealth;
-            healthText.text = binding.CurrentHealth.ToString();
+            healthText.text = binding.CurrentHealth.ToString(format);
         }
 
         private void UpdateEnergy()
         {
             energyImage.fillAmount = binding.CurrentEnergy / binding.MaxEnergy;
-            energyText.text = binding.CurrentEnergy.ToString();
+            energyText.text = binding.CurrentEnergy.ToString(format);
         }
     }
 }

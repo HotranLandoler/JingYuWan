@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "10_\u5B54\u96C0\u7FCE"
+  m_EditorClassIdentifier: 
+  Id: 10
+  Icon: {fileID: 21300000, guid: 857f9befa70e7ef45ade68719f141466, type: 3}
+  Title: "\u5B54\u96C0\u7FCE"
+  Desc: "\u9020\u62104\u70B9\u4F24\u5BB3\uFF0C\u4F7F\u76EE\u6807\u51CF\u901F50%\uFF0C\u6301\u7EED3\u56DE\u5408\u3002\r"
+  Cost: 20
+  Range: 25
+  type: 0
+  conditions: []
+  Effects:
+  - rid: 4098022185927442435
+  - rid: 4098022185927442434
+  performSound: {fileID: 8300000, guid: a9106d1d6239f864f93f7e77ffbce610, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022185927442434
+      type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToTarget: {fileID: 11400000, guid: 9e4a03f1532cec244bab3aae0a8657de, type: 2}
+    - rid: 4098022185927442435
+      type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        damage: 4

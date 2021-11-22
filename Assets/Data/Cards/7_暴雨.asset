@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "7_\u66B4\u96E8"
+  m_EditorClassIdentifier: 
+  Id: 7
+  Icon: {fileID: 21300000, guid: f987517cab913ba44bfae28b2adf371a, type: 3}
+  Title: "\u66B4\u96E8\u68A8\u82B1\u9488"
+  Desc: "\u9020\u62102\u70B9\u4F24\u5BB32\u6B21\uFF0C\u8FD0\u529F\u4E00\u56DE\u5408\u540E\u9020\u62102\u70B9\u4F24\u5BB33\u6B21\u3002\r"
+  Cost: 30
+  Range: 25
+  type: 0
+  conditions: []
+  Effects:
+  - rid: 4098022180424778416
+  - rid: 4098022180424778417
+  performSound: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022180424778416
+      type: {class: EffectTypes/DamageSequence, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        damages:
+        - 2
+        - 2
+    - rid: 4098022180424778417
+      type: {class: EffectTypes/StartChant, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        chantSound: {fileID: 8300000, guid: d530b43a0f7e36b4e9e6b1c13df75794, type: 3}
+        moveChant: 0
+        duration: 1
+        effectsOnChant:
+        - rid: 4098022180424778418
+        - rid: 4098022180424778419
+    - rid: 4098022180424778418
+      type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        sound: {fileID: 8300000, guid: fa5c37c7269ced049b41f6a87cbce9b1, type: 3}
+    - rid: 4098022180424778419
+      type: {class: EffectTypes/DamageSequence, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        damages:
+        - 2
+        - 2
+        - 2

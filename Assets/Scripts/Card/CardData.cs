@@ -20,9 +20,12 @@ public partial class CardData : ScriptableObject
 
     public Type type;
 
-    public Condition[] conditions;
+    [SerializeReference]
+    [SerializeReferenceButton]
+    public List<Condition> conditions;
 
     [SerializeReference]
+    [SerializeReferenceButton]
     public List<Effect> Effects;
 
     public AudioClip performSound;

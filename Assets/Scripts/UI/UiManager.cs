@@ -38,6 +38,10 @@ namespace JYW.UI
         [SerializeField]
         private float cardTextShowTime = 0.5f;
 
+        [Header("Tips")]
+        [SerializeField]
+        private Text warningText;
+
         private void Start()
         {
             cardNameText.gameObject.SetActive(false);
@@ -57,5 +61,11 @@ namespace JYW.UI
             cardNameText.DOFade(0f, cardTextScaleTime);
             cardNameText.transform.DOScale(cardTextScale, cardTextScaleTime);
         }
+
+        public void ShowWarning(string warning)
+        {
+            warningText.text = warning;
+        }
+
     }
 }

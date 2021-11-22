@@ -20,8 +20,16 @@ MonoBehaviour:
   Range: 0
   type: 2
   conditions: []
-  Effects: []
+  Effects:
+  - rid: 4098022180424778208
   performSound: {fileID: 8300000, guid: 040e39cd832861f45b9b4133af2eab5e, type: 3}
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4098022180424778208
+      type: {class: EffectTypes/MoveSelf, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        selfMoveDist: 20
+        forward: 1
+        type: 0

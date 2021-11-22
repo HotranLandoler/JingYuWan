@@ -46,7 +46,10 @@ public class BuffInfo : ScriptableObject
         foreach (var effect in buffEffects)
         {
             if (effect.EffectType == BuffEffect.Type.Damage)
-                character.CurrentHealth -= effect.Val1*level;
+            {
+                character.TakeDamage(CombatManager.CalcuDamage(effect.Val1 * level, null, character));
+                
+            }
             //effect.EffectType switch
             //{
             //    BuffEffect.Type.Damage => Debug.Log(""),

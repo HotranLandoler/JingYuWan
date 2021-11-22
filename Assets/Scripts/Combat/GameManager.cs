@@ -2,9 +2,11 @@ using JYW.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
-{
+{   
+
     [SerializeField]
     private Character player;
     public Character Player => player;
@@ -21,19 +23,35 @@ public class GameManager : MonoBehaviour
 
     private CombatManager combatManager;
 
-    private AIEngine aiEngine;
-
-    private AudioSource audioSource;
+    //private AudioSource audioSource;
 
     private Character currentRounder;
 
     private bool buttonClickable = false;
 
+    //public event UnityAction CharacterDistChanged;
+
     private void Awake()
     {       
         combatManager = new CombatManager();
-        aiEngine = new AIEngine();
-        audioSource = GetComponent<AudioSource>();
+        
+        //audioSource = GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
+        player.ChantCompleted += OnChantCompleted;
+        enemy.ChantCompleted += OnChantCompleted;
+        player.MoveRequested += CharacterMove;
+        enemy.MoveRequested += CharacterMove;
+    }
+
+    private void OnDisable()
+    {
+        player.ChantCompleted -= OnChantCompleted;
+        enemy.ChantCompleted -= OnChantCompleted;
+        player.MoveRequested -= CharacterMove;
+        enemy.MoveRequested -= CharacterMove;
     }
 
     // Start is called before the first frame update
@@ -48,7 +66,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameMain()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         //Debug.Log("GameStart");
         //player.CurrentHealth -= 15;
         //yield return cardsManager.ShowCards();
@@ -71,7 +89,8 @@ public class GameManager : MonoBehaviour
         else
             cardsManager.DropAiCard(data);
         yield return uiManager.ShowCardText(data);
-        if(data.performSound) audioSource.PlayOneShot(data.performSound);
+        if(data.performSound) AudioPlayer.Instance.PlaySound(data.performSound);
+        attacker.StopChant();
         //yield return cardsManager.ClearCards();
         combatManager.PlayCard(data, attacker, defender);
         buttonClickable = true;
@@ -86,9 +105,11 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Selected is null");
             return;
         }
-        if (!combatManager.CanPlayCard(card.Data, player, enemy))
+        if (!combatManager.CanPlayCard(card.Data, player, enemy, out string msg))
         {
-            Debug.LogError("Can't play card");
+            if (msg != null)
+                uiManager.ShowWarning(msg);
+            //Debug.LogError("Can't play card");
             return;
         }
         StartCoroutine(DoPlayCard(card.Data, player, enemy));
@@ -103,16 +124,20 @@ public class GameManager : MonoBehaviour
         //前一回合结束
         currentRounder.Buffs.Tick();
         currentRounder = currentRounder == player ? enemy : player;
+        yield return currentRounder.ProcessChant();
         //本回合开始
+        //回复能量
+        currentRounder.CurrentEnergy += Game.EnergyRecoverPerRound;
         if (currentRounder == player)
         {
             yield return cardsManager.ShowCards();
             uiManager.NextRoundButton.FadeIn();
             buttonClickable = true;
+            currentRounder.StartRound();
             yield break;
         }
         cardsManager.GenerateAiCards();
-        var card = aiEngine.Decide(cardsManager.AiCards, enemy, player);
+        var card = cardsManager.GetAiDecision(enemy, player);
         if (card != null)
             yield return DoPlayCard(card, enemy, player);
         yield return new WaitForSeconds(0.5f);
@@ -134,5 +159,33 @@ public class GameManager : MonoBehaviour
     private void OnCardDeselected()
     {
         uiManager.PlayCardButton.FadeOut();
+    }
+
+    private void OnChantCompleted(Character character)
+    {
+        if (!combatManager.IsTargetInRange(character.CurrentChant.TargetCard, 
+            character, character.CurrentChant.Target))
+            return;
+        combatManager.PerformEffects(character.CurrentChant.Effects,
+            character, character.CurrentChant.Target);
+    }
+
+    private void CharacterMove(Character character, IEnumerator doMove)
+    {       
+        StartCoroutine(DoCharacterMove(character, doMove));
+    }
+
+    private IEnumerator DoCharacterMove(Character character, IEnumerator doMove)
+    {
+        buttonClickable = false;
+        yield return doMove;
+        buttonClickable = true;
+        UpdateCharacterFace();
+    }
+
+    private void UpdateCharacterFace()
+    {
+        player.TurnTo(enemy);
+        enemy.TurnTo(player);
     }
 }

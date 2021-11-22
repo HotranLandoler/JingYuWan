@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Effect Adding
-/// </summary>
 public partial class CardData : ScriptableObject
 {
     [ContextMenu("AddEffect/Damage")]
@@ -20,4 +17,12 @@ public partial class CardData : ScriptableObject
     [ContextMenu("AddEffect/AddBuffToSelf")]
     public void AddBuffSelf() =>
         Effects.Add(new EffectTypes.AddBuffSelfEffect());
+
+    [ContextMenu("AddCondition/Buff")]
+    private void AddBuffCondition() =>
+        conditions.Add(new ConditionTypes.BuffCondition());
+
+    [ContextMenu("AddCondition/Control")]
+    private void AddControlCondition() =>
+        conditions.Add(new ConditionTypes.ControlCondition());
 }
