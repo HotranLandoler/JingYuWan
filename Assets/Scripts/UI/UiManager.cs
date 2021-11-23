@@ -9,6 +9,7 @@ namespace JYW.UI
 {
     public class UiManager : MonoBehaviour
     {
+
         [Header("Buttons")]
         [SerializeField]
         private UiButton menuButton;
@@ -25,6 +26,8 @@ namespace JYW.UI
         public UnityEvent PlayButtonClicked;
         public UnityEvent NextButtonClicked;
 
+        public event UnityAction<Vector2> PosSubmited;
+
         [Header("Effects")]
         [SerializeField]
         private Text cardNameText;
@@ -40,13 +43,65 @@ namespace JYW.UI
 
         [Header("Tips")]
         [SerializeField]
-        private Text warningText;
+        private Text warningTextPrefab;
+
+        [SerializeField]
+        private RectTransform warningTextPos;
+
+        [SerializeField]
+        private Text stateText;
+
+        [Header("PosSelect")]
+        [SerializeField]
+        private GameObject posSelectPrefab;
+
+        [SerializeField]
+        private UiButton posSubmitButton;
+
+        private Canvas canvas;
+
+        private bool selectingPos = false;
+
+        private GameObject posSelector;
+
+        private void Awake()
+        {
+            canvas = GetComponent<Canvas>();            
+        }
 
         private void Start()
         {
             cardNameText.gameObject.SetActive(false);
             playCardButton.button.onClick.AddListener(() => PlayButtonClicked?.Invoke());
             nextRoundButton.button.onClick.AddListener(() => NextButtonClicked?.Invoke());
+            posSubmitButton.button.onClick.AddListener(SubmitPos);
+        }
+
+        private void Update()
+        {
+            if (selectingPos)
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                    if (hit.collider != null)
+                    {
+                        if (hit.collider.CompareTag("Mouse"))
+                        {
+                            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            //Debug.Log(pos.x);
+                            float posX = pos.x;
+                            if (posSelector == null)
+                            {
+                                posSelector = Instantiate(posSelectPrefab, new Vector3(pos.x, 0, 0), Quaternion.identity);
+                                posSubmitButton.FadeIn();
+                            }
+                            else
+                                posSelector.transform.position = new Vector3(pos.x, 0, 0);
+                        }
+                    }
+                }
+            }
         }
 
         public IEnumerator ShowCardText(CardData card)
@@ -64,8 +119,29 @@ namespace JYW.UI
 
         public void ShowWarning(string warning)
         {
-            warningText.text = warning;
+            var text = Instantiate(warningTextPrefab, canvas.transform);
+            text.text = warning; 
+            text.rectTransform.anchoredPosition = warningTextPos.anchoredPosition;
+            text.rectTransform.DOAnchorPosY(warningTextPos.anchoredPosition.y + 100, 1f);
+            text.DOFade(0f, 1f);
         }
 
+        public void StartPosSelect()
+        {
+            stateText.text = "点击地面选择位置";
+            nextRoundButton.FadeOut();
+            selectingPos = true;
+        }
+
+        private void SubmitPos()
+        {
+            stateText.text = string.Empty;
+            selectingPos = false;
+            posSubmitButton.FadeOut();
+            Vector2 pos = new Vector2(posSelector.transform.position.x, 0f);
+            PosSubmited?.Invoke(pos);
+            Destroy(posSelector.gameObject);
+            nextRoundButton.FadeIn();
+        }
     }
 }

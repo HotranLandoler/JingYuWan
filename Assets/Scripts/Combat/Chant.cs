@@ -37,16 +37,20 @@ public class Chant
 
     public int Duration { get; }
 
+    public bool AllowSkip { get; }
+
     public bool IsCompleted { get; set; }
 
     public event UnityAction ValueChanged;
 
-    public Chant(CardData data, Character target, IEnumerable<Effect> effects, int duration = 1, bool moveChant = false)
+    public Chant(CardData data, Character target, IEnumerable<Effect> effects, 
+        int duration = 1, bool moveChant = false, bool allowSkip = false)
     {
         Target = target;
         TargetCard = data;
         Effects = effects;
         MoveChant = moveChant;
         Duration = duration;
+        AllowSkip = allowSkip;
     }
 }

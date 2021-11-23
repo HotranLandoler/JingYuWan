@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SceneTransition : MonoBehaviour
 {
@@ -24,15 +23,15 @@ public class SceneTransition : MonoBehaviour
 
     public void Close() => animator.SetTrigger("Close");
 
-    public void LoadScene(int id)
+    public void LoadScene(AsyncOperation loadScene)
     {
-        StartCoroutine(Transition(id));
+        StartCoroutine(Transition(loadScene));
     }
     
-    private IEnumerator Transition(int id)
+    private IEnumerator Transition(AsyncOperation loadScene)
     {
         animator.SetTrigger("Close");
         yield return new WaitForSeconds(transitionTime);
-        SceneManager.LoadScene(id);
+        loadScene.allowSceneActivation = true;
     }
 }

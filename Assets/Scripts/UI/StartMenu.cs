@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartMenu : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class StartMenu : MonoBehaviour
 
     [SerializeField]
     private SceneTransition transition;
+
+    private AsyncOperation loadSceneOpeartion;
 
     private void Awake()
     {
@@ -31,10 +34,12 @@ public class StartMenu : MonoBehaviour
         Application.Quit();
 #endif
         });
+        loadSceneOpeartion = SceneManager.LoadSceneAsync(1);
+        loadSceneOpeartion.allowSceneActivation = false;
     }
 
     private void StartGame()
     {
-        transition.LoadScene(1);
+        transition.LoadScene(loadSceneOpeartion);
     }
 }

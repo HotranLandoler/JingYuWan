@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Pool;
+using JYW.Buffs;
 
 namespace JYW.UI
 {

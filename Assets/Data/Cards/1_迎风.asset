@@ -19,17 +19,19 @@ MonoBehaviour:
   Cost: 0
   Range: 0
   type: 2
+  requireControl: 2
+  isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022180424778209
+  - rid: 4098022197173945286
   performSound: {fileID: 8300000, guid: 3801f82a179678447afef4bac3b52f55, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 4098022180424778209
+    - rid: 4098022197173945286
       type: {class: EffectTypes/MoveSelf, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         selfMoveDist: 8
         forward: 0
-        type: 0
+        type: 1

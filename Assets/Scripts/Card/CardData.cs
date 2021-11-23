@@ -20,6 +20,12 @@ public partial class CardData : ScriptableObject
 
     public Type type;
 
+    [Tooltip("角色被控等级<=X时可以使用")]
+    public ControlType requireControl = ControlType.Stuck;
+
+    [Tooltip("是附加牌")]
+    public bool isExtra = false;
+
     [SerializeReference]
     [SerializeReferenceButton]
     public List<Condition> conditions;
@@ -44,5 +50,9 @@ public partial class CardData : ScriptableObject
         /// 轻功
         /// </summary>
         Move,
+        /// <summary>
+        /// 加状态
+        /// </summary>
+        Buff
     }
 }

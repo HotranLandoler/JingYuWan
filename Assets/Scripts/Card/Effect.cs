@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public abstract class Effect
 {
+    public abstract bool AllowDodge { get; }
     public abstract void Perform(Character attacker, Character target, CardData data);
     //public enum Type
     //{
@@ -28,12 +29,12 @@ public abstract class Effect
     private List<Condition> conditions;
     public ICollection<Condition> Conditions => conditions;
  
-    private void EffectAddBuffCondition() =>
-        conditions.Add(new ConditionTypes.BuffCondition());
+    //private void EffectAddBuffCondition() =>
+    //    conditions.Add(new ConditionTypes.BuffCondition());
 
-    [ContextMenu("AddCondition/Control")]
-    private void AddControlCondition() =>
-        conditions.Add(new ConditionTypes.ControlCondition());
+    //[ContextMenu("AddCondition/Control")]
+    //private void AddControlCondition() =>
+    //    conditions.Add(new ConditionTypes.ControlCondition());
     //public void Perform(Character attacker, Character target)
     //{
     //    if (type == Type.Damage)

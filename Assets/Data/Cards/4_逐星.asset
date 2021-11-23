@@ -19,82 +19,84 @@ MonoBehaviour:
   Cost: -10
   Range: 25
   type: 0
+  requireControl: 2
+  isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022185927442601
-  - rid: 4098022185927442602
-  - rid: 4098022185927442603
-  - rid: 4098022185927442604
-  - rid: 4098022185927442605
-  - rid: 4098022185927442606
-  - rid: 4098022185927442607
+  - rid: 4098022197173945308
+  - rid: 4098022197173945309
+  - rid: 4098022197173945310
+  - rid: 4098022197173945311
+  - rid: 4098022197173945312
+  - rid: 4098022197173945313
+  - rid: 4098022197173945314
   performSound: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 4098022185927442601
+    - rid: 4098022197173945308
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         AddBuffToSelf: {fileID: 11400000, guid: b0bd2b0bba21d57449f51af971357fd0, type: 2}
-    - rid: 4098022185927442602
+    - rid: 4098022197173945309
       type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         damage: 4
-    - rid: 4098022185927442603
+    - rid: 4098022197173945310
       type: {class: EffectTypes/PushTarget, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022185927442608
+        - rid: 4098022197173945315
         pushDist: 8
-    - rid: 4098022185927442604
+    - rid: 4098022197173945311
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022185927442609
+        - rid: 4098022197173945316
         AddBuffToTarget: {fileID: 11400000, guid: 92874a04a8683094babf02f43a648975, type: 2}
-    - rid: 4098022185927442605
+    - rid: 4098022197173945312
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022185927442610
+        - rid: 4098022197173945317
         sound: {fileID: 8300000, guid: 138f1918d17d8a549a8f965943a5265d, type: 3}
-    - rid: 4098022185927442606
+    - rid: 4098022197173945313
       type: {class: EffectTypes/MoveSelf, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022185927442611
+        - rid: 4098022197173945318
         selfMoveDist: 12
         forward: 0
-        type: 0
-    - rid: 4098022185927442607
+        type: 1
+    - rid: 4098022197173945314
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022185927442612
+        - rid: 4098022197173945319
         sound: {fileID: 8300000, guid: 7abbb474284e208438b68981124ac554, type: 3}
-    - rid: 4098022185927442608
+    - rid: 4098022197173945315
       type: {class: ConditionTypes/RangeCondition, ns: , asm: Assembly-CSharp}
       data:
         range: 10
         rangeType: 1
-    - rid: 4098022185927442609
+    - rid: 4098022197173945316
       type: {class: ConditionTypes/RangeCondition, ns: , asm: Assembly-CSharp}
       data:
         range: 10
         rangeType: 1
-    - rid: 4098022185927442610
+    - rid: 4098022197173945317
       type: {class: ConditionTypes/RangeCondition, ns: , asm: Assembly-CSharp}
       data:
         range: 10
         rangeType: 1
-    - rid: 4098022185927442611
+    - rid: 4098022197173945318
       type: {class: ConditionTypes/RangeCondition, ns: , asm: Assembly-CSharp}
       data:
         range: 10
         rangeType: 0
-    - rid: 4098022185927442612
+    - rid: 4098022197173945319
       type: {class: ConditionTypes/RangeCondition, ns: , asm: Assembly-CSharp}
       data:
         range: 10

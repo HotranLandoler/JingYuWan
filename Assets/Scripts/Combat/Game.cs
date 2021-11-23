@@ -9,6 +9,10 @@ public static class Game
     /// </summary>
     public static readonly int ChiPerUnit = 3;
 
+    public static readonly string Critic = "会心";
+
+    public static readonly string Dodge = "闪避";
+
     public static readonly string NoEnoughEnergy = "神机值不足";
 
     public static readonly string OutOfRange = "目标在范围之外";
@@ -17,15 +21,17 @@ public static class Game
 
     public static readonly string CantMove = "被封轻功";
 
+    public static readonly string Controlled = "受控状态无法施展";
+
     /// <summary>
     /// 手牌容量
     /// </summary>
     public const int HandCardsCapacity = 8;
 
-    /// <summary>
-    /// 每回合回复的神机值
-    /// </summary>
-    public const int EnergyRecoverPerRound = 10;
+    ///// <summary>
+    ///// 每回合回复的神机值
+    ///// </summary>
+    //public const int EnergyRecoverPerRound = 10;
 
     /// <summary>
     /// 两物的x轴距离（单位尺）

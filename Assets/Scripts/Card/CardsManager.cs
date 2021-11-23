@@ -99,17 +99,23 @@ public class CardsManager : MonoBehaviour
         {
             //从牌库随机选取
             CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
-            var card = cardPool.Get();
-            card.Set(data, this);
-            //设置Anchor Preset
-            card.rectTransform.anchorMin = Vector2.zero;
-            card.rectTransform.anchorMax = Vector2.zero;
-            //设置位置等
-            card.rectTransform.rotation = Quaternion.Euler(0f, 0f, -90f);
-            card.rectTransform.anchoredPosition = cardStartPos.anchoredPosition;
+            Card card = CreateCard(data);
             cards.Add(card);
         }
         yield return PlaceCards();
+    }
+
+    private Card CreateCard(CardData data)
+    {
+        var card = cardPool.Get();
+        card.Set(data, this);
+        //设置Anchor Preset
+        card.rectTransform.anchorMin = Vector2.zero;
+        card.rectTransform.anchorMax = Vector2.zero;
+        //设置位置等
+        card.rectTransform.rotation = Quaternion.Euler(0f, 0f, -90f);
+        card.rectTransform.anchoredPosition = cardStartPos.anchoredPosition;
+        return card;
     }
 
     public IEnumerator ClearCards()
@@ -141,7 +147,7 @@ public class CardsManager : MonoBehaviour
         cards.Remove(SelectedCard);
         SelectedCard = null;
         //CardDeselected?.Invoke();
-        yield return PlaceCards();
+        //yield return PlaceCards();
     }
 
     public void DropAiCard(CardData card)
@@ -149,7 +155,18 @@ public class CardsManager : MonoBehaviour
         aiCards.Remove(card);
     }
 
-    private IEnumerator PlaceCards()
+    public void AddAiCard(CardData card) =>
+        aiCards.Add(card);
+
+    public IEnumerator AddPlayerCard(CardData card)
+    {
+        HandCardsInteractable = false;
+        cards.Add(CreateCard(card));
+        yield return PlaceCards();
+        HandCardsInteractable = true;
+    }
+
+    public IEnumerator PlaceCards()
     {
         Vector2[] pos = CalcuCardPositions();
         for (int i = 0; i < cards.Count; i++)

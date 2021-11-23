@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "14_\u9E1F\u7FD4"
+  m_EditorClassIdentifier: 
+  Id: 14
+  Icon: {fileID: 21300000, guid: 69cb7b3ebe29f3646a9be9249ecfb877, type: 3}
+  Title: "\u9E1F\u7FD4\u78A7\u7A7A"
+  Desc: "\u95EA\u907F\u7387\u63D0\u9AD810%\uFF0C\u6301\u7EED3\u56DE\u5408\u3002\u5176\u95F4\u53EF\u4F7F\u7528\u6D6E\u7A7A\uFF0C\u514D\u63A72\u56DE\u5408\uFF0C\u53EA\u53EF\u4F7F\u7528\u5F29\u7BAD\u6280\u80FD\u4E14\u5C04\u7A0B\u63D0\u9AD810\u5C3A\u3002"
+  Cost: 0
+  Range: 0
+  type: 2
+  requireControl: 2
+  isExtra: 0
+  conditions: []
+  Effects:
+  - rid: 4098022205686284839
+  - rid: 4098022205686284840
+  performSound: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022205686284839
+      type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToSelf: {fileID: 11400000, guid: 5e59df1bed922f34cbb3900ab3ab300e, type: 2}
+    - rid: 4098022205686284840
+      type: {class: EffectTypes/GetCard, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        card: {fileID: 11400000, guid: 603c557986cb39a4ba38bc1390e73eee, type: 2}

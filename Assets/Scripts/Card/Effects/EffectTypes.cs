@@ -11,6 +11,8 @@ public class EffectTypes
         [SerializeField]
         private BuffInfo AddBuffToTarget;
 
+        public override bool AllowDodge => true;
+
         public override void Perform(Character attacker, Character target, CardData data)
         {
             target.Buffs.AddBuff(AddBuffToTarget);
@@ -22,6 +24,8 @@ public class EffectTypes
     {
         [SerializeField]
         private BuffInfo AddBuffToSelf;
+
+        public override bool AllowDodge => false;
 
         public override void Perform(Character attacker, Character target, CardData data)
         {
@@ -35,6 +39,8 @@ public class EffectTypes
         [SerializeField]
         private BuffInfo RemoveFromSelf;
 
+        public override bool AllowDodge => false;
+
         public override void Perform(Character attacker, Character target, CardData data)
         {
             attacker.Buffs.RemoveBuff(buff => buff.Data == RemoveFromSelf);
@@ -47,8 +53,15 @@ public class EffectTypes
         [SerializeField]
         private float damage;
 
+        public override bool AllowDodge => true;
+
         public override void Perform(Character attacker, Character target, CardData data)
         {
+            if (CombatManager.CheckDodge(data, attacker, target))
+            {
+                target.OnDodge();
+                return;
+            }
             target.TakeDamage(CombatManager.CalcuDamage(damage, attacker, target));
         }
     }
@@ -58,6 +71,8 @@ public class EffectTypes
     {
         [SerializeField]
         private float[] damages;
+
+        public override bool AllowDodge => true;
 
         public override void Perform(Character attacker, Character target, CardData data)
         {
@@ -80,14 +95,19 @@ public class EffectTypes
         private int duration = 1;
 
         [SerializeField]
+        private bool allowSkip = false;
+
+        [SerializeField]
         [SerializeReference]
         [SerializeReferenceButton]
         private List<Effect> effectsOnChant;
 
+        public override bool AllowDodge => false;
+
         public override void Perform(Character attacker, Character target, CardData data)
         {
             if (chantSound) AudioPlayer.Instance.PlaySound(chantSound);
-            attacker.StartChant(new Chant(data, target, effectsOnChant, duration, moveChant));
+            attacker.StartChant(new Chant(data, target, effectsOnChant, duration, moveChant, allowSkip));
         }
     }
 
@@ -96,6 +116,8 @@ public class EffectTypes
     {
         [SerializeField]
         private AudioClip sound;
+
+        public override bool AllowDodge => false;
 
         public override void Perform(Character attacker, Character target, CardData data)
         {
@@ -109,11 +131,13 @@ public class EffectTypes
         [SerializeField]
         private int pushDist;
 
+        public override bool AllowDodge => true;
+
         public override void Perform(Character attacker, Character target, CardData data)
         {
             Direction pushDir = attacker.transform.position.x <= target.transform.position.x ? 
                 Direction.R : Direction.L;
-            target.MoveRequest((int)pushDir * pushDist, MoveType.Normal);
+            target.MoveRequest((int)pushDir * pushDist, MoveType.Fast, true);
         }
     }
 
@@ -130,6 +154,8 @@ public class EffectTypes
         [SerializeField]
         private MoveType type;
 
+        public override bool AllowDodge => false;
+
         public override void Perform(Character attacker, Character target, CardData data)
         {
             Direction faceDir = attacker.transform.position.x <= target.transform.position.x ?
@@ -137,6 +163,90 @@ public class EffectTypes
             int x = (int)faceDir * selfMoveDist;
             if (!forward) x *= -1;
             attacker.MoveRequest(x, type);
+        }
+    }
+
+    [System.Serializable]
+    public class AddSelfStatus : Effect
+    {
+        [SerializeField]
+        private float addHealth;
+
+        [SerializeField]
+        private float addEnergy;
+
+        public override bool AllowDodge => false;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            attacker.AddHealth(addHealth);
+            attacker.CurrentEnergy += addEnergy;
+        }
+    }
+
+    [Serializable]
+    public class PlaceObject : Effect
+    {
+        [SerializeField]
+        private PlacedInfo placed;
+
+        [SerializeField]
+        private bool placeUnderfoot = true;
+
+        [SerializeField]
+        [SerializeReference]
+        [SerializeReferenceButton]
+        private List<Effect> effectsOnPlaced;
+
+        public override bool AllowDodge => false;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            attacker.PlaceObject(placed, placeUnderfoot, effectsOnPlaced);
+        }
+    }
+
+    [Serializable]
+    public class ActivatePlaced : Effect
+    {
+        [SerializeField]
+        private PlacedInfo placed;
+
+        public override bool AllowDodge => false;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            attacker.ActivatePlaced(placed);
+        }
+    }
+
+    [Serializable]
+    public class GetCard : Effect
+    {
+        [SerializeField]
+        private CardData card;
+
+        public override bool AllowDodge => false;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            attacker.RequestCard(card);
+        }
+    }
+
+    //½â¿Ø
+    [Serializable]
+    public class RemoveSelfControl : Effect
+    {
+        [SerializeField]
+        private ControlType removeControlType;
+
+        public override bool AllowDodge => false;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            attacker.Buffs.RemoveBuff(buff => buff.Data.controlType != ControlType.None && 
+                buff.Data.controlType <= removeControlType);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public struct DamageInfo
@@ -18,9 +19,9 @@ public struct DamageInfo
 
     public bool IsCritical { get; }
 
-    //public EffectType Tag;
+    public EffectType Tag { get; }
 
-    //public DamageType Type;
+    //public DamageType Type { get; }
 
     ///// <summary>
     ///// 一般来自子弹飞行方向或aoe中心指向角色位置
@@ -37,12 +38,24 @@ public struct DamageInfo
     ///// </summary>
     //public float HitRate;
 
-    public DamageInfo(float damage, bool critic)
+    public DamageInfo(float damage, bool critic, EffectType tag = EffectType.Normal)
     {
         Attacker = null;
         Defender = null;
         Damage = damage;
         IsCritical = critic;
+        Tag = tag;
+    }
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder();
+        if (IsCritical)
+        {
+            sb.Append(Game.Critic).Append(" ");           
+        }
+        sb.Append(Damage.ToString("0.0"));
+        return sb.ToString();
     }
 
     /// <summary>

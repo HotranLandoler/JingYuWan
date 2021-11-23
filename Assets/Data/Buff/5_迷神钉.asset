@@ -19,4 +19,8 @@ MonoBehaviour:
   MaxLevel: 1
   controlType: 4
   buffEffects: []
+  EffectsOnTakeDamage:
+  - type: 12
+    val1: 0
+  RemoveOnTakeDamage: 1
   converters: []

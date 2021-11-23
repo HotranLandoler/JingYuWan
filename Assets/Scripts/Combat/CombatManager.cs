@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CombatManager
 {
-    public bool IsTargetInRange(CardData card, Character attacker, Character defender)
+    public static bool IsTargetInRange(CardData card, Character attacker, Character defender)
     {
         if (card.Range == 0) return true;
-        if (card.type != CardData.Type.Move &&
+        if ((card.type == CardData.Type.Phys || card.type == CardData.Type.Magic) &&
             Game.GetDistance(attacker.transform, defender.transform) > card.Range)
         {
             return false;
@@ -15,7 +15,7 @@ public class CombatManager
         return true;
     }
 
-    public bool CanPlayCard(CardData card, Character attacker, Character defender, out string message)
+    public static bool CanPlayCard(CardData card, Character attacker, Character defender, out string message)
     {
         message = null;
         if (card.Cost > attacker.CurrentEnergy)
@@ -33,11 +33,17 @@ public class CombatManager
             message = Game.CantUseMagic;
             return false;
         }
-        if (card.type == CardData.Type.Move && !attacker.CanMove)
+        if (card.type == CardData.Type.Move && attacker.ControlledType >= ControlType.Stuck)
         {
             message = Game.CantMove;
             return false;
         }
+        if (attacker.ControlledType > card.requireControl)
+        {
+            message = Game.Controlled;
+            return false;
+        }
+
         foreach (var condition in card.conditions)
         {
             if (!condition.IsSatisfied(attacker, defender))
@@ -52,10 +58,13 @@ public class CombatManager
         PerformEffects(card.Effects, attacker, defender, card);
     }
 
-    public void PerformEffects(IEnumerable<Effect> effects, Character attacker, Character defender, CardData card = null)
+    public void PerformEffects(IEnumerable<Effect> effects, Character attacker, Character defender, CardData card)
     {
+        bool dodge = CheckDodge(card, attacker, defender);
+        if (dodge) defender.OnDodge();
         foreach (var effect in effects)
         {
+            if (dodge && effect.AllowDodge) continue;
             if (effect.Conditions.Count > 0)
             {
                 bool canPerform = true;
@@ -72,6 +81,7 @@ public class CombatManager
 
             effect.Perform(attacker, defender, card);
         }
+        //return true;
     }
 
     public static DamageInfo CalcuDamage(float baseDamage, Character attacker, Character target)
@@ -81,11 +91,29 @@ public class CombatManager
         bool critic = false;
         float damage = baseDamage;
         float rand = Random.Range(0f, 1f);
-        if (rand <= attacker.Critic)
+        if (rand <= attacker.Critic.FinalValue)
         {
             critic = true;
-            damage = baseDamage * attacker.CriticDamage;
+            damage = baseDamage * attacker.CriticDamage.FinalValue;
         }
         return new DamageInfo(damage, critic);
+    }
+
+    /// <summary>
+    ///  «∑Ò±ª…¡±‹
+    /// </summary>
+    /// <param name="card"></param>
+    /// <param name="attacker"></param>
+    /// <param name="defender"></param>
+    /// <returns></returns>
+    public static bool CheckDodge(CardData card, Character attacker, Character defender)
+    {
+        if (card == null) return false;
+        if (card.type == CardData.Type.Phys)
+        {
+            if (Random.Range(0f, 1f) < defender.DodgeChance.FinalValue)
+                return true;
+        }
+        return false;
     }
 }

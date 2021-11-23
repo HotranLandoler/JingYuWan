@@ -18,15 +18,24 @@ MonoBehaviour:
   Desc: "\u56DE\u590D\u5168\u90E8\u795E\u673A\u503C\u4E14\u56DE\u590D\u901F\u5EA6\u63D0\u9AD8100%\uFF0C\u4F1A\u5FC3\u63D0\u9AD815%\uFF0C\u4F1A\u5FC3\u4F24\u5BB3\u63D0\u9AD830%\uFF0C\u6301\u7EED3\u56DE\u5408\u3002\r"
   Cost: 0
   Range: 0
-  type: 0
+  type: 3
+  requireControl: 2
+  isExtra: 1
   conditions: []
   Effects:
-  - rid: 4098022185927442436
+  - rid: 4098022202382746011
+  - rid: 4098022202382746012
   performSound: {fileID: 8300000, guid: 24ff017e2c34ebc49a9588b951169919, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 4098022185927442436
+    - rid: 4098022202382746011
+      type: {class: EffectTypes/AddSelfStatus, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        addHealth: 0
+        addEnergy: 100
+    - rid: 4098022202382746012
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

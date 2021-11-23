@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "18_\u98DE\u661F\u53D1\u52A8"
+  m_EditorClassIdentifier: 
+  Id: 18
+  Icon: {fileID: 21300000, guid: f09e54e8fb64c3145ae2d8619aab8c6f, type: 3}
+  Title: "\u98DE\u661F\xB7\u53D1\u52A8"
+  Desc: "\u89E3\u9664\u81EA\u8EAB\u53D7\u63A7\u6548\u679C\u5E76\u7275\u5F15\u81F3\u673A\u5173\u5904\uFF0C\u4F7F\u4E0B\u4E00\u62DB\u5F0F\u65E0\u9700\u8FD0\u529F\u3002\r"
+  Cost: 0
+  Range: 0
+  type: 3
+  requireControl: 5
+  isExtra: 1
+  conditions: []
+  Effects:
+  - rid: 4098022202382745958
+  - rid: 4098022202382745959
+  - rid: 4098022202382745960
+  performSound: {fileID: 8300000, guid: 478813a0c84a94845ad4484c526da8db, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022202382745958
+      type: {class: EffectTypes/RemoveSelfControl, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        removeControlType: 5
+    - rid: 4098022202382745959
+      type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToSelf: {fileID: 11400000, guid: 28fb1dbd2ddfc254d997aa7821c48135, type: 2}
+    - rid: 4098022202382745960
+      type: {class: EffectTypes/ActivatePlaced, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        placed: {fileID: 11400000, guid: 8dd822193712d4848b4ef821ef0310b1, type: 2}

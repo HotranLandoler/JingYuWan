@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "20_\u843D\u5730"
+  m_EditorClassIdentifier: 
+  Id: 20
+  Icon: {fileID: 21300000, guid: 69cb7b3ebe29f3646a9be9249ecfb877, type: 3}
+  Title: "\u9E1F\u7FD4\xB7\u964D\u843D"
+  Desc: "\u6ED1\u7FD4\u81F330\u5C3A\u5185\u7684\u76EE\u6807\u70B9\u3002\r"
+  Cost: 0
+  Range: 0
+  type: 3
+  requireControl: 2
+  isExtra: 1
+  conditions: []
+  Effects:
+  - rid: 4098022205686284873
+  performSound: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022205686284873
+      type: {class: EffectTypes/PlaceObject, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        placed: {fileID: 11400000, guid: a3c337e85c532f44b994d107f1507359, type: 2}
+        placeUnderfoot: 0
+        effectsOnPlaced:
+        - rid: 4098022205686284874
+        - rid: 4098022205686284875
+        - rid: 4098022205686284876
+    - rid: 4098022205686284874
+      type: {class: EffectTypes/ActivatePlaced, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        placed: {fileID: 11400000, guid: a3c337e85c532f44b994d107f1507359, type: 2}
+    - rid: 4098022205686284875
+      type: {class: EffectTypes/RemoveBuffSelf, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        RemoveFromSelf: {fileID: 11400000, guid: 46a5d7d31385b464887cbb74d64fabf9, type: 2}
+    - rid: 4098022205686284876
+      type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        sound: {fileID: 8300000, guid: d06b8e98f6368014692e708f640a6954, type: 3}

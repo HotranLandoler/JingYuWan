@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -14,6 +13,9 @@ namespace JYW.UI
         [SerializeField]
         private Canvas canvas;
 
+        [SerializeField]
+        private Ui rounderToken;
+
         [Header("DamageText")]
         [SerializeField]
         private Text damageTextPrefab;
@@ -24,13 +26,6 @@ namespace JYW.UI
         [Header("Chant")]
         [SerializeField]
         private ChantUi chantUi;
-
-        [Header("Move")]
-        [SerializeField]
-        private UiButton leftButton;
-
-        [SerializeField]
-        private UiButton rightButton;
 
 
         private void Awake()
@@ -44,7 +39,9 @@ namespace JYW.UI
             character.ChantStarted += ShowChant;
             character.ChantCompleted += HideChant;
             character.ChantStopped += StopChant;
-            character.RoundStarted += ShowButtons;
+            character.RoundStarted += ShowToken;
+            character.RoundEnded += HideToken;
+            character.Dodged += ShowDodge;
             //character.ChantProcessed += UpdateChant;
         }
 
@@ -54,26 +51,29 @@ namespace JYW.UI
             character.ChantStarted -= ShowChant;
             character.ChantCompleted -= HideChant;
             character.ChantStopped -= StopChant;
-            character.RoundStarted -= ShowButtons;
+            character.RoundStarted -= ShowToken;
+            character.RoundEnded -= HideToken;
+            character.Dodged -= ShowDodge;
             //character.ChantProcessed -= UpdateChant;
         }
 
-        private void Start()
-        {
-            leftButton.button.onClick.AddListener(LeftButtonClicked);
-            rightButton.button.onClick.AddListener(RightButtonClicked);
-        }
+        
 
         private void ShowDamageText(DamageInfo damage)
         {
-            StringBuilder sb = new StringBuilder();
-            if (damage.IsCritical) sb.Append("会心 ");
-            sb.Append(damage.Damage.ToString("0.0"));
-            var text = Instantiate(damageTextPrefab, canvas.transform);
-            text.rectTransform.anchoredPosition = damageTextStartPos.anchoredPosition;
-            text.text = sb.ToString();
-            text.rectTransform.DOAnchorPosY(damageTextStartPos.anchoredPosition.y + 100, 1f);
-            text.DOFade(0f, 1f);
+            //StringBuilder sb = new StringBuilder();
+            //if (damage.IsCritical) sb.Append("会心 ");
+            //sb.Append(damage.Damage.ToString());
+            ShowText(damage.ToString());
+        }
+
+        private void ShowText(string text)
+        {
+            var txt = Instantiate(damageTextPrefab, canvas.transform);
+            txt.rectTransform.anchoredPosition = damageTextStartPos.anchoredPosition;
+            txt.text = text;
+            txt.rectTransform.DOAnchorPosY(damageTextStartPos.anchoredPosition.y + 100, 1f);
+            txt.DOFade(0f, 1f);
         }
 
         private void ShowChant()
@@ -87,33 +87,13 @@ namespace JYW.UI
 
         private void StopChant() =>
             chantUi.Drop();
+       
 
-        private void LeftButtonClicked()
-        {
-            character.MoveRequest((int)Direction.L * Character.NormalMoveDist, MoveType.Normal);
-            HideButtons();
-        }
+        private void ShowDodge() => ShowText(Game.Dodge);
 
+        private void ShowToken() => rounderToken.FadeIn();
 
-        private void RightButtonClicked()
-        {
-            character.MoveRequest((int)Direction.R * Character.NormalMoveDist, MoveType.Normal);
-            HideButtons();
-        }
-
-        private void ShowButtons()
-        {
-            leftButton.FadeIn();
-            rightButton.FadeIn();
-        }
-
-        private void HideButtons()
-        {
-            leftButton.FadeOut();
-            rightButton.FadeOut();
-        }
-
-
+        private void HideToken() => rounderToken.FadeOut();
 
         //private void UpdateChant()
         //{

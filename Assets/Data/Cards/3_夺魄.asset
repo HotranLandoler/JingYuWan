@@ -19,35 +19,38 @@ MonoBehaviour:
   Cost: 25
   Range: 25
   type: 0
+  requireControl: 2
+  isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022177371324467
+  - rid: 4098022202382745985
   performSound: {fileID: 0}
   references:
     version: 2
     RefIds:
-    - rid: 4098022177371324467
+    - rid: 4098022202382745985
       type: {class: EffectTypes/StartChant, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         chantSound: {fileID: 8300000, guid: e96b80f352c61004d9206b9fab03ede2, type: 3}
         moveChant: 0
         duration: 1
+        allowSkip: 1
         effectsOnChant:
-        - rid: 4098022177371324468
-        - rid: 4098022177371324471
-        - rid: 4098022177371324477
-    - rid: 4098022177371324468
+        - rid: 4098022202382745986
+        - rid: 4098022202382745987
+        - rid: 4098022202382745988
+    - rid: 4098022202382745986
       type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         damage: 15
-    - rid: 4098022177371324471
+    - rid: 4098022202382745987
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         sound: {fileID: 8300000, guid: 7411905b8cd0ad74ebb5dc53cd54c3a6, type: 3}
-    - rid: 4098022177371324477
+    - rid: 4098022202382745988
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

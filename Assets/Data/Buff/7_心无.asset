@@ -18,5 +18,18 @@ MonoBehaviour:
   Duration: 3
   MaxLevel: 1
   controlType: 0
-  buffEffects: []
+  uncontrolType: 0
+  buffEffects:
+  - type: 1
+    val1: 0.15
+  - type: 2
+    val1: 0.3
+  - type: 10
+    val1: 10
+  EffectsOnTakeDamage: []
+  RemoveOnTakeDamage: 0
+  EffectsOnStartRound: []
   converters: []
+  references:
+    version: 2
+    RefIds: []

@@ -32,36 +32,105 @@ public class BuffInfo : ScriptableObject
 
     public ControlType controlType = ControlType.None;
 
+    public UncontrolType uncontrolType = UncontrolType.None;
+
     public BuffEffect[] buffEffects;
+
+    public BuffEffect[] EffectsOnTakeDamage;
+
+    public bool RemoveOnTakeDamage = false;
+
+    public bool RemoveOnUseSkill = false;
+
+    [SerializeReference]
+    [SerializeReferenceButton]
+    public List<Effect> EffectsOnStartRound;
 
     public BuffConverter[] converters;
 
     public void OnAdded(Character character) 
     {
-        
+        foreach (var effect in buffEffects)
+        {
+            switch (effect.EffectType)
+            {
+                case BuffEffect.Type.AddCritic:
+                    character.Critic.AddValueMod(effect.Val1);
+                    break;
+                case BuffEffect.Type.AddCriticDamage:
+                    character.CriticDamage.AddValueMod(effect.Val1);
+                    break;
+                case BuffEffect.Type.AddEnergyRecover:
+                    character.EnergyRecover.AddValueMod(effect.Val1);
+                    break;
+                case BuffEffect.Type.AddDodge:
+                    character.DodgeChance.AddValueMod(effect.Val1);
+                    break;
+                case BuffEffect.Type.AddSkipChant:
+                    character.SkipChantChance++;
+                    break;
+                case BuffEffect.Type.Invisible:
+                    character.ToggleInvisible(true);
+                    break;
+            }
+        }
     }
 
     public void OnTick(Character character, int level) 
     {
         foreach (var effect in buffEffects)
-        {
+        {         
             if (effect.EffectType == BuffEffect.Type.Damage)
             {
-                character.TakeDamage(CombatManager.CalcuDamage(effect.Val1 * level, null, character));
-                
+                character.TakeDamage(CombatManager.CalcuDamage(effect.Val1 * level, null, character));               
             }
-            //effect.EffectType switch
-            //{
-            //    BuffEffect.Type.Damage => Debug.Log(""),
-            //    _ => null
-            //};
-        }
-        
+        }       
     }
 
-    public void OnRemoved(Character character) { }
+    public void OnRemoved(Character character) 
+    {
+        foreach (var effect in buffEffects)
+        {
+            switch (effect.EffectType)
+            {
+                case BuffEffect.Type.AddCritic:
+                    character.Critic.AddValueMod(-1 * effect.Val1);
+                    break;
+                case BuffEffect.Type.AddCriticDamage:
+                    character.CriticDamage.AddValueMod(-1 * effect.Val1);
+                    break;
+                case BuffEffect.Type.AddEnergyRecover:
+                    character.EnergyRecover.AddValueMod(-1 * effect.Val1);
+                    break;
+                case BuffEffect.Type.AddDodge:
+                    character.DodgeChance.AddValueMod(-1 * effect.Val1);
+                    break;
+                case BuffEffect.Type.Invisible:
+                    character.ToggleInvisible(false);
+                    break;
+            }
+        }
+    }
 
-    public void OnBeHurt(DamageInfo info) { }
+    public void OnStartRound(Character character)
+    {
+        foreach (var effect in EffectsOnStartRound)
+        {
+            effect.Perform(character, null, null);
+        }
+    }
+
+    public void OnBeHurt(Character character)
+    {
+        //foreach (var effect in EffectsOnTakeDamage)
+        //{
+        //    if (effect.EffectType == BuffEffect.Type.RemoveSelf)
+        //    {
+        //        character.Buffs.RemoveBuff(buff => buff.Data == this);
+        //        break;
+        //    }
+        //}
+    }
 
     
 
@@ -71,14 +140,7 @@ public class BuffInfo : ScriptableObject
         public enum Type
         {
             Damage,
-            /// <summary>
-            /// √‚øÿ
-            /// </summary>
-            UnControllable,
-            /// <summary>
-            /// ∞‘ÃÂ√‚Õ∆¿≠
-            /// </summary>
-            UnControllable_Strong,
+            
             AddCritic,
             AddCriticDamage,
             AddHpPercent,
@@ -97,6 +159,9 @@ public class BuffInfo : ScriptableObject
             /// ≥¡ƒ¨
             /// </summary>
             Silent,
+            AddEnergyRecover,
+            AddSkipChant,
+            Invisible,
         }
 
         [SerializeField]
@@ -148,4 +213,17 @@ public enum ControlType
     /// ª˜µπ
     /// </summary>
     Down,
+}
+
+public enum UncontrolType
+{
+    None,
+    /// <summary>
+    /// √‚øÿ
+    /// </summary>
+    Weak,
+    /// <summary>
+    /// ∞‘ÃÂ√‚Õ∆¿≠
+    /// </summary>
+    Strong,
 }
