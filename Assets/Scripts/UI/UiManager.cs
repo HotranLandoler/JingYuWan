@@ -4,11 +4,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Pool;
+using Cinemachine;
+using UnityEngine.SceneManagement;
 
 namespace JYW.UI
 {
     public class UiManager : MonoBehaviour
     {
+        public static readonly string PlayerRound = "玩家回合\n移动一步/打出普通牌x1/打出附加牌xN";
+
+        public static readonly string Win = "胜利";
+
+        public static readonly string Lose = "失败";
+
+        [SerializeField]
+        private CinemachineVirtualCamera followCamera;
 
         [Header("Buttons")]
         [SerializeField]
@@ -26,7 +37,7 @@ namespace JYW.UI
         public UnityEvent PlayButtonClicked;
         public UnityEvent NextButtonClicked;
 
-        public event UnityAction<Vector2> PosSubmited;
+        //public event UnityAction<Vector2> PosSubmited;
 
         [Header("Effects")]
         [SerializeField]
@@ -53,20 +64,44 @@ namespace JYW.UI
 
         [Header("PosSelect")]
         [SerializeField]
-        private GameObject posSelectPrefab;
+        private UiButton posSubmitButton;
 
         [SerializeField]
-        private UiButton posSubmitButton;
+        private FadableSprite posSelector;
+
+        [SerializeField]
+        private Transform selectorCameraRoot;
+
+        [Header("GameOver")]
+        [SerializeField]
+        private RectTransform gameOverScreen;
+
+        [SerializeField]
+        private Text gameOverText;
+
+        [SerializeField]
+        private Button restartButton;
+
+        [SerializeField]
+        private SceneTransition transition;
 
         private Canvas canvas;
 
-        private bool selectingPos = false;
+        private ObjectPool<Text> warningTextPool;
 
-        private GameObject posSelector;
+        public Vector2? SelectedPos { get; private set; } = null;
+
 
         private void Awake()
         {
-            canvas = GetComponent<Canvas>();            
+            canvas = GetComponent<Canvas>();
+            warningTextPool = new ObjectPool<Text>(
+                createFunc: () => Instantiate(warningTextPrefab, canvas.transform),
+                actionOnGet: text => text.gameObject.SetActive(true),
+                actionOnRelease: text => text.gameObject.SetActive(false),
+                actionOnDestroy: text => Destroy(text.gameObject),
+                defaultCapacity: 3,
+                maxSize: 10);
         }
 
         private void Start()
@@ -75,33 +110,22 @@ namespace JYW.UI
             playCardButton.button.onClick.AddListener(() => PlayButtonClicked?.Invoke());
             nextRoundButton.button.onClick.AddListener(() => NextButtonClicked?.Invoke());
             posSubmitButton.button.onClick.AddListener(SubmitPos);
+            restartButton.onClick.AddListener(Restart);
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            if (selectingPos)
-            {
-                if (Input.GetMouseButton(0))
-                {
-                    RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-                    if (hit.collider != null)
-                    {
-                        if (hit.collider.CompareTag("Mouse"))
-                        {
-                            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                            //Debug.Log(pos.x);
-                            float posX = pos.x;
-                            if (posSelector == null)
-                            {
-                                posSelector = Instantiate(posSelectPrefab, new Vector3(pos.x, 0, 0), Quaternion.identity);
-                                posSubmitButton.FadeIn();
-                            }
-                            else
-                                posSelector.transform.position = new Vector3(pos.x, 0, 0);
-                        }
-                    }
-                }
-            }
+            warningTextPool.Clear();
+        }
+
+        public void OnPlayerRound()
+        {
+            stateText.text = PlayerRound;
+        }
+
+        public void OnEnemyRound()
+        {
+            stateText.text = string.Empty;
         }
 
         public IEnumerator ShowCardText(CardData card)
@@ -119,29 +143,76 @@ namespace JYW.UI
 
         public void ShowWarning(string warning)
         {
-            var text = Instantiate(warningTextPrefab, canvas.transform);
-            text.text = warning; 
+            var text = warningTextPool.Get();
+            text.text = warning;
+            text.color = Color.white;
             text.rectTransform.anchoredPosition = warningTextPos.anchoredPosition;
             text.rectTransform.DOAnchorPosY(warningTextPos.anchoredPosition.y + 100, 1f);
-            text.DOFade(0f, 1f);
+            text.DOFade(0f, 1f).OnComplete(() => warningTextPool.Release(text));
         }
 
-        public void StartPosSelect()
+        public IEnumerator WaitForPosSelecting()
         {
             stateText.text = "点击地面选择位置";
             nextRoundButton.FadeOut();
-            selectingPos = true;
+            SelectedPos = null;
+            //posSelect = true;
+            while (SelectedPos == null)
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                    if (hit.collider != null)
+                    {
+                        if (hit.collider.CompareTag("Mouse"))
+                        {
+                            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            posSelector.transform.position = new Vector3(pos.x, 0, 0);
+                            if (!posSelector.Display)
+                            {
+                                //相机跟随选择
+                                followCamera.Follow = selectorCameraRoot;
+                                posSelector.Show();
+                                posSubmitButton.FadeIn();
+                            }
+                        }
+                    }
+                }
+                yield return null;
+            }
+            stateText.text = string.Empty;
+            posSelector.Hide();
+            posSubmitButton.FadeOut();
+            nextRoundButton.FadeIn();
+            //posSelect = false;
         }
 
         private void SubmitPos()
         {
-            stateText.text = string.Empty;
-            selectingPos = false;
-            posSubmitButton.FadeOut();
-            Vector2 pos = new Vector2(posSelector.transform.position.x, 0f);
-            PosSubmited?.Invoke(pos);
-            Destroy(posSelector.gameObject);
-            nextRoundButton.FadeIn();
+            if (posSelector)
+            {
+                Vector2 pos = new Vector2(posSelector.transform.position.x, 0f);
+                SelectedPos = pos;
+            }
+            //stateText.text = string.Empty;
+            //selectingPos = false;
+            //posSubmitButton.FadeOut();
+            //Vector2 pos = new Vector2(posSelector.transform.position.x, 0f);
+            //PosSubmited?.Invoke(pos);
+            //Destroy(posSelector.gameObject);
+            //nextRoundButton.FadeIn();
+        }
+
+        public void ShowGameOver(bool win)
+        {
+            gameOverText.text = win ? Win : Lose;
+            gameOverScreen.gameObject.SetActive(true);
+        }
+
+        private void Restart()
+        {
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+            transition.LoadScene(asyncOperation);            
         }
     }
 }

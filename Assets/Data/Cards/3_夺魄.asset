@@ -15,7 +15,7 @@ MonoBehaviour:
   Id: 3
   Icon: {fileID: 21300000, guid: 853869cfefcf06544b95877f5da48ee9, type: 3}
   Title: "\u593A\u9B44\u7BAD"
-  Desc: "\u8FD0\u529F2\u56DE\u5408\uFF0C\u9020\u621015\u70B9\u4F24\u5BB3\uFF0C\u5BF970%\u6C14\u8840\u4EE5\u4E0A\u76EE\u6807\u4F24\u5BB3\u63D0\u9AD880%\u3002"
+  Desc: "\u8FD0\u529F1\u56DE\u5408\uFF0C\u9020\u621010\u70B9\u4F24\u5BB3\uFF0C\u83B7\u5F97\u4E00\u5C42\u201C\u65E0\u58F0\u201D\u3002"
   Cost: 25
   Range: 25
   type: 0
@@ -23,12 +23,14 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022202382745985
+  - rid: 4098022229573108009
   performSound: {fileID: 0}
+  toolTips:
+  - {fileID: 11400000, guid: 85fd3013c13cc1148880c2e536697cf5, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 4098022202382745985
+    - rid: 4098022229573108009
       type: {class: EffectTypes/StartChant, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
@@ -37,20 +39,20 @@ MonoBehaviour:
         duration: 1
         allowSkip: 1
         effectsOnChant:
-        - rid: 4098022202382745986
-        - rid: 4098022202382745987
-        - rid: 4098022202382745988
-    - rid: 4098022202382745986
+        - rid: 4098022229573108010
+        - rid: 4098022229573108011
+        - rid: 4098022229573108012
+    - rid: 4098022229573108010
       type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
-        damage: 15
-    - rid: 4098022202382745987
+        damage: 10
+    - rid: 4098022229573108011
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         sound: {fileID: 8300000, guid: 7411905b8cd0ad74ebb5dc53cd54c3a6, type: 3}
-    - rid: 4098022202382745988
+    - rid: 4098022229573108012
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

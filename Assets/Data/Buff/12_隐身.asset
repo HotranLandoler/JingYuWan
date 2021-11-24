@@ -19,6 +19,7 @@ MonoBehaviour:
   MaxLevel: 1
   controlType: 0
   uncontrolType: 0
+  lockMove: 0
   buffEffects:
   - type: 12
     val1: 0
@@ -27,6 +28,8 @@ MonoBehaviour:
   RemoveOnUseSkill: 1
   EffectsOnStartRound: []
   converters: []
+  toolTips:
+  - {fileID: 11400000, guid: c63e4e16d0e17d44d9c7db7373927fd2, type: 2}
   references:
     version: 2
     RefIds: []

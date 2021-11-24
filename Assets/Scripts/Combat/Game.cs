@@ -19,9 +19,11 @@ public static class Game
 
     public static readonly string CantUseMagic = "经脉受损，无法运功";
 
-    public static readonly string CantMove = "被封轻功";
+    public static readonly string CantMove = "当前状态无法移动";
 
     public static readonly string Controlled = "受控状态无法施展";
+
+    public static readonly string CantPlayNonExtra = "无法再出非附加牌";
 
     /// <summary>
     /// 手牌容量

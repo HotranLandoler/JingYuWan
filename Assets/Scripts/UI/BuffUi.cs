@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 using UnityEngine.Pool;
 using JYW.Buffs;
+using JYW.UI.ToolTip;
 
 namespace JYW.UI
 {
-    public class BuffUi : MonoBehaviour
-    {        
+    public class BuffUi : MonoBehaviour, IToolTipable
+    {
         private static readonly float maskEffectTime = 0.5f;
 
         private Tweener maskEffectTween;
@@ -27,6 +29,8 @@ namespace JYW.UI
         private Image maskImage;
 
         private Buff bindBuff;
+
+        public ICollection<TipInfo> Tips => bindBuff.Data.toolTips;
 
         public void Set(Buff buff)
         {

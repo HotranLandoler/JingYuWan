@@ -23,12 +23,14 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022202382745973
+  - rid: 4098022229573108057
   performSound: {fileID: 0}
+  toolTips:
+  - {fileID: 11400000, guid: 345f91539e77d9746bfa85ffc2317562, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 4098022202382745973
+    - rid: 4098022229573108057
       type: {class: EffectTypes/StartChant, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
@@ -37,14 +39,14 @@ MonoBehaviour:
         duration: 1
         allowSkip: 1
         effectsOnChant:
-        - rid: 4098022202382745974
-        - rid: 4098022202382745975
-    - rid: 4098022202382745974
+        - rid: 4098022229573108058
+        - rid: 4098022229573108059
+    - rid: 4098022229573108058
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         AddBuffToTarget: {fileID: 11400000, guid: a35ff313fe4dacd4f8242097aba9d2b8, type: 2}
-    - rid: 4098022202382745975
+    - rid: 4098022229573108059
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

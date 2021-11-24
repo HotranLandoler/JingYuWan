@@ -22,8 +22,14 @@ MonoBehaviour:
   requireControl: 2
   isExtra: 1
   conditions: []
-  Effects: []
+  Effects:
+  - rid: 4098022231031152710
   performSound: {fileID: 0}
+  toolTips: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4098022231031152710
+      type: {class: EffectTypes/DragTarget, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []

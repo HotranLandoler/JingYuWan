@@ -19,16 +19,20 @@ MonoBehaviour:
   MaxLevel: 1
   controlType: 0
   uncontrolType: 0
+  lockMove: 0
   buffEffects: []
   EffectsOnTakeDamage: []
   RemoveOnTakeDamage: 0
+  RemoveOnUseSkill: 0
   EffectsOnStartRound:
-  - rid: 4098022202382745957
+  - rid: 4098022229573108061
   converters: []
+  toolTips:
+  - {fileID: 11400000, guid: 44834009c859de6439960cc07c3ee611, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 4098022202382745957
+    - rid: 4098022229573108061
       type: {class: EffectTypes/GetCard, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

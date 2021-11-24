@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
 
     public static readonly int NormalMoveDist = 4;
     public static readonly float NormalMoveSpeed = 2f;
-    public static readonly float SkillMoveSpeed = 4f;
+    public static readonly float SkillMoveSpeed = 6f;
 
     public event UnityAction HealthChanged;
     public event UnityAction EnergyChanged;
@@ -108,6 +108,11 @@ public class Character : MonoBehaviour
     /// </summary>
     public int SkipChantChance { get; set; } = 0;
 
+    /// <summary>
+    /// 是否已打出过非附加牌
+    /// </summary>
+    public bool HasPlayedNonExtra { get; set; } = false;
+
     [SerializeField]
     private PlacedObject placedPrefab;
 
@@ -123,10 +128,10 @@ public class Character : MonoBehaviour
     /// 未被封内
     /// </summary>
     public bool CanUseMagic { get; } = true;
-    /// <summary>
-    /// 未被锁足以上级别控制
-    /// </summary>
-    public bool CanMove { get; } = true;
+    ///// <summary>
+    ///// 未被锁足以上级别控制
+    ///// </summary>
+    //public bool CanMove { get; } = true;
 
     public ControlType ControlledType { get; private set; } = ControlType.None;
 
@@ -161,6 +166,7 @@ public class Character : MonoBehaviour
     {
         CurrentEnergy += EnergyRecover.FinalValue;
         Buffs.OnStartRound();
+        HasPlayedNonExtra = false;
         RoundStarted?.Invoke();
     }
 
@@ -275,6 +281,16 @@ public class Character : MonoBehaviour
         }
         yield return new WaitForSeconds(chantWaitTime);
         //else ChantProcessed?.Invoke();
+    }
+
+    public bool CanMove()
+    {
+        if (ControlledType >= ControlType.Stuck)
+        {
+            return false;
+        }
+        if (Buffs.HasBuff(buff => buff.Data.lockMove)) return false;
+        return true;
     }
 
     /// <summary>

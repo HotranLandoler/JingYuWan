@@ -23,18 +23,20 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022205686284839
-  - rid: 4098022205686284840
+  - rid: 4098022229573108040
+  - rid: 4098022229573108041
   performSound: {fileID: 0}
+  toolTips:
+  - {fileID: 11400000, guid: 9564eac6969183048b78dd85e40c97d2, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 4098022205686284839
+    - rid: 4098022229573108040
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         AddBuffToSelf: {fileID: 11400000, guid: 5e59df1bed922f34cbb3900ab3ab300e, type: 2}
-    - rid: 4098022205686284840
+    - rid: 4098022229573108041
       type: {class: EffectTypes/GetCard, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

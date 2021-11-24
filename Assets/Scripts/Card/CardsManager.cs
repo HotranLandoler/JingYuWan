@@ -7,6 +7,7 @@ using UnityEngine.Pool;
 
 public class CardsManager : MonoBehaviour
 {
+
     [SerializeField]
     private CardData[] cardDataSet;
 
@@ -50,6 +51,12 @@ public class CardsManager : MonoBehaviour
     [SerializeField]
     private RectTransform cardDiscardPos;
 
+    private CardDeck playerDrawPile;
+    private CardDeck playerDiscardPile;
+
+    private CardDeck aiDrawPile;
+    private CardDeck aiDiscardPile;
+
     private List<Card> cards = new List<Card>(Game.HandCardsCapacity);
 
     private List<CardData> aiCards = new List<CardData>(Game.HandCardsCapacity);
@@ -78,6 +85,10 @@ public class CardsManager : MonoBehaviour
 
     private void Awake()
     {
+        playerDrawPile = new CardDeck(cardDataSet);
+        playerDiscardPile = new CardDeck();
+        aiDrawPile = new CardDeck(cardDataSet);
+        aiDiscardPile = new CardDeck();
         aiEngine = new AIEngine();
         cardPool = new ObjectPool<Card>(
             createFunc: CreatePooledCard, 
@@ -95,13 +106,21 @@ public class CardsManager : MonoBehaviour
 
     public IEnumerator ShowCards()
     {
-        for (int i = 0; i < handCardsNum; i++)
+        if (playerDrawPile.GetCount() < handCardsNum)
+            playerDiscardPile.MoveTo(playerDrawPile);
+        CardData[] datas = playerDrawPile.GetRandomCards(handCardsNum);
+        foreach (var c in datas)
         {
-            //从牌库随机选取
-            CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
-            Card card = CreateCard(data);
+            Card card = CreateCard(c);
             cards.Add(card);
         }
+        //for (int i = 0; i < handCardsNum; i++)
+        //{
+        //    //从牌库随机选取
+        //    CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
+        //    Card card = CreateCard(data);
+        //    cards.Add(card);
+        //}
         yield return PlaceCards();
     }
 
@@ -131,6 +150,10 @@ public class CardsManager : MonoBehaviour
         {
             cardPool.Release(card);
         }
+        //foreach (var c in cards)
+        //{
+        //    playerDrawPile.AddCards(c.Data);
+        //}
         cards.Clear();
     }
 
@@ -138,6 +161,7 @@ public class CardsManager : MonoBehaviour
     {
         HandCardsInteractable = false;
         //SelectedCard.Clickable = false;
+        SelectedCard.ToggleToolTip(false);
         var time = cardPlaceTime;
         SelectedCard.ScaleTo(1f, time);
         SelectedCard.RotateTo(new Vector3(0f, 0f, 90f), time);
@@ -145,6 +169,10 @@ public class CardsManager : MonoBehaviour
         yield return new WaitForSeconds(time);
         cardPool.Release(SelectedCard);
         cards.Remove(SelectedCard);
+
+        playerDiscardPile.AddCards(SelectedCard.Data);
+        playerDrawPile.RemoveCards(SelectedCard.Data);
+        
         SelectedCard = null;
         //CardDeselected?.Invoke();
         //yield return PlaceCards();
@@ -153,6 +181,8 @@ public class CardsManager : MonoBehaviour
     public void DropAiCard(CardData card)
     {
         aiCards.Remove(card);
+        aiDiscardPile.AddCards(card);
+        aiDrawPile.RemoveCards(card);
     }
 
     public void AddAiCard(CardData card) =>
@@ -185,13 +215,21 @@ public class CardsManager : MonoBehaviour
 
     public void GenerateAiCards()
     {
+        //aiDrawPile.AddCards(aiCards.ToArray());
         aiCards.Clear();
-        for (int i = 0; i < handCardsNum; i++)
+        if (aiDrawPile.GetCount() < handCardsNum)
+            aiDiscardPile.MoveTo(aiDrawPile);
+        CardData[] datas = aiDrawPile.GetRandomCards(handCardsNum);
+        foreach (var data in datas)
         {
-            //从牌库随机选取
-            CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
             aiCards.Add(data);
         }
+        //for (int i = 0; i < handCardsNum; i++)
+        //{
+        //    //从牌库随机选取
+        //    CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
+        //    aiCards.Add(data);
+        //}
     }
 
     public CardData GetAiDecision(Character agent, Character target)
@@ -253,11 +291,13 @@ public class CardsManager : MonoBehaviour
         }
         SelectedCard = card;
         PlaceOnTable(card);
+        SelectedCard.ToggleToolTip(true);
         CardSelected?.Invoke();
     }
 
     private void DeselectCard()
     {
+        SelectedCard.ToggleToolTip(false);
         BackToHand(SelectedCard);
         SelectedCard = null;       
     }

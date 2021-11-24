@@ -39,8 +39,8 @@ public class GameManager : MonoBehaviour
 
     private bool buttonClickable = false;
 
-    private PlacedInfo posSelecting;
-    private IEnumerable<Effect> selectPosEffects;
+    //private PlacedInfo posSelecting;
+    //private IEnumerable<Effect> selectPosEffects;
 
     //public event UnityAction CharacterDistChanged;
 
@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        player.HealthChanged += CheckGameWin;
+        enemy.HealthChanged += CheckGameWin;
         player.ChantCompleted += OnChantCompleted;
         enemy.ChantCompleted += OnChantCompleted;
         player.MoveRequested += CharacterMove;
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
+        player.HealthChanged -= CheckGameWin;
+        enemy.HealthChanged -= CheckGameWin;
         player.ChantCompleted -= OnChantCompleted;
         enemy.ChantCompleted -= OnChantCompleted;
         player.MoveRequested -= CharacterMove;
@@ -80,8 +84,30 @@ public class GameManager : MonoBehaviour
         cardsManager.CardDeselected.AddListener(OnCardDeselected);
         uiManager.PlayButtonClicked.AddListener(PlayerPlayCard);
         uiManager.NextButtonClicked.AddListener(NextRound);
-        uiManager.PosSubmited += ReceivePos;
+        //uiManager.PosSubmited += ReceivePos;
         StartCoroutine(GameMain());
+    }
+
+    private void Update()
+    {
+        if (player.transform.position.y < -5)
+            uiManager.ShowGameOver(false);
+        else if (enemy.transform.position.y < -5)
+            uiManager.ShowGameOver(true);
+    }
+
+    private void CheckGameWin()
+    {
+        if (player.CurrentHealth <= 0)
+        {
+            uiManager.ShowGameOver(false);
+            StopAllCoroutines();
+        }
+        else if (enemy.CurrentHealth <= 0)
+        {
+            uiManager.ShowGameOver(true);
+            StopAllCoroutines();
+        }           
     }
 
     private IEnumerator GameMain()
@@ -100,6 +126,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DoPlayCard(CardData data, Character attacker, Character defender)
     {
+        if (!data.isExtra)
+            attacker.HasPlayedNonExtra = true;
         buttonClickable = false;
         Coroutine coroutine = null;
         if (currentRounder == player)
@@ -142,6 +170,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ProcessRound()
     {
+        uiManager.OnEnemyRound();
         currentRounder.EndRound();
         if (currentRounder == player)
         {            
@@ -152,7 +181,7 @@ public class GameManager : MonoBehaviour
         currentRounder.TickPlaceds();
 
         currentRounder = currentRounder == player ? enemy : player;
-
+       
         followCamera.Follow = currentRounder == player ? targetGroupPlayer.transform : targetGroupEnemy.transform;
         yield return currentRounder.ProcessChant();
         //本回合开始
@@ -163,6 +192,7 @@ public class GameManager : MonoBehaviour
             uiManager.NextRoundButton.FadeIn();
             buttonClickable = true;
             currentRounder.StartRound();
+            uiManager.OnPlayerRound();
             yield break;
         }
         cardsManager.GenerateAiCards();
@@ -230,16 +260,28 @@ public class GameManager : MonoBehaviour
 
     private void SelectPos(PlacedInfo info, IEnumerable<Effect> effects)
     {
-        cardsManager.HandCardsInteractable = false;
-        uiManager.StartPosSelect();
-        selectPosEffects = effects;
-        posSelecting = info;
+        StartCoroutine(DoSelectPos(info, effects));       
     }
 
-    private void ReceivePos(Vector2 pos)
+    private IEnumerator DoSelectPos(PlacedInfo info, IEnumerable<Effect> effects)
     {
+        cardsManager.HandCardsInteractable = false;
+        //记录原相机目标
+        Transform follow = followCamera.Follow;
+        //selectPosEffects = effects;
+        //posSelecting = info;
+        yield return uiManager.WaitForPosSelecting();
+        //还原相机跟随
+        followCamera.Follow = follow;
+        player.PlaceObjectImmediate(info, uiManager.SelectedPos.Value);
+        combatManager.PerformEffects(effects, player, enemy, null);      
         cardsManager.HandCardsInteractable = true;
-        player.PlaceObjectImmediate(posSelecting, pos);
-        combatManager.PerformEffects(selectPosEffects, player, enemy, null);
     }
+
+    //private void ReceivePos(Vector2 pos)
+    //{
+    //    cardsManager.HandCardsInteractable = true;
+    //    player.PlaceObjectImmediate(posSelecting, pos);
+    //    combatManager.PerformEffects(selectPosEffects, player, enemy, null);
+    //}
 }

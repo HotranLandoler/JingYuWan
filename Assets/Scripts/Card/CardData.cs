@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JYW.UI.ToolTip;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public partial class CardData : ScriptableObject
@@ -35,6 +36,8 @@ public partial class CardData : ScriptableObject
     public List<Effect> Effects;
 
     public AudioClip performSound;
+
+    public TipInfo[] toolTips;
 
     public enum Type
     {

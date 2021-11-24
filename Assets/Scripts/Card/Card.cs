@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
+using JYW.UI;
+using JYW.UI.ToolTip;
 
-public class Card : MonoBehaviour, IPointerDownHandler
+public class Card : MonoBehaviour, IPointerDownHandler, IToolTipable
 {
     private CardsManager _cardsManager;
 
@@ -32,6 +34,14 @@ public class Card : MonoBehaviour, IPointerDownHandler
     [SerializeField]
     private Text rangeText;
 
+    [SerializeField]
+    private Image extraImage;
+
+    [SerializeField]
+    private UiButton toolTipButton;
+
+    public ICollection<TipInfo> Tips => data.toolTips;
+
     //public bool Clickable { get; set; } = false;
 
     private Tweener moveTween;
@@ -49,6 +59,7 @@ public class Card : MonoBehaviour, IPointerDownHandler
         descText.text = data.Desc;
         costText.text = data.Cost.ToString();
         rangeText.text = data.Range.ToString();
+        extraImage.enabled = data.isExtra;
         //Clickable = false;
         if (!rectTransform) rectTransform = GetComponent<RectTransform>();
         rectTransform.localScale = Vector3.one;
@@ -91,6 +102,13 @@ public class Card : MonoBehaviour, IPointerDownHandler
     //    if (!Clickable) return;
     //    rectTransform.DOScale(1f, 0.4f);
     //}
+
+    public void ToggleToolTip(bool show)
+    {
+        if (show)
+            toolTipButton.FadeIn();
+        else toolTipButton.FadeOut();
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {

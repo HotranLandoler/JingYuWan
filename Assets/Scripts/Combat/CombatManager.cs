@@ -18,6 +18,11 @@ public class CombatManager
     public static bool CanPlayCard(CardData card, Character attacker, Character defender, out string message)
     {
         message = null;
+        if (!card.isExtra && attacker.HasPlayedNonExtra)
+        {
+            message = Game.CantPlayNonExtra;
+            return false;
+        }
         if (card.Cost > attacker.CurrentEnergy)
         {
             message = Game.NoEnoughEnergy;
@@ -33,7 +38,7 @@ public class CombatManager
             message = Game.CantUseMagic;
             return false;
         }
-        if (card.type == CardData.Type.Move && attacker.ControlledType >= ControlType.Stuck)
+        if (card.type == CardData.Type.Move && !attacker.CanMove())
         {
             message = Game.CantMove;
             return false;

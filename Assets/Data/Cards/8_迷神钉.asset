@@ -19,14 +19,17 @@ MonoBehaviour:
   Cost: 25
   Range: 25
   type: 0
+  requireControl: 2
+  isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022185927442432
+  - rid: 4098022229573108019
   performSound: {fileID: 8300000, guid: d0b123cc5850ad7419481ea37a81c22d, type: 3}
+  toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022185927442432
+    - rid: 4098022229573108019
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

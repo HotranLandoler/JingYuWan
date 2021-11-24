@@ -1,3 +1,5 @@
+using JYW.UI;
+using JYW.UI.ToolTip;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +36,11 @@ public class BuffInfo : ScriptableObject
 
     public UncontrolType uncontrolType = UncontrolType.None;
 
+    /// <summary>
+    /// ÎÞ·¨ÒÆ¶¯
+    /// </summary>
+    public bool lockMove = false;
+
     public BuffEffect[] buffEffects;
 
     public BuffEffect[] EffectsOnTakeDamage;
@@ -47,6 +54,8 @@ public class BuffInfo : ScriptableObject
     public List<Effect> EffectsOnStartRound;
 
     public BuffConverter[] converters;
+
+    public TipInfo[] toolTips;
 
     public void OnAdded(Character character) 
     {

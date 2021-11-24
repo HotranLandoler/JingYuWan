@@ -11,6 +11,9 @@ namespace JYW.UI
         private SpriteRenderer spriteRenderer;
 
         [SerializeField]
+        private UiManager uiManager;
+
+        [SerializeField]
         private UiButton leftButton;
 
         [SerializeField]
@@ -38,19 +41,18 @@ namespace JYW.UI
 
         private void Start()
         {
-            leftButton.button.onClick.AddListener(LeftButtonClicked);
-            rightButton.button.onClick.AddListener(RightButtonClicked);
+            leftButton.button.onClick.AddListener(() => MoveButtonClicked(Direction.L));
+            rightButton.button.onClick.AddListener(() => MoveButtonClicked(Direction.R));
         }
 
-        private void LeftButtonClicked()
+        private void MoveButtonClicked(Direction dir)
         {
-            character.MoveRequest((int)Direction.L * Character.NormalMoveDist, MoveType.Normal);
-            HideButtons();
-        }
-
-        private void RightButtonClicked()
-        {
-            character.MoveRequest((int)Direction.R * Character.NormalMoveDist, MoveType.Normal);
+            if (!character.CanMove())
+            {
+                uiManager.ShowWarning(Game.CantMove);
+                return;
+            }
+            character.MoveRequest((int)dir * Character.NormalMoveDist, MoveType.Normal);
             HideButtons();
         }
 
@@ -79,6 +81,6 @@ namespace JYW.UI
                 spriteRenderer.color = Color.white;
             }
         }
-            
+
     }
 }

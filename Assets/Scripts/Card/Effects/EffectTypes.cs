@@ -142,6 +142,22 @@ public class EffectTypes
     }
 
     [System.Serializable]
+    public class DragTarget : Effect
+    {
+        public override bool AllowDodge => true;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            float dist = attacker.transform.position.x - target.transform.position.x;
+            int chi = Game.Unit2Chi(dist);
+            if (attacker.transform.position.x < target.transform.position.x)
+                chi += 2;
+            else chi -= 2;
+            target.MoveRequest(chi, MoveType.Fast, true);
+        }
+    }
+
+    [System.Serializable]
     public class MoveSelf : Effect
     {
         [SerializeField]

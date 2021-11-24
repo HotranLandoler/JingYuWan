@@ -18,7 +18,18 @@ MonoBehaviour:
   Duration: 12
   MaxLevel: 3
   controlType: 0
+  uncontrolType: 0
+  lockMove: 0
   buffEffects: []
+  EffectsOnTakeDamage: []
+  RemoveOnTakeDamage: 0
+  RemoveOnUseSkill: 0
+  EffectsOnStartRound: []
   converters:
   - convertTarget: {fileID: 11400000, guid: ff6326118db7c98469d38ae538bde8e3, type: 2}
     convertLevel: 3
+  toolTips:
+  - {fileID: 11400000, guid: 85fd3013c13cc1148880c2e536697cf5, type: 2}
+  references:
+    version: 2
+    RefIds: []

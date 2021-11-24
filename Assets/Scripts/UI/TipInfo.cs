@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JYW.UI
+namespace JYW.UI.ToolTip
 {
     [CreateAssetMenu]
     public class TipInfo : ScriptableObject
