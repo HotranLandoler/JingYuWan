@@ -178,7 +178,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 2160, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -377,7 +377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &107175526
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1492,27 +1492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5ebe3ba4b3631c4581897d761e9d35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardDataSet:
-  - {fileID: 11400000, guid: 2970d0ebad7152b47bef78f4bc50516b, type: 2}
-  - {fileID: 11400000, guid: 33efb11fac1f9ea419bec4f9d2d4647f, type: 2}
-  - {fileID: 11400000, guid: a5d4c9960c401cf4b996b8510c408f7c, type: 2}
-  - {fileID: 11400000, guid: ae1ee99a270e2a849a7df8b5e5d96625, type: 2}
-  - {fileID: 11400000, guid: e10156d38e7855544aac1a9e18e83cdb, type: 2}
-  - {fileID: 11400000, guid: 4b59a62a6a978ca42abbaa0b77fb7d61, type: 2}
-  - {fileID: 11400000, guid: 1701f6817f77c2d409a07c5773fe4301, type: 2}
-  - {fileID: 11400000, guid: 3e037779db4c180438db829d80cb9e4b, type: 2}
-  - {fileID: 11400000, guid: cc1016e2fa870fc4a9dc96de76db9bef, type: 2}
-  - {fileID: 11400000, guid: b4528e232effd7e47a6c7664735ccb82, type: 2}
-  - {fileID: 11400000, guid: 6a514affb0fda704c951a766f45acdf8, type: 2}
-  - {fileID: 11400000, guid: 7831f7b57f7a6a84c9dcd6fd7cc8af8a, type: 2}
-  - {fileID: 11400000, guid: ef48f6866aedc1042bedfdf86d0974e5, type: 2}
-  - {fileID: 11400000, guid: 54dd89db779adb744bf7804ae5c668c0, type: 2}
-  - {fileID: 11400000, guid: 3f8f55e26d0336949b7fa6806b63dbaf, type: 2}
-  - {fileID: 11400000, guid: 29e671a28bf41c541962a0997ecbb68d, type: 2}
-  - {fileID: 11400000, guid: e9366a700106e21439e134c0449be1b8, type: 2}
-  - {fileID: 11400000, guid: 0d799cb875f06264598686248a80546d, type: 2}
   cardPrefab: {fileID: 9148435396704263046, guid: 37e301ba3887d1046bfca0376b62052c, type: 3}
-  handCardsNum: 5
   cardWidth: 320
   cardSpacing: 50
   cardPlaceTime: 0.4
@@ -2328,6 +2308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 166ee7b9adf9cec4db40b78dbb59132c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sectSelect: {fileID: 11400000, guid: 5196daa95617687479a089e80048d154, type: 2}
   player: {fileID: 572848293}
   enemy: {fileID: 854474044}
   cardsManager: {fileID: 702734489}
@@ -2385,8 +2366,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 121}
-  m_SizeDelta: {x: -1668, y: -925}
+  m_AnchoredPosition: {x: 0, y: 180.17}
+  m_SizeDelta: {x: -1668, y: -727.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460159953
 MonoBehaviour:
@@ -3296,7 +3277,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2, y: 1}
+    m_SensorSize: {x: 2.2222223, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3593,7 +3574,7 @@ GameObject:
   m_Layer: 0
   m_Name: PosSelector
   m_TagString: Untagged
-  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

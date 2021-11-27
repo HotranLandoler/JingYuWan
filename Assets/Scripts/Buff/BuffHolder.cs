@@ -84,7 +84,8 @@ namespace JYW.Buffs
         private bool CanAddBuff(BuffInfo data)
         {
             //有免控
-            if (HasBuff(buff => buff.Data.uncontrolType != UncontrolType.None))
+            if (HasBuff(buff => buff.Data.uncontrolType != UncontrolType.None) && 
+                data.controlType != ControlType.None)
                 return false;
             //低级控制无法覆盖
             if (data.controlType != ControlType.None && data.controlType < character.ControlledType)

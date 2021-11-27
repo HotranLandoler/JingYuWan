@@ -7,12 +7,16 @@ using JYW.Buffs;
 
 public class Character : MonoBehaviour
 {
+    private Sect sect;
+    public Sect Sect => sect;
+
     private static readonly float chantWaitTime = 1f;
 
     public static readonly int NormalMoveDist = 4;
     public static readonly float NormalMoveSpeed = 2f;
     public static readonly float SkillMoveSpeed = 6f;
 
+    public event UnityAction Initialized;
     public event UnityAction HealthChanged;
     public event UnityAction EnergyChanged;
 
@@ -43,6 +47,9 @@ public class Character : MonoBehaviour
             return buffHolder;
         }
     }
+
+    private CardsHolder cardsHolder;
+    public CardsHolder CardsHolder => cardsHolder;
 
     private Chant currentChant;
     public Chant CurrentChant => currentChant;
@@ -136,18 +143,20 @@ public class Character : MonoBehaviour
     public ControlType ControlledType { get; private set; } = ControlType.None;
 
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     private Dictionary<PlacedInfo, PlacedObject> placeds = new(3);
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         currentHealth = maxHealth;
         currentEnergy = maxEnergy;
         Critic = new ModifiableStat(critic);
         CriticDamage = new ModifiableStat(criticDamage);
         EnergyRecover = new ModifiableStat(energyRecover);
-        DodgeChance = new ModifiableStat(dodge);
+        DodgeChance = new ModifiableStat(dodge);       
     }
 
     private void OnEnable()
@@ -160,6 +169,19 @@ public class Character : MonoBehaviour
     {
         Buffs.BuffAdded -= OnBuffAdded;
         Buffs.BuffRemoved -= OnBuffRemoved;
+    }
+
+    /// <summary>
+    /// 根据门派数据初始化
+    /// </summary>
+    /// <param name="sect"></param>
+    public void Init(Sect sect)
+    {
+        this.sect = sect;
+        cardsHolder = new CardsHolder(sect.CardsSet);
+        spriteRenderer.sprite = sect.BaseSprite;
+        animator.runtimeAnimatorController = sect.Animator;
+        Initialized?.Invoke();
     }
 
     public void StartRound()

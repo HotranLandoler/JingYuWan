@@ -387,6 +387,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6460920525072811862, guid: 7446c099ba25ef44ca47cb96e79d7409, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8658543476392142066, guid: 7446c099ba25ef44ca47cb96e79d7409, type: 3}
       propertyPath: m_Name
       value: TangmenPlayer
@@ -415,5 +419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60b073101deaca4f822d306f581dd55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManager: {fileID: 0}
   leftButton: {fileID: 413618306077367697}
   rightButton: {fileID: 490607807374663441}

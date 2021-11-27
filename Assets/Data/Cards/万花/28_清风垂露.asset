@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "28_\u6E05\u98CE\u5782\u9732"
+  m_EditorClassIdentifier: 
+  Id: 28
+  Icon: {fileID: 21300000, guid: 2e96d4495e33550468995760881f1e56, type: 3}
+  Title: "\u6E05\u98CE\u5782\u9732"
+  Desc: 
+  Cost: 10
+  Range: 0
+  type: 3
+  dropType: 1
+  requireControl: 2
+  isExtra: 0
+  conditions: []
+  Effects:
+  - rid: 4098022299740930684
+  performSound: {fileID: 0}
+  toolTips: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022299740930684
+      type: {class: EffectTypes/RemoveBuffSelf, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        RemoveFromSelf: {fileID: 11400000, guid: a35ff313fe4dacd4f8242097aba9d2b8, type: 2}

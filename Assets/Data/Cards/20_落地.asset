@@ -19,36 +19,38 @@ MonoBehaviour:
   Cost: 0
   Range: 0
   type: 3
+  dropType: 3
   requireControl: 2
   isExtra: 1
   conditions: []
   Effects:
-  - rid: 4098022205686284873
+  - rid: 4098022276826923132
   performSound: {fileID: 0}
+  toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022205686284873
+    - rid: 4098022276826923132
       type: {class: EffectTypes/PlaceObject, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         placed: {fileID: 11400000, guid: a3c337e85c532f44b994d107f1507359, type: 2}
         placeUnderfoot: 0
         effectsOnPlaced:
-        - rid: 4098022205686284874
-        - rid: 4098022205686284875
-        - rid: 4098022205686284876
-    - rid: 4098022205686284874
+        - rid: 4098022276826923133
+        - rid: 4098022276826923134
+        - rid: 4098022276826923135
+    - rid: 4098022276826923133
       type: {class: EffectTypes/ActivatePlaced, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         placed: {fileID: 11400000, guid: a3c337e85c532f44b994d107f1507359, type: 2}
-    - rid: 4098022205686284875
+    - rid: 4098022276826923134
       type: {class: EffectTypes/RemoveBuffSelf, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         RemoveFromSelf: {fileID: 11400000, guid: 46a5d7d31385b464887cbb74d64fabf9, type: 2}
-    - rid: 4098022205686284876
+    - rid: 4098022276826923135
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

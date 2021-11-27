@@ -6,7 +6,9 @@ using UnityEngine.Events;
 using Cinemachine;
 
 public class GameManager : MonoBehaviour
-{   
+{
+    [SerializeField]
+    private SectSelection sectSelect;
 
     [SerializeField]
     private Character player;
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
 
     private CombatManager combatManager;
 
+    private AIEngine aiEngine;
+
     //private AudioSource audioSource;
 
     private Character currentRounder;
@@ -47,7 +51,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {       
         combatManager = new CombatManager();
-        
+        aiEngine = new AIEngine();
         //audioSource = GetComponent<AudioSource>();
     }
 
@@ -80,16 +84,22 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //按门派初始化角色
+        player.Init(sectSelect.SectA);
+        enemy.Init(sectSelect.SectB);
+
         cardsManager.CardSelected.AddListener(OnCardSelected);
         cardsManager.CardDeselected.AddListener(OnCardDeselected);
         uiManager.PlayButtonClicked.AddListener(PlayerPlayCard);
         uiManager.NextButtonClicked.AddListener(NextRound);
         //uiManager.PosSubmited += ReceivePos;
+
         StartCoroutine(GameMain());
     }
 
     private void Update()
     {
+        //TODO
         if (player.transform.position.y < -5)
             uiManager.ShowGameOver(false);
         else if (enemy.transform.position.y < -5)
@@ -113,15 +123,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator GameMain()
     {
         yield return new WaitForSeconds(1.5f);
-        //Debug.Log("GameStart");
-        //player.CurrentHealth -= 15;
-        //yield return cardsManager.ShowCards();
-        //uiManager.NextRoundButton.FadeIn();
+
         currentRounder = enemy;
         StartCoroutine(ProcessRound());
-        //yield return new WaitForSeconds(4f);
-        //yield return cardsManager.ClearCards();
-        //yield return null;
     }
 
     private IEnumerator DoPlayCard(CardData data, Character attacker, Character defender)
@@ -129,14 +133,14 @@ public class GameManager : MonoBehaviour
         if (!data.isExtra)
             attacker.HasPlayedNonExtra = true;
         buttonClickable = false;
-        Coroutine coroutine = null;
+        //Coroutine coroutine = null;
         if (currentRounder == player)
         {
             OnCardDeselected();
-            coroutine = StartCoroutine(cardsManager.DropSelectedCard());
+            StartCoroutine(cardsManager.DropSelectedCard(player.CardsHolder));
         }
         else
-            cardsManager.DropAiCard(data);
+            enemy.CardsHolder.Drop(data);
         yield return uiManager.ShowCardText(data);
         if(data.performSound) AudioPlayer.Instance.PlaySound(data.performSound);
         attacker.StopChant();
@@ -188,16 +192,17 @@ public class GameManager : MonoBehaviour
         //currentRounder.CurrentEnergy += Game.EnergyRecoverPerRound;
         if (currentRounder == player)
         {
-            yield return cardsManager.ShowCards();
+            yield return cardsManager.ShowCards(player.CardsHolder);
             uiManager.NextRoundButton.FadeIn();
             buttonClickable = true;
             currentRounder.StartRound();
             uiManager.OnPlayerRound();
             yield break;
         }
-        cardsManager.GenerateAiCards();
+        enemy.CardsHolder.GenerateRandomCards(Game.HandCardsNum);
         currentRounder.StartRound();
-        var card = cardsManager.GetAiDecision(enemy, player);
+        var card = aiEngine.Decide(enemy.CardsHolder.Cards, enemy, player);
+        //var card = cardsManager.GetAiDecision(enemy, player);
         if (card != null)
             yield return DoPlayCard(card, enemy, player);
         yield return new WaitForSeconds(1f);
@@ -254,8 +259,9 @@ public class GameManager : MonoBehaviour
     private void AddCard(Character character, CardData card)
     {
         if (character == player)
-            StartCoroutine(cardsManager.AddPlayerCard(card));
-        else cardsManager.AddAiCard(card);
+            StartCoroutine(cardsManager.AddPlayerCard(card, player.CardsHolder));
+        //else cardsManager.AddAiCard(card);
+        else enemy.CardsHolder.Add(card);
     }
 
     private void SelectPos(PlacedInfo info, IEnumerable<Effect> effects)
@@ -277,11 +283,4 @@ public class GameManager : MonoBehaviour
         combatManager.PerformEffects(effects, player, enemy, null);      
         cardsManager.HandCardsInteractable = true;
     }
-
-    //private void ReceivePos(Vector2 pos)
-    //{
-    //    cardsManager.HandCardsInteractable = true;
-    //    player.PlaceObjectImmediate(posSelecting, pos);
-    //    combatManager.PerformEffects(selectPosEffects, player, enemy, null);
-    //}
 }

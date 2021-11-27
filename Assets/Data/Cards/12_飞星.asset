@@ -19,24 +19,26 @@ MonoBehaviour:
   Cost: 20
   Range: 0
   type: 3
+  dropType: 2
   requireControl: 2
   isExtra: 1
   conditions: []
   Effects:
-  - rid: 4098022202382745989
-  - rid: 4098022202382745990
+  - rid: 4098022276826923137
+  - rid: 4098022276826923138
   performSound: {fileID: 8300000, guid: e90ef8ce1f88b784ea47ca9823457aaa, type: 3}
+  toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022202382745989
+    - rid: 4098022276826923137
       type: {class: EffectTypes/PlaceObject, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         placed: {fileID: 11400000, guid: 8dd822193712d4848b4ef821ef0310b1, type: 2}
-        relatedBuff: {fileID: 11400000, guid: bee16ca7fd364fa4baa570128f81a034, type: 2}
         placeUnderfoot: 1
-    - rid: 4098022202382745990
+        effectsOnPlaced: []
+    - rid: 4098022276826923138
       type: {class: EffectTypes/GetCard, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

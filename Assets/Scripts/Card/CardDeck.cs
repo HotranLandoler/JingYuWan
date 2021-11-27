@@ -11,7 +11,7 @@ public class CardDeck
     {
         cards = new List<CardData>();
     }
-    public CardDeck(params CardData[] cards)
+    public CardDeck(IEnumerable<CardData> cards)
     {
         this.cards = new List<CardData>(cards);
     }

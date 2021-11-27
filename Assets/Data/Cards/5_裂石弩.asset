@@ -19,24 +19,25 @@ MonoBehaviour:
   Cost: 20
   Range: 25
   type: 0
+  dropType: 1
   requireControl: 2
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022229573108062
-  - rid: 4098022229573108063
+  - rid: 4098022276826923081
+  - rid: 4098022276826923082
   performSound: {fileID: 8300000, guid: 51fe0c42081ca8e49acd78168db77ce5, type: 3}
   toolTips:
   - {fileID: 11400000, guid: 345f91539e77d9746bfa85ffc2317562, type: 2}
   references:
     version: 2
     RefIds:
-    - rid: 4098022229573108062
+    - rid: 4098022276826923081
       type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         damage: 7
-    - rid: 4098022229573108063
+    - rid: 4098022276826923082
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

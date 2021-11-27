@@ -19,22 +19,24 @@ MonoBehaviour:
   Cost: 0
   Range: 0
   type: 3
+  dropType: 2
   requireControl: 5
   isExtra: 1
   conditions: []
   Effects:
-  - rid: 4098022202382745981
-  - rid: 4098022202382745982
+  - rid: 4098022276826923095
+  - rid: 4098022276826923096
   performSound: {fileID: 8300000, guid: 4731828baf8db444799f6d4e3e145b5d, type: 3}
+  toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022202382745981
+    - rid: 4098022276826923095
       type: {class: EffectTypes/RemoveSelfControl, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         removeControlType: 5
-    - rid: 4098022202382745982
+    - rid: 4098022276826923096
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

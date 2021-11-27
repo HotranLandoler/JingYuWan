@@ -38,11 +38,11 @@ public class CombatManager
             message = Game.CantUseMagic;
             return false;
         }
-        if (card.type == CardData.Type.Move && !attacker.CanMove())
-        {
-            message = Game.CantMove;
-            return false;
-        }
+        //if (card.type == CardData.Type.Move && !attacker.CanMove())
+        //{
+        //    message = Game.CantMove;
+        //    return false;
+        //}
         if (attacker.ControlledType > card.requireControl)
         {
             message = Game.Controlled;

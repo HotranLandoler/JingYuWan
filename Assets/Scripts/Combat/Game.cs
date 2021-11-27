@@ -26,14 +26,14 @@ public static class Game
     public static readonly string CantPlayNonExtra = "无法再出非附加牌";
 
     /// <summary>
-    /// 手牌容量
+    /// 手牌最大容量
     /// </summary>
     public const int HandCardsCapacity = 8;
 
-    ///// <summary>
-    ///// 每回合回复的神机值
-    ///// </summary>
-    //public const int EnergyRecoverPerRound = 10;
+    /// <summary>
+    /// 手牌数量
+    /// </summary>
+    public static readonly int HandCardsNum = 5;
 
     /// <summary>
     /// 两物的x轴距离（单位尺）

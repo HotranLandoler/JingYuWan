@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "22_\u5546\u9633\u6307"
+  m_EditorClassIdentifier: 
+  Id: 22
+  Icon: {fileID: 21300000, guid: 3f5755e8136385140ae148709e7b1553, type: 3}
+  Title: "\u5546\u9633\u6307"
+  Desc: 
+  Cost: 0
+  Range: 24
+  type: 1
+  dropType: 1
+  requireControl: 2
+  isExtra: 0
+  conditions: []
+  Effects:
+  - rid: 4098022293398880633
+  performSound: {fileID: 0}
+  toolTips: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022293398880633
+      type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToTarget: {fileID: 11400000, guid: b99c327a8caf212458eff44a96885bc6, type: 2}

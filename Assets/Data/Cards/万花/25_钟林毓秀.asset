@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "25_\u949F\u6797\u6BD3\u79C0"
+  m_EditorClassIdentifier: 
+  Id: 25
+  Icon: {fileID: 21300000, guid: 635025a377ae9b349a3f1276d6669966, type: 3}
+  Title: "\u949F\u6797\u6BD3\u79C0"
+  Desc: 
+  Cost: 0
+  Range: 20
+  type: 1
+  dropType: 1
+  requireControl: 2
+  isExtra: 0
+  conditions: []
+  Effects:
+  - rid: 4098022293398880641
+  performSound: {fileID: 0}
+  toolTips: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4098022293398880641
+      type: {class: EffectTypes/StartChant, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        chantSound: {fileID: 0}
+        moveChant: 0
+        duration: 1
+        allowSkip: 0
+        effectsOnChant:
+        - rid: 4098022293398880642
+    - rid: 4098022293398880642
+      type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToTarget: {fileID: 11400000, guid: f6c3ffb211ef4d4449fe0cd0df288d2b, type: 2}

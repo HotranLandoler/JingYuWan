@@ -10,6 +10,9 @@ namespace JYW.UI
         [SerializeField]
         private Character binding;
 
+        [SerializeField]
+        private Image IconImage;
+
         [Header("Health")]
         [SerializeField]
         private Image healthImage;
@@ -24,18 +27,25 @@ namespace JYW.UI
         [SerializeField]
         private Text energyText;
 
-        private readonly string format = "0.0";
+        private readonly string format = "0.#";
 
         private void OnEnable()
         {
             binding.HealthChanged += UpdateHealth;
             binding.EnergyChanged += UpdateEnergy;
+            binding.Initialized += SetIcon;
         }
 
         private void OnDisable()
         {
             binding.HealthChanged -= UpdateHealth;
             binding.EnergyChanged -= UpdateEnergy;
+            binding.Initialized -= SetIcon;
+        }
+
+        private void SetIcon()
+        {
+            IconImage.sprite = binding.Sect.Icon;
         }
 
         private void UpdateHealth()

@@ -7,16 +7,8 @@ using UnityEngine.Pool;
 
 public class CardsManager : MonoBehaviour
 {
-
-    [SerializeField]
-    private CardData[] cardDataSet;
-
     [SerializeField]
     private Card cardPrefab;
-
-    [Tooltip("手牌数量")]
-    [SerializeField]
-    private int handCardsNum = 5;
 
     [Tooltip("每张卡牌的宽度")]
     [SerializeField]
@@ -51,17 +43,7 @@ public class CardsManager : MonoBehaviour
     [SerializeField]
     private RectTransform cardDiscardPos;
 
-    private CardDeck playerDrawPile;
-    private CardDeck playerDiscardPile;
-
-    private CardDeck aiDrawPile;
-    private CardDeck aiDiscardPile;
-
-    private List<Card> cards = new List<Card>(Game.HandCardsCapacity);
-
-    private List<CardData> aiCards = new List<CardData>(Game.HandCardsCapacity);
-
-    private AIEngine aiEngine;
+    private List<Card> cardUis = new List<Card>(Game.HandCardsCapacity);
 
     private Card _selectedCard;
     /// <summary>
@@ -85,11 +67,6 @@ public class CardsManager : MonoBehaviour
 
     private void Awake()
     {
-        playerDrawPile = new CardDeck(cardDataSet);
-        playerDiscardPile = new CardDeck();
-        aiDrawPile = new CardDeck(cardDataSet);
-        aiDiscardPile = new CardDeck();
-        aiEngine = new AIEngine();
         cardPool = new ObjectPool<Card>(
             createFunc: CreatePooledCard, 
             actionOnGet: OnCardTakenFromPool, 
@@ -104,24 +81,27 @@ public class CardsManager : MonoBehaviour
         cardPool.Clear();
     }
 
-    public IEnumerator ShowCards()
+    public IEnumerator ShowCards(CardsHolder holder)
     {
-        if (playerDrawPile.GetCount() < handCardsNum)
-            playerDiscardPile.MoveTo(playerDrawPile);
-        CardData[] datas = playerDrawPile.GetRandomCards(handCardsNum);
+        holder.GenerateRandomCards(Game.HandCardsNum);
+
+        var datas = holder.Cards;
         foreach (var c in datas)
         {
             Card card = CreateCard(c);
-            cards.Add(card);
+            cardUis.Add(card);
         }
-        //for (int i = 0; i < handCardsNum; i++)
-        //{
-        //    //从牌库随机选取
-        //    CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
-        //    Card card = CreateCard(data);
-        //    cards.Add(card);
-        //}
         yield return PlaceCards();
+
+        //if (playerDrawPile.GetCount() < handCardsNum)
+        //    playerDiscardPile.MoveTo(playerDrawPile);
+        //CardData[] datas = playerDrawPile.GetRandomCards(handCardsNum);
+        //foreach (var c in datas)
+        //{
+        //    Card card = CreateCard(c);
+        //    cardUis.Add(card);
+        //}
+        //yield return PlaceCards();
     }
 
     private Card CreateCard(CardData data)
@@ -139,25 +119,21 @@ public class CardsManager : MonoBehaviour
 
     public IEnumerator ClearCards()
     {
-        if (cards.Count == 0) yield break;
-        foreach (var card in cards)
+        if (cardUis.Count == 0) yield break;
+        foreach (var card in cardUis)
         {
             card.RotateTo(new Vector3(0f, 0f, -90f), cardPlaceTime);
             card.MoveTo(cardStartPos.anchoredPosition, cardPlaceTime);
             yield return new WaitForSeconds(cardPlaceInterval);
         }
-        foreach (var card in cards)
+        foreach (var card in cardUis)
         {
             cardPool.Release(card);
         }
-        //foreach (var c in cards)
-        //{
-        //    playerDrawPile.AddCards(c.Data);
-        //}
-        cards.Clear();
+        cardUis.Clear();
     }
 
-    public IEnumerator DropSelectedCard()
+    public IEnumerator DropSelectedCard(CardsHolder holder)
     {
         HandCardsInteractable = false;
         //SelectedCard.Clickable = false;
@@ -168,30 +144,21 @@ public class CardsManager : MonoBehaviour
         SelectedCard.MoveTo(cardDiscardPos.anchoredPosition, time);
         yield return new WaitForSeconds(time);
         cardPool.Release(SelectedCard);
-        cards.Remove(SelectedCard);
+        cardUis.Remove(SelectedCard);
 
-        playerDiscardPile.AddCards(SelectedCard.Data);
-        playerDrawPile.RemoveCards(SelectedCard.Data);
+        holder.Drop(SelectedCard.Data);
+        //DropCard(SelectedCard.Data, playerDrawPile, playerDiscardPile);       
         
         SelectedCard = null;
         //CardDeselected?.Invoke();
         //yield return PlaceCards();
     }
 
-    public void DropAiCard(CardData card)
-    {
-        aiCards.Remove(card);
-        aiDiscardPile.AddCards(card);
-        aiDrawPile.RemoveCards(card);
-    }
-
-    public void AddAiCard(CardData card) =>
-        aiCards.Add(card);
-
-    public IEnumerator AddPlayerCard(CardData card)
+    public IEnumerator AddPlayerCard(CardData card, CardsHolder holder)
     {
         HandCardsInteractable = false;
-        cards.Add(CreateCard(card));
+        holder.Add(card);
+        cardUis.Add(CreateCard(card));
         yield return PlaceCards();
         HandCardsInteractable = true;
     }
@@ -199,11 +166,11 @@ public class CardsManager : MonoBehaviour
     public IEnumerator PlaceCards()
     {
         Vector2[] pos = CalcuCardPositions();
-        for (int i = 0; i < cards.Count; i++)
+        for (int i = 0; i < cardUis.Count; i++)
         {
-            cards[i].RotateTo(Vector3.zero, cardPlaceTime);
-            cards[i].MoveTo(pos[i], cardPlaceTime);
-            cards[i].AssignedPos = pos[i];
+            cardUis[i].RotateTo(Vector3.zero, cardPlaceTime);
+            cardUis[i].MoveTo(pos[i], cardPlaceTime);
+            cardUis[i].AssignedPos = pos[i];
             yield return new WaitForSeconds(cardPlaceInterval);
         }
         HandCardsInteractable = true;
@@ -213,27 +180,28 @@ public class CardsManager : MonoBehaviour
         //}
     }
 
-    public void GenerateAiCards()
-    {
-        //aiDrawPile.AddCards(aiCards.ToArray());
-        aiCards.Clear();
-        if (aiDrawPile.GetCount() < handCardsNum)
-            aiDiscardPile.MoveTo(aiDrawPile);
-        CardData[] datas = aiDrawPile.GetRandomCards(handCardsNum);
-        foreach (var data in datas)
-        {
-            aiCards.Add(data);
-        }
-        //for (int i = 0; i < handCardsNum; i++)
-        //{
-        //    //从牌库随机选取
-        //    CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
-        //    aiCards.Add(data);
-        //}
-    }
+    //public void GenerateAiCards()
+    //{
+    //    //aiDrawPile.AddCards(aiCards.ToArray());
+    //    aiCards.Clear();
+    //    if (aiDrawPile.GetCount() < handCardsNum)
+    //        aiDiscardPile.MoveTo(aiDrawPile);
+    //    CardData[] datas = aiDrawPile.GetRandomCards(handCardsNum);
+    //    foreach (var data in datas)
+    //    {
+    //        aiCards.Add(data);
+    //    }
+    //    //for (int i = 0; i < handCardsNum; i++)
+    //    //{
+    //    //    //从牌库随机选取
+    //    //    CardData data = cardDataSet[Random.Range(0, cardDataSet.Length)];
+    //    //    aiCards.Add(data);
+    //    //}
+    //}
 
-    public CardData GetAiDecision(Character agent, Character target)
-        => aiEngine.Decide(aiCards, agent, target);
+    //public CardData GetAiDecision(Character agent, Character target)
+    //    => aiEngine.Decide(aiCards, agent, target);
+    
     //public void OnCardClicked(Card card)
     //{
     //    if (SelectedCard == card)
@@ -264,19 +232,19 @@ public class CardsManager : MonoBehaviour
     private Vector2[] CalcuCardPositions()
     {
         //Debug.Log(Screen.width);
-        if (cards.Count == 0)
+        if (cardUis.Count == 0)
             return null;
-        if (cards.Count == 1)
+        if (cardUis.Count == 1)
             return new Vector2[] { new Vector2(Screen.width / 2f, 0f) };
-        Vector2[] pos = new Vector2[cards.Count];
+        Vector2[] pos = new Vector2[cardUis.Count];
         //所有手牌共占宽度
-        float rangeWidth = cards.Count * cardWidth - (cards.Count - 1) * cardSpacing;
+        float rangeWidth = cardUis.Count * cardWidth - (cardUis.Count - 1) * cardSpacing;
         //左端点位置
         float startX = (Screen.width - rangeWidth) / 2f;
         //首张卡牌位置
         pos[0] = new Vector2(startX + cardWidth / 2f, 0f);
         //后续卡牌位置考虑间距
-        for (int i = 1; i < cards.Count; i++)
+        for (int i = 1; i < cardUis.Count; i++)
         {
             pos[i] = new Vector2(pos[i - 1].x + cardWidth - cardSpacing, 0f);
         }

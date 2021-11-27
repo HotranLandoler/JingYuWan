@@ -4,7 +4,7 @@ using UnityEngine;
 using JYW.UI.ToolTip;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
-public partial class CardData : ScriptableObject
+public class CardData : ScriptableObject
 {
     public int Id;
 
@@ -20,6 +20,8 @@ public partial class CardData : ScriptableObject
     public int Range;
 
     public Type type;
+
+    public DropType dropType;
 
     [Tooltip("角色被控等级<=X时可以使用")]
     public ControlType requireControl = ControlType.Stuck;
@@ -57,5 +59,22 @@ public partial class CardData : ScriptableObject
         /// 加状态
         /// </summary>
         Buff
+    }
+
+    public enum DropType
+    {
+        Normal,
+        /// <summary>
+        /// 无限，打出不进入弃牌堆
+        /// </summary>
+        Unlimited,
+        /// <summary>
+        /// 消耗，打出后移除
+        /// </summary>
+        Expendable,
+        /// <summary>
+        /// 特殊，打不打出都移除
+        /// </summary>
+        Special,
     }
 }
