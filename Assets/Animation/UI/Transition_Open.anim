@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Transition_Open
-  serializedVersion: 7
+  serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -81,8 +81,8 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: -1080
-        inSlope: -1080
+        value: -1200
+        inSlope: -1200
         outSlope: 0
         tangentMode: 5
         weightedMode: 0
@@ -109,8 +109,8 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1080
-        inSlope: 1080
+        value: 1200
+        inSlope: 1200
         outSlope: 0
         tangentMode: 5
         weightedMode: 1
@@ -230,8 +230,8 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: -1080
-        inSlope: -1080
+        value: -1200
+        inSlope: -1200
         outSlope: 0
         tangentMode: 5
         weightedMode: 0
@@ -258,8 +258,8 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 1080
-        inSlope: 1080
+        value: 1200
+        inSlope: 1200
         outSlope: 0
         tangentMode: 5
         weightedMode: 1

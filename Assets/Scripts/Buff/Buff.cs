@@ -54,6 +54,11 @@ namespace JYW.Buffs
         public void AddLevel(int add = 1)
         {
             Level += add;
+            ResetTimer();          
+        }
+
+        public void ResetTimer()
+        {
             DurationTimer = Duration;
             ValueChanged?.Invoke();
         }

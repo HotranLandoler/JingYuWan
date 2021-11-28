@@ -135,7 +135,7 @@ public class EffectTypes
 
         public override void Perform(Character attacker, Character target, CardData data)
         {
-            Direction pushDir = attacker.transform.position.x <= target.transform.position.x ? 
+            Direction pushDir = attacker.transform.position.x <= target.transform.position.x ?
                 Direction.R : Direction.L;
             target.MoveRequest((int)pushDir * pushDist, MoveType.Fast, true);
         }
@@ -261,9 +261,25 @@ public class EffectTypes
 
         public override void Perform(Character attacker, Character target, CardData data)
         {
-            attacker.Buffs.RemoveBuff(buff => buff.Data.controlType != ControlType.None && 
+            attacker.Buffs.RemoveBuff(buff => buff.Data.controlType != ControlType.None &&
                 buff.Data.controlType <= removeControlType);
         }
     }
-}
 
+    [Serializable]
+    public class RefreshBuff : Effect
+    {
+        [SerializeField]
+        private BuffInfo[] refreshBuffs;
+
+        public override bool AllowDodge => false;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            foreach (var buff in refreshBuffs)
+            {
+                target.Buffs.RefreshBuff(buff);
+            }           
+        }
+    }
+}

@@ -24,14 +24,23 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022293398880685
+  - rid: 4098022313503228398
+  - rid: 4098022313503228399
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022293398880685
+    - rid: 4098022313503228398
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         AddBuffToTarget: {fileID: 11400000, guid: cb07b726418fbe945b8efe5d3349a82a, type: 2}
+    - rid: 4098022313503228399
+      type: {class: EffectTypes/RefreshBuff, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        refreshBuffs:
+        - {fileID: 11400000, guid: b99c327a8caf212458eff44a96885bc6, type: 2}
+        - {fileID: 11400000, guid: 5f2212b291c8ac542bc5eb283a51a935, type: 2}
+        - {fileID: 11400000, guid: f6c3ffb211ef4d4449fe0cd0df288d2b, type: 2}

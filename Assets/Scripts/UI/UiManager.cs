@@ -12,6 +12,8 @@ namespace JYW.UI
 {
     public class UiManager : MonoBehaviour
     {
+        public static WaitForSeconds waitForCardText;
+
         public static readonly string PlayerRound = "玩家回合\n移动一步/打出普通牌x1/打出附加牌xN";
 
         public static readonly string Win = "胜利";
@@ -102,6 +104,7 @@ namespace JYW.UI
                 actionOnDestroy: text => Destroy(text.gameObject),
                 defaultCapacity: 3,
                 maxSize: 10);
+            waitForCardText = new WaitForSeconds(cardTextShowTime);
         }
 
         private void Start()
@@ -136,7 +139,7 @@ namespace JYW.UI
             cardNameText.gameObject.SetActive(true);
             cardNameText.DOFade(1f, cardTextScaleTime);
             yield return cardNameText.transform.DOScale(Vector3.one, cardTextScaleTime);
-            yield return new WaitForSeconds(cardTextShowTime);
+            yield return waitForCardText;
             cardNameText.DOFade(0f, cardTextScaleTime);
             cardNameText.transform.DOScale(cardTextScale, cardTextScaleTime);
         }

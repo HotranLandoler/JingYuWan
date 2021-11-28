@@ -7,6 +7,9 @@ using UnityEngine.Pool;
 
 public class CardsManager : MonoBehaviour
 {
+    private static WaitForSeconds waitForCardPlaceInterval;
+    private static WaitForSeconds waitForCardPlace;
+
     [SerializeField]
     private Card cardPrefab;
 
@@ -74,6 +77,8 @@ public class CardsManager : MonoBehaviour
             actionOnDestroy: OnDestroyPooledCard,
             defaultCapacity: Game.HandCardsCapacity, 
             maxSize: 20);
+        waitForCardPlaceInterval = new WaitForSeconds(cardPlaceInterval);
+        waitForCardPlace = new WaitForSeconds(cardPlaceTime);
     }
 
     private void OnDestroy()
@@ -124,7 +129,7 @@ public class CardsManager : MonoBehaviour
         {
             card.RotateTo(new Vector3(0f, 0f, -90f), cardPlaceTime);
             card.MoveTo(cardStartPos.anchoredPosition, cardPlaceTime);
-            yield return new WaitForSeconds(cardPlaceInterval);
+            yield return waitForCardPlaceInterval;
         }
         foreach (var card in cardUis)
         {
@@ -142,7 +147,7 @@ public class CardsManager : MonoBehaviour
         SelectedCard.ScaleTo(1f, time);
         SelectedCard.RotateTo(new Vector3(0f, 0f, 90f), time);
         SelectedCard.MoveTo(cardDiscardPos.anchoredPosition, time);
-        yield return new WaitForSeconds(time);
+        yield return waitForCardPlace;
         cardPool.Release(SelectedCard);
         cardUis.Remove(SelectedCard);
 
@@ -171,7 +176,7 @@ public class CardsManager : MonoBehaviour
             cardUis[i].RotateTo(Vector3.zero, cardPlaceTime);
             cardUis[i].MoveTo(pos[i], cardPlaceTime);
             cardUis[i].AssignedPos = pos[i];
-            yield return new WaitForSeconds(cardPlaceInterval);
+            yield return waitForCardPlaceInterval;
         }
         HandCardsInteractable = true;
         //foreach (var c in Cards)

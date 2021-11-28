@@ -7,6 +7,9 @@ using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
+    private static WaitForSeconds waitForGameStart = new WaitForSeconds(1.5f);
+    private static WaitForSeconds waitForRoundEnd = new WaitForSeconds(1f);
+
     [SerializeField]
     private SectSelection sectSelect;
 
@@ -122,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameMain()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return waitForGameStart;
 
         currentRounder = enemy;
         StartCoroutine(ProcessRound());
@@ -205,7 +208,7 @@ public class GameManager : MonoBehaviour
         //var card = cardsManager.GetAiDecision(enemy, player);
         if (card != null)
             yield return DoPlayCard(card, enemy, player);
-        yield return new WaitForSeconds(1f);
+        yield return waitForRoundEnd;
         yield return ProcessRound();
     }
 

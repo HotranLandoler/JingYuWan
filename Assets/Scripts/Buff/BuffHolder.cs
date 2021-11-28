@@ -62,6 +62,12 @@ namespace JYW.Buffs
             }
         }
 
+        public void RefreshBuff(BuffInfo data)
+        {
+            var buff = FindBuff(data);
+            buff?.ResetTimer();
+        }
+
         public void OnTakeDamage(DamageInfo damageInfo)
         {
             foreach (var buff in _buffs)
@@ -180,15 +186,15 @@ namespace JYW.Buffs
         private Buff FindBuff(BuffInfo info) =>
             FindBuff(buff => buff.Data == info);
 
-        private Buff FindBuff(int id)
-        {
-            foreach (var buff in _buffs)
-            {
-                if (buff.Data.Id == id)
-                    return buff;
-            }
-            return null;
-        }
+        //private Buff FindBuff(int id)
+        //{
+        //    foreach (var buff in _buffs)
+        //    {
+        //        if (buff.Data.Id == id)
+        //            return buff;
+        //    }
+        //    return null;
+        //}
 
         private void OnBuffRemoved(Buff buff)
         {

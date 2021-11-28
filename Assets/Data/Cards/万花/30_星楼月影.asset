@@ -21,17 +21,23 @@ MonoBehaviour:
   type: 3
   dropType: 0
   requireControl: 5
-  isExtra: 0
+  isExtra: 1
   conditions: []
   Effects:
-  - rid: 4098022299740930705
+  - rid: 4098022313503228358
+  - rid: 4098022313503228359
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022299740930705
+    - rid: 4098022313503228358
       type: {class: EffectTypes/RemoveSelfControl, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         removeControlType: 5
+    - rid: 4098022313503228359
+      type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToSelf: {fileID: 11400000, guid: adc3e929e7c58f34586b4ce4f4f5e2fb, type: 2}

@@ -37,7 +37,7 @@ namespace JYW.UI
             bindBuff = buff;
             iconImage.sprite = buff.Data.Icon;
             nameText.text = buff.Data.Name;
-            levelText.text = buff.Level.ToString();
+            UpdateLevel(buff);
             maskImage.fillAmount = 0f;
             buff.ValueChanged += UpdateUI;
         }
@@ -51,10 +51,21 @@ namespace JYW.UI
 
         private void UpdateUI()
         {
-            levelText.text = bindBuff.Level.ToString();
+            UpdateLevel(bindBuff);
             var fill = 1 - ((float)bindBuff.DurationTimer) / bindBuff.Duration;
             if (!Mathf.Approximately(maskImage.fillAmount, fill))
                 maskImage.DOFillAmount(fill, maskEffectTime);
+        }
+
+        private void UpdateLevel(Buff buff)
+        {
+            if (buff.Level == 1)
+                levelText.enabled = false;
+            else
+            {
+                levelText.text = bindBuff.Level.ToString();
+                levelText.enabled = true;
+            }
         }
 
         public void Remove(ObjectPool<BuffUi> objectPool = null)
