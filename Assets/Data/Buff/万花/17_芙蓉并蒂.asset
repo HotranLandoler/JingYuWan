@@ -20,6 +20,7 @@ MonoBehaviour:
   controlType: 3
   uncontrolType: 0
   lockMove: 0
+  type: 1
   buffEffects: []
   EffectsOnTakeDamage: []
   RemoveOnTakeDamage: 0

@@ -10,28 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
-  m_Name: "28_\u6E05\u98CE\u5782\u9732"
+  m_Name: "32_\u53A5\u9634\u6307"
   m_EditorClassIdentifier: 
-  Id: 28
-  Icon: {fileID: 21300000, guid: 2e96d4495e33550468995760881f1e56, type: 3}
-  Title: "\u6E05\u98CE\u5782\u9732"
-  Desc: "\u5378\u9664\u81EA\u8EAB1\u4E2A\u6301\u7EED\u4F24\u5BB3Debuff\u3002\r"
+  Id: 32
+  Icon: {fileID: 21300000, guid: 81827411076cdbf41838d33753c265c9, type: 3}
+  Title: "\u53A5\u9634\u6307"
+  Desc: "\u6253\u65AD\u76EE\u6807\u8FD0\u529F\u3002\r"
   Cost: 10
-  Range: 0
-  type: 3
-  dropType: 1
+  Range: 20
+  type: 1
+  dropType: 0
   requireControl: 2
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022338601419446
+  - rid: 4098022338601419378
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022338601419446
-      type: {class: EffectTypes/RemoveBuffSelf, ns: , asm: Assembly-CSharp}
+    - rid: 4098022338601419378
+      type: {class: EffectTypes/StopChant, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
-        RemoveFromSelf: {fileID: 11400000, guid: a35ff313fe4dacd4f8242097aba9d2b8, type: 2}

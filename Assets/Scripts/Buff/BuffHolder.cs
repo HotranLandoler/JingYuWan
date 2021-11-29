@@ -68,6 +68,20 @@ namespace JYW.Buffs
             buff?.ResetTimer();
         }
 
+        /// <summary>
+        /// “˝±¨buff
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns> £”‡…À∫¶</returns>
+        public float SetOffBuff(BuffInfo data)
+        {
+            var buff = FindBuff(data);
+            if (buff == null) return 0f;
+            var damage = buff.GetRestDamage();
+            RemoveBuff(buff => buff.Data == data);
+            return damage;
+        }
+
         public void OnTakeDamage(DamageInfo damageInfo)
         {
             foreach (var buff in _buffs)

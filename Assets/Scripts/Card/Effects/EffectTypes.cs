@@ -62,7 +62,7 @@ public class EffectTypes
                 target.OnDodge();
                 return;
             }
-            target.TakeDamage(CombatManager.CalcuDamage(damage, attacker, target));
+            target.TakeDamage(CombatManager.CalcuDamage(damage, attacker, target, data.type));
         }
     }
 
@@ -77,7 +77,7 @@ public class EffectTypes
         public override void Perform(Character attacker, Character target, CardData data)
         {
             DamageInfo[] damageInfos =
-                Array.ConvertAll(damages, damage => CombatManager.CalcuDamage(damage, attacker, target));
+                Array.ConvertAll(damages, damage => CombatManager.CalcuDamage(damage, attacker, target, data.type));
             target.TakeDamgeSequence(damageInfos);
         }
     }
@@ -279,7 +279,39 @@ public class EffectTypes
             foreach (var buff in refreshBuffs)
             {
                 target.Buffs.RefreshBuff(buff);
-            }           
+            }
+        }
+    }
+
+    /// <summary>
+    /// “˝±¨ £”‡…À∫¶
+    /// </summary>
+    [Serializable]
+    public class SetOffBuff : Effect
+    {
+        [SerializeField]
+        private BuffInfo[] setOffBuffs;
+
+        public override bool AllowDodge => false;
+
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            foreach (var buff in setOffBuffs)
+            {
+                var damage = target.Buffs.SetOffBuff(buff);
+                if (damage != 0f)
+                    target.TakeDamage(CombatManager.CalcuDamage(damage, attacker, target, data.type));
+            }
+        }
+    }
+
+    [Serializable]
+    public class StopChant : Effect
+    {
+        public override bool AllowDodge => true;
+        public override void Perform(Character attacker, Character target, CardData data)
+        {
+            target.StopChant();
         }
     }
 }

@@ -15,8 +15,8 @@ MonoBehaviour:
   Id: 26
   Icon: {fileID: 21300000, guid: 4925cb30645533f47b30ea3cdae775c9, type: 3}
   Title: "\u8299\u84C9\u5E76\u8482"
-  Desc: 
-  Cost: 0
+  Desc: "\u4F7F\u76EE\u6807\u5B9A\u8EAB2\u56DE\u5408\uFF0C\u4E14\u5237\u65B0\u76EE\u6807\u8EAB\u4E0A\u6240\u6709\u4F24\u5BB3Buff\u3002\r"
+  Cost: 10
   Range: 20
   type: 1
   dropType: 0
@@ -24,19 +24,19 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022313503228398
-  - rid: 4098022313503228399
+  - rid: 4098022338601419439
+  - rid: 4098022338601419440
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022313503228398
+    - rid: 4098022338601419439
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         AddBuffToTarget: {fileID: 11400000, guid: cb07b726418fbe945b8efe5d3349a82a, type: 2}
-    - rid: 4098022313503228399
+    - rid: 4098022338601419440
       type: {class: EffectTypes/RefreshBuff, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

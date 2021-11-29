@@ -4,7 +4,7 @@ using UnityEngine;
 using JYW.UI.ToolTip;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
-public class CardData : ScriptableObject
+public class CardData : ScriptableObject, IUtility
 {
     public int Id;
 
@@ -40,6 +40,29 @@ public class CardData : ScriptableObject
     public AudioClip performSound;
 
     public TipInfo[] toolTips;
+
+    public float GetDesire(Character attacker, Character target)
+    {
+        foreach (var effect in Effects)
+        {
+            bool valid = true;
+            foreach (var condition in effect.Conditions)
+            {
+                if (!condition.IsSatisfied(attacker, target))
+                {
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid)
+            {
+                if (effect is EffectTypes.RemoveSelfControl)
+                    if (attacker.ControlledType == ControlType.None)
+                        return 0f;
+            }
+        }
+        return 1f;
+    }
 
     public enum Type
     {

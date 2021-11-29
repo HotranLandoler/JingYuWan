@@ -15,7 +15,7 @@ MonoBehaviour:
   Id: 30
   Icon: {fileID: 21300000, guid: 502721bcffb646f46b975c40e8a715ae, type: 3}
   Title: "\u661F\u697C\u6708\u5F71"
-  Desc: 
+  Desc: "\u89E3\u9664\u81EA\u8EAB\u53D7\u63A7\uFF0C\u5E76\u514D\u75AB\u63A7\u5236\u3001\u53D7\u5230\u4F24\u5BB3\u51CF\u5C1130%\uFF0C\u6301\u7EED2\u56DE\u5408\u3002\r"
   Cost: 10
   Range: 0
   type: 3
@@ -24,19 +24,19 @@ MonoBehaviour:
   isExtra: 1
   conditions: []
   Effects:
-  - rid: 4098022313503228358
-  - rid: 4098022313503228359
+  - rid: 4098022338601419425
+  - rid: 4098022338601419426
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022313503228358
+    - rid: 4098022338601419425
       type: {class: EffectTypes/RemoveSelfControl, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         removeControlType: 5
-    - rid: 4098022313503228359
+    - rid: 4098022338601419426
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

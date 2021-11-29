@@ -10,20 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a39b3c4df4656b4b88b7a298ec13ded, type: 3}
-  m_Name: "18_\u661F\u697C"
+  m_Name: "20_\u592A\u9634\u6307"
   m_EditorClassIdentifier: 
-  Id: 18
-  Icon: {fileID: 21300000, guid: 502721bcffb646f46b975c40e8a715ae, type: 3}
-  Name: "\u661F\u697C"
-  Duration: 2
+  Id: 20
+  Icon: {fileID: 21300000, guid: 0c9309097668e264297dcf320806f48a, type: 3}
+  Name: "\u9501\u8DB3"
+  Duration: 1
   MaxLevel: 1
-  controlType: 0
-  uncontrolType: 1
+  controlType: 2
+  uncontrolType: 0
   lockMove: 0
   type: 1
-  buffEffects:
-  - type: 4
-    val1: 0.3
+  buffEffects: []
   EffectsOnTakeDamage: []
   RemoveOnTakeDamage: 0
   RemoveOnUseSkill: 0

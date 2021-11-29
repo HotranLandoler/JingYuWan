@@ -20,6 +20,7 @@ MonoBehaviour:
   controlType: 0
   uncontrolType: 0
   lockMove: 0
+  type: 1
   buffEffects:
   - type: 0
     val1: 3

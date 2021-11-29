@@ -15,17 +15,26 @@ MonoBehaviour:
   Id: 27
   Icon: {fileID: 21300000, guid: a9a9c1647ede6444fa64128540100b3e, type: 3}
   Title: "\u7389\u77F3\u4FF1\u711A"
-  Desc: 
-  Cost: 0
+  Desc: "\u5F15\u7206\u76EE\u6807\u8EAB\u4E0A\u6240\u6709\u4F24\u5BB3Buff\uFF0C\u4F7F\u5176\u5269\u4F59\u4F24\u5BB3\u7ACB\u5373\u751F\u6548\u3002\r"
+  Cost: 15
   Range: 20
   type: 1
   dropType: 0
   requireControl: 2
   isExtra: 0
   conditions: []
-  Effects: []
+  Effects:
+  - rid: 4098022338601419430
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4098022338601419430
+      type: {class: EffectTypes/SetOffBuff, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        setOffBuffs:
+        - {fileID: 11400000, guid: b99c327a8caf212458eff44a96885bc6, type: 2}
+        - {fileID: 11400000, guid: 5f2212b291c8ac542bc5eb283a51a935, type: 2}
+        - {fileID: 11400000, guid: f6c3ffb211ef4d4449fe0cd0df288d2b, type: 2}

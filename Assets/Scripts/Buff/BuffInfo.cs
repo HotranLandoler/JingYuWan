@@ -41,6 +41,8 @@ public class BuffInfo : ScriptableObject
     /// </summary>
     public bool lockMove = false;
 
+    public CardData.Type type;
+
     public BuffEffect[] buffEffects;
 
     public BuffEffect[] EffectsOnTakeDamage;
@@ -81,6 +83,12 @@ public class BuffInfo : ScriptableObject
                 case BuffEffect.Type.Invisible:
                     character.ToggleInvisible(true);
                     break;
+                case BuffEffect.Type.ReduceDamage:
+                    character.DamageRedu.AddValueMod(effect.Val1);
+                    break;
+                case BuffEffect.Type.ReduceMagicDamage:
+                    character.MagicDamageRedu.AddValueMod(effect.Val1);
+                    break;
             }
         }
     }
@@ -91,7 +99,7 @@ public class BuffInfo : ScriptableObject
         {         
             if (effect.EffectType == BuffEffect.Type.Damage)
             {
-                character.TakeDamage(CombatManager.CalcuDamage(effect.Val1 * level, null, character));               
+                character.TakeDamage(CombatManager.CalcuDamage(effect.Val1 * level, null, character, type));               
             }
         }       
     }
@@ -103,19 +111,25 @@ public class BuffInfo : ScriptableObject
             switch (effect.EffectType)
             {
                 case BuffEffect.Type.AddCritic:
-                    character.Critic.AddValueMod(-1 * effect.Val1);
+                    character.Critic.AddValueMod(-1f * effect.Val1);
                     break;
                 case BuffEffect.Type.AddCriticDamage:
-                    character.CriticDamage.AddValueMod(-1 * effect.Val1);
+                    character.CriticDamage.AddValueMod(-1f * effect.Val1);
                     break;
                 case BuffEffect.Type.AddEnergyRecover:
-                    character.EnergyRecover.AddValueMod(-1 * effect.Val1);
+                    character.EnergyRecover.AddValueMod(-1f * effect.Val1);
                     break;
                 case BuffEffect.Type.AddDodge:
-                    character.DodgeChance.AddValueMod(-1 * effect.Val1);
+                    character.DodgeChance.AddValueMod(-1f * effect.Val1);
                     break;
                 case BuffEffect.Type.Invisible:
                     character.ToggleInvisible(false);
+                    break;
+                case BuffEffect.Type.ReduceDamage:
+                    character.DamageRedu.AddValueMod(-1f * effect.Val1);
+                    break;
+                case BuffEffect.Type.ReduceMagicDamage:
+                    character.MagicDamageRedu.AddValueMod(-1f * effect.Val1);
                     break;
             }
         }

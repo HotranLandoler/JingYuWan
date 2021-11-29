@@ -38,6 +38,15 @@ namespace JYW.Buffs
             Level = level;
         }
 
+        public float GetRestDamage()
+        {
+            //TODO 假定第一个effect为伤害
+            var buffEffect = Data.buffEffects[0];
+            if (buffEffect.EffectType != BuffInfo.BuffEffect.Type.Damage)
+                return 0f;
+            return DurationTimer * buffEffect.Val1;
+        }
+
         //public void Enable(Character character) =>
         //    Data.OnAdded(character);
 

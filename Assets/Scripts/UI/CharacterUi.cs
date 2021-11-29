@@ -57,8 +57,6 @@ namespace JYW.UI
             //character.ChantProcessed -= UpdateChant;
         }
 
-        
-
         private void ShowDamageText(DamageInfo damage)
         {
             //StringBuilder sb = new StringBuilder();

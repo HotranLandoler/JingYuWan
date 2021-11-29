@@ -25,6 +25,8 @@ public static class Game
 
     public static readonly string CantPlayNonExtra = "无法再出非附加牌";
 
+    public static readonly string NoTarget = "没有目标";
+
     /// <summary>
     /// 手牌最大容量
     /// </summary>

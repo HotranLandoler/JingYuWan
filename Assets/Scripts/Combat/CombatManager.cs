@@ -48,7 +48,11 @@ public class CombatManager
             message = Game.Controlled;
             return false;
         }
-
+        if ((card.type == CardData.Type.Phys || card.type == CardData.Type.Magic) && defender.Invisible)
+        {
+            message = Game.NoTarget;
+            return false;
+        }
         foreach (var condition in card.conditions)
         {
             if (!condition.IsSatisfied(attacker, defender))
@@ -89,18 +93,28 @@ public class CombatManager
         //return true;
     }
 
-    public static DamageInfo CalcuDamage(float baseDamage, Character attacker, Character target)
+    public static DamageInfo CalcuDamage(float baseDamage, Character attacker, Character target, CardData.Type type)
     {
-        if (attacker == null)
-            return new DamageInfo(baseDamage, false);
+        //if (attacker == null)
+        //    return new DamageInfo(baseDamage, false);
         bool critic = false;
         float damage = baseDamage;
-        float rand = Random.Range(0f, 1f);
-        if (rand <= attacker.Critic.FinalValue)
+        if (attacker != null)
         {
-            critic = true;
-            damage = baseDamage * attacker.CriticDamage.FinalValue;
-        }
+            //计算会心
+            float rand = Random.Range(0f, 1f);
+            if (rand <= attacker.Critic.FinalValue)
+            {
+                critic = true;
+                damage = baseDamage * attacker.CriticDamage.FinalValue;
+            }
+        }       
+        //计算减伤
+        float damageReduce = 0f;
+        damageReduce += target.DamageRedu.FinalValue;
+        if (type == CardData.Type.Magic)
+            damageReduce += target.MagicDamageRedu.FinalValue;
+        damage *= (1 - damageReduce);
         return new DamageInfo(damage, critic);
     }
 

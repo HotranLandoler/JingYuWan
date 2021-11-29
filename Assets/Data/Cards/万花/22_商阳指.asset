@@ -15,8 +15,8 @@ MonoBehaviour:
   Id: 22
   Icon: {fileID: 21300000, guid: 3f5755e8136385140ae148709e7b1553, type: 3}
   Title: "\u5546\u9633\u6307"
-  Desc: 
-  Cost: 0
+  Desc: "\u9020\u62103\u4F24\u5BB3\uFF0C\u4F7F\u76EE\u6807\u51CF\u901F\uFF0C\u6BCF\u56DE\u5408\u53D7\u52303\u4F24\u5BB3\uFF0C\u6301\u7EED6\u56DE\u5408\u3002\r"
+  Cost: 10
   Range: 24
   type: 1
   dropType: 1
@@ -24,20 +24,26 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022313503228432
-  - rid: 4098022313503228433
+  - rid: 4098022338601419449
+  - rid: 4098022338601419450
+  - rid: 4098022338601419451
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022313503228432
+    - rid: 4098022338601419449
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         AddBuffToTarget: {fileID: 11400000, guid: b99c327a8caf212458eff44a96885bc6, type: 2}
-    - rid: 4098022313503228433
+    - rid: 4098022338601419450
+      type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToTarget: {fileID: 11400000, guid: eda95576795362146b8baac0120b8a01, type: 2}
+    - rid: 4098022338601419451
       type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
-        damage: 2
+        damage: 3

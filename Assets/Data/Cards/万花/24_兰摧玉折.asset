@@ -15,8 +15,8 @@ MonoBehaviour:
   Id: 24
   Icon: {fileID: 21300000, guid: 4fec35d67dc76de4d937f8a76a281769, type: 3}
   Title: "\u5170\u6467\u7389\u6298"
-  Desc: 
-  Cost: 0
+  Desc: "\u4F7F\u76EE\u6807\u53D7\u5230\u4F24\u5BB3\u589E\u52A010%\uFF0C\u4E14\u6BCF\u56DE\u5408\u53D7\u52304\u4F24\u5BB3\uFF0C\u6301\u7EED5\u56DE\u5408\u3002\r"
+  Cost: 10
   Range: 20
   type: 1
   dropType: 1
@@ -24,13 +24,13 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022293398880636
+  - rid: 4098022338601419452
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022293398880636
+    - rid: 4098022338601419452
       type: {class: EffectTypes/StartChant, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
@@ -39,8 +39,8 @@ MonoBehaviour:
         duration: 1
         allowSkip: 0
         effectsOnChant:
-        - rid: 4098022293398880637
-    - rid: 4098022293398880637
+        - rid: 4098022338601419453
+    - rid: 4098022338601419453
       type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

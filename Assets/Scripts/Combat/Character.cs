@@ -37,6 +37,8 @@ public class Character : MonoBehaviour
 
     public event UnityAction<PlacedInfo, IEnumerable<Effect>> PlaceRequested;
 
+    private Character target;
+
     private BuffHolder buffHolder;
     public BuffHolder Buffs
     {
@@ -110,6 +112,9 @@ public class Character : MonoBehaviour
     private float dodge = 10;
     public ModifiableStat DodgeChance { get; private set; }
 
+    public ModifiableStat DamageRedu { get; private set; }
+    public ModifiableStat MagicDamageRedu { get; private set; }
+
     /// <summary>
     /// 瞬发读条机会
     /// </summary>
@@ -123,6 +128,7 @@ public class Character : MonoBehaviour
     [SerializeField]
     private PlacedObject placedPrefab;
 
+    public bool Invisible { get; private set; } = false;
     /// <summary>
     /// 浮空
     /// </summary>
@@ -140,6 +146,9 @@ public class Character : MonoBehaviour
     ///// </summary>
     //public bool CanMove { get; } = true;
 
+    /// <summary>
+    /// 当前受控等级
+    /// </summary>
     public ControlType ControlledType { get; private set; } = ControlType.None;
 
     private SpriteRenderer spriteRenderer;
@@ -156,7 +165,9 @@ public class Character : MonoBehaviour
         Critic = new ModifiableStat(critic);
         CriticDamage = new ModifiableStat(criticDamage);
         EnergyRecover = new ModifiableStat(energyRecover);
-        DodgeChance = new ModifiableStat(dodge);       
+        DodgeChance = new ModifiableStat(dodge);
+        DamageRedu = new ModifiableStat(0f);
+        MagicDamageRedu = new ModifiableStat(0f);
     }
 
     private void OnEnable()
@@ -175,9 +186,10 @@ public class Character : MonoBehaviour
     /// 根据门派数据初始化
     /// </summary>
     /// <param name="sect"></param>
-    public void Init(Sect sect)
+    public void Init(Sect sect, Character target)
     {
         this.sect = sect;
+        this.target = target;
         cardsHolder = new CardsHolder(sect.CardsSet);
         spriteRenderer.sprite = sect.BaseSprite;
         animator.runtimeAnimatorController = sect.Animator;
@@ -269,7 +281,12 @@ public class Character : MonoBehaviour
 
     public void OnDodge() => Dodged?.Invoke();
 
-    public void ToggleInvisible(bool invisible) => InvisibleSet?.Invoke(invisible);
+    public void ToggleInvisible(bool invisible)
+    {
+        Invisible = invisible;
+        target?.StopChant();
+        InvisibleSet?.Invoke(invisible);
+    }
 
     private IEnumerator DoTakeDamageSequence(DamageInfo[] damages)
     {
@@ -358,6 +375,18 @@ public class Character : MonoBehaviour
         }
         MoveRequested?.Invoke(this, DoMove(dist, Mathf.Abs(dist) / moveSpeed));
         return true;
+    }
+
+    /// <summary>
+    /// 正在读条且该读条有意义
+    /// </summary>
+    /// <returns></returns>
+    public bool IsCurrChantValid()
+    {
+        if (currentChant == null || currentChant.IsCompleted)
+            return false;
+        return CombatManager.IsTargetInRange(currentChant.TargetCard,
+            this, currentChant.Target);
     }
 
     public void StopChant()

@@ -15,8 +15,8 @@ MonoBehaviour:
   Id: 29
   Icon: {fileID: 21300000, guid: 0c9309097668e264297dcf320806f48a, type: 3}
   Title: "\u592A\u9634\u6307"
-  Desc: 
-  Cost: 0
+  Desc: "\u89E3\u9664\u81EA\u8EAB\u53D7\u63A7\uFF0C\u5411\u540E\u75BE\u900012\u5C3A\uFF0C\u4F7F8\u5C3A\u5185\u76EE\u6807\u9501\u8DB31\u56DE\u5408\u3002\r"
+  Cost: 10
   Range: 0
   type: 2
   dropType: 0
@@ -24,22 +24,34 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022299740930734
-  - rid: 4098022299740930735
+  - rid: 4098022338601419379
+  - rid: 4098022338601419380
+  - rid: 4098022338601419381
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022299740930734
+    - rid: 4098022338601419379
       type: {class: EffectTypes/RemoveSelfControl, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         removeControlType: 4
-    - rid: 4098022299740930735
+    - rid: 4098022338601419380
       type: {class: EffectTypes/MoveSelf, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         selfMoveDist: 12
         forward: 0
         type: 1
+    - rid: 4098022338601419381
+      type: {class: EffectTypes/AddBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions:
+        - rid: 4098022338601419382
+        AddBuffToTarget: {fileID: 11400000, guid: e998ff9f5e75b214196d10d92217df88, type: 2}
+    - rid: 4098022338601419382
+      type: {class: ConditionTypes/RangeCondition, ns: , asm: Assembly-CSharp}
+      data:
+        range: 8
+        rangeType: 0

@@ -8,7 +8,8 @@ using Cinemachine;
 public class GameManager : MonoBehaviour
 {
     private static WaitForSeconds waitForGameStart = new WaitForSeconds(1.5f);
-    private static WaitForSeconds waitForRoundEnd = new WaitForSeconds(1f);
+    private static WaitForSeconds waitForRoundEnd = new WaitForSeconds(0.8f);
+    private static WaitForSeconds waitForHalfS = new WaitForSeconds(0.5f);
 
     [SerializeField]
     private SectSelection sectSelect;
@@ -88,8 +89,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //按门派初始化角色
-        player.Init(sectSelect.SectA);
-        enemy.Init(sectSelect.SectB);
+        player.Init(sectSelect.SectA, enemy);
+        enemy.Init(sectSelect.SectB, player);
 
         cardsManager.CardSelected.AddListener(OnCardSelected);
         cardsManager.CardDeselected.AddListener(OnCardDeselected);
@@ -204,10 +205,16 @@ public class GameManager : MonoBehaviour
         }
         enemy.CardsHolder.GenerateRandomCards(Game.HandCardsNum);
         currentRounder.StartRound();
-        var card = aiEngine.Decide(enemy.CardsHolder.Cards, enemy, player);
-        //var card = cardsManager.GetAiDecision(enemy, player);
-        if (card != null)
+        while (true)
+        {
+            var card = aiEngine.Decide(enemy.CardsHolder.Cards, enemy, player);
+            if (card == null) break;
             yield return DoPlayCard(card, enemy, player);
+            yield return waitForHalfS;
+        }
+        //var card = aiEngine.Decide(enemy.CardsHolder.Cards, enemy, player);
+        //if (card != null)
+            //yield return DoPlayCard(card, enemy, player);
         yield return waitForRoundEnd;
         yield return ProcessRound();
     }
