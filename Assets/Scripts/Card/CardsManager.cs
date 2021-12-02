@@ -264,7 +264,8 @@ public class CardsManager : MonoBehaviour
         }
         SelectedCard = card;
         PlaceOnTable(card);
-        SelectedCard.ToggleToolTip(true);
+        if (SelectedCard.Data.toolTips.Length != 0)
+            SelectedCard.ToggleToolTip(true);
         CardSelected?.Invoke();
     }
 

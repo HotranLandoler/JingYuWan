@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9900dd1f2717e8c4bbd98760528b095f, type: 3}
   m_Name: SectSelection
   m_EditorClassIdentifier: 
-  SectA: {fileID: 11400000, guid: 2a9eb36416a2e2348bcb86b1bd3668c5, type: 2}
-  SectB: {fileID: 11400000, guid: 037efd37683c0164abef89ef003809ce, type: 2}
+  SectA: {fileID: 11400000, guid: 037efd37683c0164abef89ef003809ce, type: 2}
+  SectB: {fileID: 11400000, guid: 2a9eb36416a2e2348bcb86b1bd3668c5, type: 2}

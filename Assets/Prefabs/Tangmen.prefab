@@ -581,7 +581,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 221}
+  m_AnchoredPosition: {x: 0, y: 138}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8658543476392142066
@@ -764,6 +764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 7046636177181193900}
   rounderToken: {fileID: 3697783803221433736}
-  damageTextPrefab: {fileID: 3862313021016166534, guid: afc28d3abf50c3f44a981eeb5fcd30d4, type: 3}
+  damageTextPrefab: {fileID: 4527171019372720746, guid: fb47ac8882eabb24ea0cef7f7df30ff0, type: 3}
+  criticColor: {r: 0.98039216, g: 0.9647059, b: 0.38431373, a: 1}
   damageTextStartPos: {fileID: 1281661988315123921}
   chantUi: {fileID: 2520561805970141309}

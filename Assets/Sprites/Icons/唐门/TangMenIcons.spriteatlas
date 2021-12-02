@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TangMenIcons
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 3e76a541a9595a642b91ca3dbe2b40c2, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: d8392600f317a874982f2a42a5e8dda0, type: 3}
+  - {fileID: 21300000, guid: d9a01d90fcebb9f4ab2d8b7ca8acf224, type: 3}
+  - {fileID: 21300000, guid: b21a8c119ee2cfc408d0efe1e0641652, type: 3}
+  - {fileID: 21300000, guid: 669f0b03c6367bd45a3b4867d07ece90, type: 3}
+  - {fileID: 21300000, guid: 4fad60d3883b9414ca2e43e1577236c2, type: 3}
+  - {fileID: 21300000, guid: 7ab394947f32c2f40a36919fc107ab35, type: 3}
+  - {fileID: 21300000, guid: 6c1e8fb406ce92d41b9205262b24b928, type: 3}
+  - {fileID: 21300000, guid: f2a3c786e6ce08344a54445d88e2e5e5, type: 3}
+  - {fileID: 21300000, guid: a260e5b670fad5542afe7f39c69da5ed, type: 3}
+  - {fileID: 21300000, guid: 2b504007744fb514c84df0c0f245f694, type: 3}
+  - {fileID: 21300000, guid: 6cbfd497a980feb429ac6fad3403204d, type: 3}
+  - {fileID: 21300000, guid: f09e54e8fb64c3145ae2d8619aab8c6f, type: 3}
+  - {fileID: 21300000, guid: c18697192fb12984f93fe306c9b5eb9d, type: 3}
+  - {fileID: 21300000, guid: f5b4c3998dbbe104ab407f9f2745cb64, type: 3}
+  - {fileID: 21300000, guid: f05856f9d61b3aa408f68a0d80e857e2, type: 3}
+  - {fileID: 21300000, guid: 1e83ce0c72395e24885610035ee0913f, type: 3}
+  - {fileID: 21300000, guid: f987517cab913ba44bfae28b2adf371a, type: 3}
+  - {fileID: 21300000, guid: 69cb7b3ebe29f3646a9be9249ecfb877, type: 3}
+  - {fileID: 21300000, guid: 3550876e880f7d746b3a209c40766636, type: 3}
+  - {fileID: 21300000, guid: 129ebc6fc66ec8e4bb363a818b3f8efc, type: 3}
+  - {fileID: 21300000, guid: 853869cfefcf06544b95877f5da48ee9, type: 3}
+  - {fileID: 21300000, guid: 857f9befa70e7ef45ade68719f141466, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 3
+  - 13
+  - exp_5-68713
+  - exp_5-68710
+  - 0
+  - exp_7-16561
+  - 6
+  - 9
+  - exp_5-68707
+  - 14
+  - 2
+  - 10
+  - 15
+  - 4
+  - 7
+  - 11
+  - 5
+  - 12
+  - JingYuIcon
+  - exp_5-68686
+  - 1
+  - 8
+  m_RenderDataMap: {}
+  m_Tag: TangMenIcons
+  m_IsVariant: 0

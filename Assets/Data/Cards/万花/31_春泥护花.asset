@@ -24,14 +24,15 @@ MonoBehaviour:
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022338601419429
+  - rid: 4098022361263505599
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022338601419429
+    - rid: 4098022361263505599
       type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         AddBuffToSelf: {fileID: 11400000, guid: 62a88e46b030a014a90c808258c03a01, type: 2}
+        level: 8

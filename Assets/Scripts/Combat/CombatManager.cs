@@ -61,13 +61,13 @@ public class CombatManager
         return true;
     }
 
-    public void PlayCard(CardData card, Character attacker, Character defender)
+    public static void PlayCard(CardData card, Character attacker, Character defender)
     {
         attacker.CurrentEnergy -= card.Cost;
         PerformEffects(card.Effects, attacker, defender, card);
     }
 
-    public void PerformEffects(IEnumerable<Effect> effects, Character attacker, Character defender, CardData card)
+    public static void PerformEffects(IEnumerable<Effect> effects, Character attacker, Character defender, CardData card)
     {
         bool dodge = CheckDodge(card, attacker, defender);
         if (dodge) defender.OnDodge();
@@ -93,20 +93,23 @@ public class CombatManager
         //return true;
     }
 
-    public static DamageInfo CalcuDamage(float baseDamage, Character attacker, Character target, CardData.Type type)
-    {
+    public static DamageInfo CalcuDamage(float baseDamage, Character attacker, Character target, CardData.Type type, 
+        DamageTag tag = DamageTag.Normal)
+    {   
         //if (attacker == null)
         //    return new DamageInfo(baseDamage, false);
         bool critic = false;
         float damage = baseDamage;
         if (attacker != null)
         {
+            //计算攻击力
+            damage *= attacker.Atk.FinalValue;
             //计算会心
             float rand = Random.Range(0f, 1f);
             if (rand <= attacker.Critic.FinalValue)
             {
                 critic = true;
-                damage = baseDamage * attacker.CriticDamage.FinalValue;
+                damage *= attacker.CriticDamage.FinalValue;
             }
         }       
         //计算减伤
@@ -115,7 +118,7 @@ public class CombatManager
         if (type == CardData.Type.Magic)
             damageReduce += target.MagicDamageRedu.FinalValue;
         damage *= (1 - damageReduce);
-        return new DamageInfo(damage, critic);
+        return new DamageInfo(damage, critic, tag);
     }
 
     /// <summary>

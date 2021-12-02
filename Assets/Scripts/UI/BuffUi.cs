@@ -7,6 +7,7 @@ using DG.Tweening;
 using UnityEngine.Pool;
 using JYW.Buffs;
 using JYW.UI.ToolTip;
+using TMPro;
 
 namespace JYW.UI
 {
@@ -23,7 +24,7 @@ namespace JYW.UI
         private Text nameText;
 
         [SerializeField]
-        private Text levelText;
+        private TextMeshProUGUI levelText;
 
         [SerializeField]
         private Image maskImage;

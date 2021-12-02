@@ -47,6 +47,18 @@ namespace JYW.Buffs
             return true;
         }
 
+        public void ReduceBuffLevel(BuffInfo data)
+        {
+            var buff = FindBuff(data);
+            if (buff == null) return;
+            buff.ReduceLevel();
+            if (buff.Level <= 0)
+            {
+                _buffs.Remove(buff);
+                OnBuffRemoved(buff);
+            }           
+        }
+
         public void Tick()
         {
             var node = _buffs.First;
@@ -83,14 +95,16 @@ namespace JYW.Buffs
         }
 
         public void OnTakeDamage(DamageInfo damageInfo)
-        {
-            foreach (var buff in _buffs)
-            {
-                buff.OnTakeDamage(character);
-            }
+        {          
             //TODO
-            if (damageInfo.Tag == DamageInfo.EffectType.Normal)
+            if (damageInfo.Tag == DamageTag.Normal)
+            {
+                foreach (var buff in _buffs)
+                {
+                    buff.OnTakeDamage(character);
+                }
                 RemoveBuff(buff => buff.Data.RemoveOnTakeDamage == true);
+            }
         }
 
         public void OnStartRound()
@@ -197,7 +211,7 @@ namespace JYW.Buffs
             return null;
         }
 
-        private Buff FindBuff(BuffInfo info) =>
+        public Buff FindBuff(BuffInfo info) =>
             FindBuff(buff => buff.Data == info);
 
         //private Buff FindBuff(int id)

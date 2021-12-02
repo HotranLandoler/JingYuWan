@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Pool;
+using TMPro;
 
 namespace JYW.UI
 {
@@ -18,7 +20,10 @@ namespace JYW.UI
 
         [Header("DamageText")]
         [SerializeField]
-        private Text damageTextPrefab;
+        private TextMeshProUGUI damageTextPrefab;
+
+        [SerializeField]
+        private Color criticColor = Color.white;
 
         [SerializeField]
         private RectTransform damageTextStartPos;
@@ -27,10 +32,18 @@ namespace JYW.UI
         [SerializeField]
         private ChantUi chantUi;
 
+        private ObjectPool<TextMeshProUGUI> damageTextPool;
 
         private void Awake()
         {
-            character = GetComponent<Character>();            
+            character = GetComponent<Character>();
+            damageTextPool = new ObjectPool<TextMeshProUGUI>(
+                createFunc: () => Instantiate(damageTextPrefab, canvas.transform),
+                actionOnGet: text => text.gameObject.SetActive(true),
+                actionOnRelease: text => text.gameObject.SetActive(false),
+                actionOnDestroy: text => { if (text) Destroy(text.gameObject); },
+                defaultCapacity: 5,
+                maxSize: 10);
         }
 
         private void OnEnable()
@@ -57,21 +70,35 @@ namespace JYW.UI
             //character.ChantProcessed -= UpdateChant;
         }
 
-        private void ShowDamageText(DamageInfo damage)
+        private void OnDestroy()
         {
-            //StringBuilder sb = new StringBuilder();
-            //if (damage.IsCritical) sb.Append("»áÐÄ ");
-            //sb.Append(damage.Damage.ToString());
-            ShowText(damage.ToString());
+            damageTextPool.Clear();
         }
 
-        private void ShowText(string text)
+        private void ShowDamageText(DamageInfo damage)
         {
-            var txt = Instantiate(damageTextPrefab, canvas.transform);
+            var color = damage.IsCritical ? criticColor : Color.white;
+            ShowText(damage.ToString(), color);
+        }
+
+        private void ShowText(string text, Color color)
+        {
+            //var txt = Instantiate(damageTextPrefab, canvas.transform);
+            var txt = damageTextPool.Get();
+            txt.rectTransform.SetParent(canvas.transform);
             txt.rectTransform.anchoredPosition = damageTextStartPos.anchoredPosition;
             txt.text = text;
-            txt.rectTransform.DOAnchorPosY(damageTextStartPos.anchoredPosition.y + 100, 1f);
-            txt.DOFade(0f, 1f);
+            color.a = 0f;
+            txt.color = color;
+            txt.rectTransform.localScale = 0.5f * Vector3.one;
+
+            Sequence seq = DOTween.Sequence();
+            txt.rectTransform.DOScale(1f, 0.2f);
+            txt.DOFade(1f, 0.2f);
+            seq.Append(txt.rectTransform.DOAnchorPosY(damageTextStartPos.anchoredPosition.y + 100, 0.2f)).SetEase(Ease.OutCirc);
+            seq.Append(txt.rectTransform.DOAnchorPosY(damageTextStartPos.anchoredPosition.y + 125, 0.4f));
+            seq.Append(txt.rectTransform.DOAnchorPosY(damageTextStartPos.anchoredPosition.y + 150, 0.3f)).SetEase(Ease.InQuad);
+            seq.Insert(0.6f, txt.DOFade(0f, 0.3f).OnComplete(() => damageTextPool.Release(txt)));           
         }
 
         private void ShowChant()
@@ -87,7 +114,7 @@ namespace JYW.UI
             chantUi.Drop();
        
 
-        private void ShowDodge() => ShowText(Game.Dodge);
+        private void ShowDodge() => ShowText(Game.Dodge, Color.white);
 
         private void ShowToken() => rounderToken.FadeIn();
 

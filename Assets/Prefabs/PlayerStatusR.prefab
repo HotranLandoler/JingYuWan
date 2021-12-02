@@ -119,9 +119,17 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 2144831819820934196, guid: d907a14ae6274e84f91edc71ccd91156, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4296511885132707297, guid: d907a14ae6274e84f91edc71ccd91156, type: 3}
       propertyPath: m_FillAmount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6154351444358535996, guid: d907a14ae6274e84f91edc71ccd91156, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7398558351716019688, guid: d907a14ae6274e84f91edc71ccd91156, type: 3}
       propertyPath: m_Pivot.x

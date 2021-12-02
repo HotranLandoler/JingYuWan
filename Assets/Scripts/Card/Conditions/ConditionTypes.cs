@@ -52,4 +52,31 @@ public class ConditionTypes
             };
         }
     }
+
+    [System.Serializable]
+    public class TargetStatCondition : Condition
+    {
+        private enum CompareType { GreaterOrEqual, LessThan }
+        private enum StatType
+        {
+            Hp,
+        }
+        [SerializeField] private StatType stat;
+        [SerializeField] private CompareType compare;
+        [SerializeField] private float val;
+
+        public override bool IsSatisfied(Character character, Character target)
+        {
+            switch (stat)
+            {
+                case StatType.Hp:
+                    if (compare == CompareType.GreaterOrEqual)
+                        return target.CurrentHealth >= val;
+                    else return target.CurrentHealth < val;
+                default:
+                    break;
+            }
+            return false;
+        }
+    }
 }

@@ -76,7 +76,7 @@ namespace JYW.UI
 
         [Header("GameOver")]
         [SerializeField]
-        private RectTransform gameOverScreen;
+        private Ui gameOverScreen;
 
         [SerializeField]
         private Text gameOverText;
@@ -86,6 +86,17 @@ namespace JYW.UI
 
         [SerializeField]
         private SceneTransition transition;
+
+        [Header("Pause")]
+        [SerializeField]
+        private Ui pauseScreen;
+
+        [SerializeField]
+        private Button resumeButton;
+        public Button ResumeButton => resumeButton;
+
+        [SerializeField]
+        private Button quitButton;
 
         private Canvas canvas;
 
@@ -114,6 +125,7 @@ namespace JYW.UI
             nextRoundButton.button.onClick.AddListener(() => NextButtonClicked?.Invoke());
             posSubmitButton.button.onClick.AddListener(SubmitPos);
             restartButton.onClick.AddListener(Restart);
+            quitButton.onClick.AddListener(Quit);
         }
 
         private void OnDestroy()
@@ -209,13 +221,31 @@ namespace JYW.UI
         public void ShowGameOver(bool win)
         {
             gameOverText.text = win ? Win : Lose;
-            gameOverScreen.gameObject.SetActive(true);
+            gameOverScreen.FadeIn();
+        }
+        
+        public void ShowPause(bool pause)
+        {
+            if (pause) pauseScreen.FadeIn();
+            else pauseScreen.FadeOut();
         }
 
         private void Restart()
         {
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
-            transition.LoadScene(asyncOperation);            
+            StartCoroutine(DoLoadScene(1));         
+        }
+
+        private void Quit()
+        {
+            StartCoroutine(DoLoadScene(0));
+        }
+
+        private IEnumerator DoLoadScene(int scene)
+        {
+            transition.Close();
+            yield return new WaitForSeconds(1f);
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
+            transition.LoadScene(asyncOperation);
         }
     }
 }

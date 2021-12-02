@@ -19,75 +19,123 @@ MonoBehaviour:
   Cost: 40
   Range: 25
   type: 0
+  dropType: 0
   requireControl: 2
   isExtra: 0
   conditions: []
   Effects:
-  - rid: 4098022202382745961
-  - rid: 4098022202382745962
-  - rid: 4098022202382745963
-  - rid: 4098022202382745964
+  - rid: 8891286591264522727
+  - rid: 8891286591264522728
+  - rid: 8891286591264522729
+  - rid: 8891286591264522730
+  - rid: 8891286591264522731
   performSound: {fileID: 0}
+  toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022202382745961
+    - rid: 8891286591264522727
       type: {class: EffectTypes/StartChant, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022202382745965
+        - rid: 8891286591264522732
         chantSound: {fileID: 8300000, guid: 6873751c3021f164ba7639a0b1febb66, type: 3}
         moveChant: 0
         duration: 2
         allowSkip: 1
         effectsOnChant:
-        - rid: 4098022202382745966
-        - rid: 4098022202382745967
-    - rid: 4098022202382745962
+        - rid: 8891286591264522733
+        - rid: 8891286591264522734
+        - rid: 8891286591264522735
+    - rid: 8891286591264522728
       type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022202382745968
+        - rid: 8891286591264522736
+        - rid: 8891286591264522737
+        damage: 27
+    - rid: 8891286591264522729
+      type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions:
+        - rid: 8891286591264522738
+        - rid: 8891286591264522739
         damage: 15
-    - rid: 4098022202382745963
+    - rid: 8891286591264522730
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022202382745969
+        - rid: 8891286591264522740
         sound: {fileID: 8300000, guid: f722c9aa344dce443a93fcd6d63d6d58, type: 3}
-    - rid: 4098022202382745964
+    - rid: 8891286591264522731
       type: {class: EffectTypes/RemoveBuffSelf, ns: , asm: Assembly-CSharp}
       data:
         conditions:
-        - rid: 4098022202382745970
+        - rid: 8891286591264522741
         RemoveFromSelf: {fileID: 11400000, guid: ff6326118db7c98469d38ae538bde8e3, type: 2}
-    - rid: 4098022202382745965
+    - rid: 8891286591264522732
       type: {class: ConditionTypes/BuffCondition, ns: , asm: Assembly-CSharp}
       data:
         buff: {fileID: 11400000, guid: ff6326118db7c98469d38ae538bde8e3, type: 2}
         has: 0
-    - rid: 4098022202382745966
+    - rid: 8891286591264522733
       type: {class: EffectTypes/Sound, ns: , asm: Assembly-CSharp}
       data:
         conditions: []
         sound: {fileID: 8300000, guid: f722c9aa344dce443a93fcd6d63d6d58, type: 3}
-    - rid: 4098022202382745967
+    - rid: 8891286591264522734
       type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
       data:
-        conditions: []
+        conditions:
+        - rid: 8891286591264522742
+        damage: 27
+    - rid: 8891286591264522735
+      type: {class: EffectTypes/DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions:
+        - rid: 8891286591264522743
         damage: 15
-    - rid: 4098022202382745968
+    - rid: 8891286591264522736
       type: {class: ConditionTypes/BuffCondition, ns: , asm: Assembly-CSharp}
       data:
         buff: {fileID: 11400000, guid: ff6326118db7c98469d38ae538bde8e3, type: 2}
         has: 1
-    - rid: 4098022202382745969
+    - rid: 8891286591264522737
+      type: {class: ConditionTypes/TargetStatCondition, ns: , asm: Assembly-CSharp}
+      data:
+        stat: 0
+        compare: 0
+        val: 70
+    - rid: 8891286591264522738
       type: {class: ConditionTypes/BuffCondition, ns: , asm: Assembly-CSharp}
       data:
         buff: {fileID: 11400000, guid: ff6326118db7c98469d38ae538bde8e3, type: 2}
         has: 1
-    - rid: 4098022202382745970
+    - rid: 8891286591264522739
+      type: {class: ConditionTypes/TargetStatCondition, ns: , asm: Assembly-CSharp}
+      data:
+        stat: 0
+        compare: 1
+        val: 70
+    - rid: 8891286591264522740
       type: {class: ConditionTypes/BuffCondition, ns: , asm: Assembly-CSharp}
       data:
         buff: {fileID: 11400000, guid: ff6326118db7c98469d38ae538bde8e3, type: 2}
         has: 1
+    - rid: 8891286591264522741
+      type: {class: ConditionTypes/BuffCondition, ns: , asm: Assembly-CSharp}
+      data:
+        buff: {fileID: 11400000, guid: ff6326118db7c98469d38ae538bde8e3, type: 2}
+        has: 1
+    - rid: 8891286591264522742
+      type: {class: ConditionTypes/TargetStatCondition, ns: , asm: Assembly-CSharp}
+      data:
+        stat: 0
+        compare: 0
+        val: 70
+    - rid: 8891286591264522743
+      type: {class: ConditionTypes/TargetStatCondition, ns: , asm: Assembly-CSharp}
+      data:
+        stat: 0
+        compare: 1
+        val: 70

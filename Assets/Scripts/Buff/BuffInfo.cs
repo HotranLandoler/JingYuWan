@@ -89,6 +89,9 @@ public class BuffInfo : ScriptableObject
                 case BuffEffect.Type.ReduceMagicDamage:
                     character.MagicDamageRedu.AddValueMod(effect.Val1);
                     break;
+                case BuffEffect.Type.AddAtk:
+                    character.Atk.AddValueMod(effect.Val1);
+                    break;
             }
         }
     }
@@ -99,7 +102,8 @@ public class BuffInfo : ScriptableObject
         {         
             if (effect.EffectType == BuffEffect.Type.Damage)
             {
-                character.TakeDamage(CombatManager.CalcuDamage(effect.Val1 * level, null, character, type));               
+                character.TakeDamage(CombatManager.CalcuDamage(effect.Val1 * level, null, 
+                    character, type, DamageTag.Dot));               
             }
         }       
     }
@@ -131,6 +135,9 @@ public class BuffInfo : ScriptableObject
                 case BuffEffect.Type.ReduceMagicDamage:
                     character.MagicDamageRedu.AddValueMod(-1f * effect.Val1);
                     break;
+                case BuffEffect.Type.AddAtk:
+                    character.Atk.AddValueMod(-1f * effect.Val1);
+                    break;
             }
         }
     }
@@ -145,14 +152,20 @@ public class BuffInfo : ScriptableObject
 
     public void OnBeHurt(Character character)
     {
-        //foreach (var effect in EffectsOnTakeDamage)
-        //{
-        //    if (effect.EffectType == BuffEffect.Type.RemoveSelf)
-        //    {
-        //        character.Buffs.RemoveBuff(buff => buff.Data == this);
-        //        break;
-        //    }
-        //}
+        foreach (var effect in EffectsOnTakeDamage)
+        {
+            switch (effect.EffectType)
+            {
+                case BuffEffect.Type.AddHpPercent:
+                    character.AddHealth(effect.Val1);
+                    break;
+                case BuffEffect.Type.ReduceLevel:
+                    character.Buffs.ReduceBuffLevel(this);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     
@@ -185,6 +198,8 @@ public class BuffInfo : ScriptableObject
             AddEnergyRecover,
             AddSkipChant,
             Invisible,
+            ReduceLevel,
+            AddAtk,
         }
 
         [SerializeField]

@@ -21,16 +21,16 @@ MonoBehaviour:
   type: 1
   dropType: 0
   requireControl: 2
-  isExtra: 0
+  isExtra: 1
   conditions: []
   Effects:
-  - rid: 4098022338601419378
+  - rid: 4098022361263505636
   performSound: {fileID: 0}
   toolTips: []
   references:
     version: 2
     RefIds:
-    - rid: 4098022338601419378
+    - rid: 4098022361263505636
       type: {class: EffectTypes/StopChant, ns: , asm: Assembly-CSharp}
       data:
         conditions: []

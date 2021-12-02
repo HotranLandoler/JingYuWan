@@ -18,7 +18,7 @@ namespace JYW.Buffs
         public int Level
         {
             get => level;
-            set
+            private set
             {
                 if (value > Data.MaxLevel)
                     value = Data.MaxLevel;
@@ -64,6 +64,12 @@ namespace JYW.Buffs
         {
             Level += add;
             ResetTimer();          
+        }
+
+        public void ReduceLevel(int reduce = 1)
+        {
+            Level -= reduce;
+            ValueChanged?.Invoke();
         }
 
         public void ResetTimer()

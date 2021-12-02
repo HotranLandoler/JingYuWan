@@ -24,7 +24,11 @@ MonoBehaviour:
   buffEffects:
   - type: 4
     val1: 0.5
-  EffectsOnTakeDamage: []
+  EffectsOnTakeDamage:
+  - type: 3
+    val1: 3
+  - type: 13
+    val1: 0
   RemoveOnTakeDamage: 0
   RemoveOnUseSkill: 0
   EffectsOnStartRound: []

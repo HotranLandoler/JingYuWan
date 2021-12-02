@@ -37,15 +37,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CinemachineTargetGroup targetGroupEnemy;
 
-    private CombatManager combatManager;
+    //private CombatManager combatManager;
 
     private AIEngine aiEngine;
 
+    private ActionHandler actionHandler;
     //private AudioSource audioSource;
 
     private Character currentRounder;
 
     private bool buttonClickable = false;
+
+    public bool Paused { get; private set; } = false;
 
     //private PlacedInfo posSelecting;
     //private IEnumerable<Effect> selectPosEffects;
@@ -53,20 +56,15 @@ public class GameManager : MonoBehaviour
     //public event UnityAction CharacterDistChanged;
 
     private void Awake()
-    {       
-        combatManager = new CombatManager();
+    {
+        actionHandler = new ActionHandler(this);
         aiEngine = new AIEngine();
-        //audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
     {
         player.HealthChanged += CheckGameWin;
         enemy.HealthChanged += CheckGameWin;
-        player.ChantCompleted += OnChantCompleted;
-        enemy.ChantCompleted += OnChantCompleted;
-        player.MoveRequested += CharacterMove;
-        enemy.MoveRequested += CharacterMove;
         player.CardRequested += AddCard;
         enemy.CardRequested += AddCard;
         player.PlaceRequested += SelectPos;
@@ -76,10 +74,6 @@ public class GameManager : MonoBehaviour
     {
         player.HealthChanged -= CheckGameWin;
         enemy.HealthChanged -= CheckGameWin;
-        player.ChantCompleted -= OnChantCompleted;
-        enemy.ChantCompleted -= OnChantCompleted;
-        player.MoveRequested -= CharacterMove;
-        enemy.MoveRequested -= CharacterMove;
         player.CardRequested -= AddCard;
         enemy.CardRequested -= AddCard;
         player.PlaceRequested -= SelectPos;
@@ -89,13 +83,15 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //按门派初始化角色
-        player.Init(sectSelect.SectA, enemy);
-        enemy.Init(sectSelect.SectB, player);
+        player.Init(sectSelect.SectA, enemy, actionHandler);
+        enemy.Init(sectSelect.SectB, player, actionHandler);
 
         cardsManager.CardSelected.AddListener(OnCardSelected);
         cardsManager.CardDeselected.AddListener(OnCardDeselected);
         uiManager.PlayButtonClicked.AddListener(PlayerPlayCard);
         uiManager.NextButtonClicked.AddListener(NextRound);
+        uiManager.MenuButton.button.onClick.AddListener(TogglePause);
+        uiManager.ResumeButton.onClick.AddListener(TogglePause);
         //uiManager.PosSubmited += ReceivePos;
 
         StartCoroutine(GameMain());
@@ -151,7 +147,7 @@ public class GameManager : MonoBehaviour
         //if (coroutine != null) yield return coroutine;
         //yield return cardsManager.ClearCards();
         attacker.OnUseSkill(data);
-        combatManager.PlayCard(data, attacker, defender);
+        CombatManager.PlayCard(data, attacker, defender);
         //if (!hit) defender.OnDodge();
         yield return cardsManager.PlaceCards();
         buttonClickable = true;
@@ -237,33 +233,20 @@ public class GameManager : MonoBehaviour
         uiManager.PlayCardButton.FadeOut();
     }
 
-    private void OnChantCompleted(Character character)
-    {
-        if (!CombatManager.IsTargetInRange(character.CurrentChant.TargetCard, 
-            character, character.CurrentChant.Target))
-            return;
-        combatManager.PerformEffects(character.CurrentChant.Effects,
-            character, character.CurrentChant.Target, character.CurrentChant.TargetCard);
-        //if (hit == false) character.CurrentChant.Target.OnDodge();
-    }
+    //private void OnChantCompleted(Character character)
+    //{
+    //    if (!CombatManager.IsTargetInRange(character.CurrentChant.TargetCard, 
+    //        character, character.CurrentChant.Target))
+    //        return;
+    //    CombatManager.PerformEffects(character.CurrentChant.Effects,
+    //        character, character.CurrentChant.Target, character.CurrentChant.TargetCard);
+    //    //if (hit == false) character.CurrentChant.Target.OnDodge();
+    //}
 
-    private void CharacterMove(Character character, IEnumerator doMove)
-    {       
-        StartCoroutine(DoCharacterMove(character, doMove));
-    }
-
-    private IEnumerator DoCharacterMove(Character character, IEnumerator doMove)
+    public void UpdateCharacterFace()
     {
-        buttonClickable = false;
-        yield return doMove;
-        buttonClickable = true;
-        UpdateCharacterFace();
-    }
-
-    private void UpdateCharacterFace()
-    {
-        player.TurnTo(enemy);
-        enemy.TurnTo(player);
+        player.TurnToTarget();
+        enemy.TurnToTarget();
     }
 
     private void AddCard(Character character, CardData card)
@@ -290,7 +273,22 @@ public class GameManager : MonoBehaviour
         //还原相机跟随
         followCamera.Follow = follow;
         player.PlaceObjectImmediate(info, uiManager.SelectedPos.Value);
-        combatManager.PerformEffects(effects, player, enemy, null);      
+        CombatManager.PerformEffects(effects, player, enemy, null);      
         cardsManager.HandCardsInteractable = true;
+    }
+
+    private void TogglePause()
+    {
+        if (Paused)
+        {
+            Paused = false;
+            //Time.timeScale = 1f;            
+        }
+        else
+        {
+            Paused = true;
+            //Time.timeScale = 0f;
+        }
+        uiManager.ShowPause(Paused);
     }
 }

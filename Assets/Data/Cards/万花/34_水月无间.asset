@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98348fb087ae545478a7c8452b097b83, type: 3}
+  m_Name: "34_\u6C34\u6708\u65E0\u95F4"
+  m_EditorClassIdentifier: 
+  Id: 34
+  Icon: {fileID: 21300000, guid: 2a5edb2b030cdbd4d8c743ee23762f8f, type: 3}
+  Title: "\u6C34\u6708\u65E0\u95F4"
+  Desc: "\u81EA\u8EAB\u653B\u51FB\u529B\u63D0\u9AD830%\uFF0C\u5E76\u514D\u75AB\u63A7\u5236\uFF0C\u6301\u7EED4\u56DE\u5408\u3002\r"
+  Cost: 10
+  Range: 0
+  type: 3
+  dropType: 2
+  requireControl: 2
+  isExtra: 1
+  conditions: []
+  Effects:
+  - rid: 8891286598994624521
+  performSound: {fileID: 0}
+  toolTips: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 8891286598994624521
+      type: {class: EffectTypes/AddBuffSelfEffect, ns: , asm: Assembly-CSharp}
+      data:
+        conditions: []
+        AddBuffToSelf: {fileID: 11400000, guid: 9527127e43a1ff9408982a6b245a7a58, type: 2}
+        level: 1

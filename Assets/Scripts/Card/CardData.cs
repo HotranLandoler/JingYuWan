@@ -43,6 +43,8 @@ public class CardData : ScriptableObject, IUtility
 
     public float GetDesire(Character attacker, Character target)
     {
+        if (Id == 20) return 0f;
+
         foreach (var effect in Effects)
         {
             bool valid = true;
@@ -56,9 +58,22 @@ public class CardData : ScriptableObject, IUtility
             }
             if (valid)
             {
-                if (effect is EffectTypes.RemoveSelfControl)
-                    if (attacker.ControlledType == ControlType.None)
-                        return 0f;
+                switch (effect)
+                {
+                    case EffectTypes.RemoveSelfControl:
+                        if (attacker.ControlledType <= ControlType.Slow)
+                            return 0f;
+                        break;
+                    case EffectTypes.StopChant:
+                        if (target.CurrentChant == null || target.CurrentChant.IsCompleted)
+                            return 0f;
+                        break;
+                    default:
+                        break;
+                }
+                //if (effect is EffectTypes.RemoveSelfControl)
+                //    if (attacker.ControlledType == ControlType.None)
+                //        return 0f;
             }
         }
         return 1f;

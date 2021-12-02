@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
     public event UnityAction<Character> ChantCompleted;
     public event UnityAction ChantStopped;
 
-    public event UnityAction<Character, IEnumerator> MoveRequested;
+    //public event UnityAction<Character, IEnumerator> MoveRequested;
     public event UnityAction<Character, CardData> CardRequested;
 
     public event UnityAction RoundStarted;
@@ -55,6 +55,8 @@ public class Character : MonoBehaviour
 
     private Chant currentChant;
     public Chant CurrentChant => currentChant;
+
+    private ActionHandler actions;
 
     [SerializeField]
     private float maxHealth = 100f;
@@ -114,6 +116,7 @@ public class Character : MonoBehaviour
 
     public ModifiableStat DamageRedu { get; private set; }
     public ModifiableStat MagicDamageRedu { get; private set; }
+    public ModifiableStat Atk { get; private set; }
 
     /// <summary>
     /// 瞬发读条机会
@@ -168,6 +171,7 @@ public class Character : MonoBehaviour
         DodgeChance = new ModifiableStat(dodge);
         DamageRedu = new ModifiableStat(0f);
         MagicDamageRedu = new ModifiableStat(0f);
+        Atk = new ModifiableStat(1f);
     }
 
     private void OnEnable()
@@ -186,13 +190,14 @@ public class Character : MonoBehaviour
     /// 根据门派数据初始化
     /// </summary>
     /// <param name="sect"></param>
-    public void Init(Sect sect, Character target)
+    public void Init(Sect sect, Character target, ActionHandler actionHandler)
     {
         this.sect = sect;
         this.target = target;
         cardsHolder = new CardsHolder(sect.CardsSet);
         spriteRenderer.sprite = sect.BaseSprite;
         animator.runtimeAnimatorController = sect.Animator;
+        actions = actionHandler;
         Initialized?.Invoke();
     }
 
@@ -316,6 +321,7 @@ public class Character : MonoBehaviour
         if (currentChant.Process >= currentChant.Duration)
         {
             currentChant.IsCompleted = true;
+            actions.OnChantCompleted(this);
             ChantCompleted?.Invoke(this);
         }
         yield return new WaitForSeconds(chantWaitTime);
@@ -373,7 +379,8 @@ public class Character : MonoBehaviour
             dist *= 0.5f;
             //moveSpeed *= 0.5f;
         }
-        MoveRequested?.Invoke(this, DoMove(dist, Mathf.Abs(dist) / moveSpeed));
+        actions.Move(this, DoMove(dist, Mathf.Abs(dist) / moveSpeed));
+        //MoveRequested?.Invoke(this, DoMove(dist, Mathf.Abs(dist) / moveSpeed));
         return true;
     }
 
@@ -399,7 +406,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void TurnTo(Character target)
+    public void TurnToTarget()
     {
         var dir = transform.position.x - target.transform.position.x;
         if (dir <= 0)

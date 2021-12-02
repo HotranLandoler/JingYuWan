@@ -25,11 +25,14 @@ public class EffectTypes
         [SerializeField]
         private BuffInfo AddBuffToSelf;
 
+        [SerializeField]
+        private int level = 1;
+
         public override bool AllowDodge => false;
 
         public override void Perform(Character attacker, Character target, CardData data)
         {
-            attacker.Buffs.AddBuff(AddBuffToSelf);
+            attacker.Buffs.AddBuff(AddBuffToSelf, level);
         }
     }
 
@@ -300,7 +303,8 @@ public class EffectTypes
             {
                 var damage = target.Buffs.SetOffBuff(buff);
                 if (damage != 0f)
-                    target.TakeDamage(CombatManager.CalcuDamage(damage, attacker, target, data.type));
+                    target.TakeDamage(CombatManager.CalcuDamage(damage, attacker, target, 
+                        data.type, DamageTag.Dot));
             }
         }
     }

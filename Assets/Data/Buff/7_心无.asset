@@ -15,11 +15,12 @@ MonoBehaviour:
   Id: 7
   Icon: {fileID: 21300000, guid: f2a3c786e6ce08344a54445d88e2e5e5, type: 3}
   Name: "\u5FC3\u65E0"
-  Duration: 3
+  Duration: 6
   MaxLevel: 1
   controlType: 0
   uncontrolType: 0
   lockMove: 0
+  type: 0
   buffEffects:
   - type: 1
     val1: 0.15

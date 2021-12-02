@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace JYW.UI
 {
@@ -18,14 +19,14 @@ namespace JYW.UI
         private Image healthImage;
 
         [SerializeField]
-        private Text healthText;
+        private TextMeshProUGUI healthText;
 
         [Header("Energy")]
         [SerializeField]
         private Image energyImage;
 
         [SerializeField]
-        private Text energyText;
+        private TextMeshProUGUI energyText;
 
         private readonly string format = "0.#";
 

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public struct DamageInfo
 {
+    private static string space = " ";
+    private static string format = "0.#";
+
     /// <summary>
     /// 攻击发出者
     /// </summary>
@@ -19,7 +22,7 @@ public struct DamageInfo
 
     public bool IsCritical { get; }
 
-    public EffectType Tag { get; }
+    public DamageTag Tag { get; }
 
     //public DamageType Type { get; }
 
@@ -38,7 +41,7 @@ public struct DamageInfo
     ///// </summary>
     //public float HitRate;
 
-    public DamageInfo(float damage, bool critic, EffectType tag = EffectType.Normal)
+    public DamageInfo(float damage, bool critic, DamageTag tag)
     {
         Attacker = null;
         Defender = null;
@@ -52,30 +55,11 @@ public struct DamageInfo
         StringBuilder sb = new StringBuilder();
         if (IsCritical)
         {
-            sb.Append(Game.Critic).Append(" ");           
+            sb.Append(Game.Critic).Append(space);           
         }
-        sb.Append(Damage.ToString("0.0"));
+        sb.Append(Damage.ToString(format));
         return sb.ToString();
-    }
-
-    /// <summary>
-    /// 伤害类型
-    /// </summary>
-    public enum EffectType
-    {
-        /// <summary>
-        /// 普通
-        /// </summary>
-        Normal,
-        /// <summary>
-        /// dot伤害
-        /// </summary>
-        Dot,
-        /// <summary>
-        /// 反弹伤害
-        /// </summary>
-        Thorn
-    }
+    }  
 }
 
 /// <summary>
@@ -91,4 +75,23 @@ public enum DamageType
     /// 内功伤害
     /// </summary>
     Magic,
+}
+
+/// <summary>
+/// 伤害类型
+/// </summary>
+public enum DamageTag
+{
+    /// <summary>
+    /// 普通
+    /// </summary>
+    Normal,
+    /// <summary>
+    /// dot伤害
+    /// </summary>
+    Dot,
+    /// <summary>
+    /// 反弹伤害
+    /// </summary>
+    Thorn
 }
