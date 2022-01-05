@@ -7,6 +7,7 @@ using UnityEngine.Pool;
 
 public class CardsManager : MonoBehaviour
 {
+    private const float cardStartPosOffset = 300f;
     private static WaitForSeconds waitForCardPlaceInterval;
     private static WaitForSeconds waitForCardPlace;
 
@@ -79,6 +80,8 @@ public class CardsManager : MonoBehaviour
             maxSize: 20);
         waitForCardPlaceInterval = new WaitForSeconds(cardPlaceInterval);
         waitForCardPlace = new WaitForSeconds(cardPlaceTime);
+        //设置卡牌生成位置
+        cardStartPos.anchoredPosition = new Vector2(Screen.width + cardStartPosOffset, Screen.height / 2f);
     }
 
     private void OnDestroy()

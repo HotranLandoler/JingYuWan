@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using JYW.UI;
 
 public class StartMenu : MonoBehaviour
 {
@@ -12,10 +13,13 @@ public class StartMenu : MonoBehaviour
     [SerializeField]
     private Button exitBtn;
 
-    [SerializeField]
-    private SceneTransition transition;
+    //[SerializeField]
+    //private SceneTransition transition;
 
-    private AsyncOperation loadSceneOpeartion;
+    [SerializeField]
+    private Ui sectSelectMenu;
+
+    //private AsyncOperation loadSceneOpeartion;
 
     private void Awake()
     {
@@ -25,7 +29,7 @@ public class StartMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startBtn.onClick.AddListener(StartGame);
+        startBtn.onClick.AddListener(StartSectSelect);
         exitBtn.onClick.AddListener(() =>
         {
 #if UNITY_EDITOR
@@ -34,12 +38,13 @@ public class StartMenu : MonoBehaviour
         Application.Quit();
 #endif
         });
-        loadSceneOpeartion = SceneManager.LoadSceneAsync(1);
-        loadSceneOpeartion.allowSceneActivation = false;
+        //loadSceneOpeartion = SceneManager.LoadSceneAsync(1);
+        //loadSceneOpeartion.allowSceneActivation = false;
     }
 
-    private void StartGame()
+    private void StartSectSelect()
     {
-        transition.LoadScene(loadSceneOpeartion);
+        sectSelectMenu.FadeIn();
+        //transition.LoadScene(loadSceneOpeartion);
     }
 }
